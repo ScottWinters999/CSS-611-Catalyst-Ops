@@ -1,11 +1,13 @@
-import { useRef, useState } from "react";
+import useInput from "../../hooks/use-input";
+import { useNavigate } from "react-router-dom";
 
 // import classes from "./AuthForm.module.css";
 import styled from "styled-components";
 import logoImage from "../../images/logo.svg";
+import { useState } from "react";
 
 const Auth = styled.section`
-  margin: 100px auto 0px;
+  margin: 24px auto 0px;
   width: 95%;
   max-width: 25rem;
   border-radius: 6px;
@@ -20,24 +22,39 @@ const Auth = styled.section`
   }
 `;
 
+const FormControl = styled.form`
+  width: 100%;
+  border: 1px solid;
+  background: #4471d8;
+  padding: 16px 14px;
+  border-radius: 4px;
+  /* filter: drop-shadow(4px 4px 2px ); */
+  backdrop-filter: blur(5px);
+  background: rgb(42 84 202);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
+  backdrop-filter: blur(8.9px);
+  -webkit-backdrop-filter: blur(8.9px);
+  border: 1px solid rgba(90, 81, 248, 0.22);
+`;
+
 const Control = styled.div`
   margin-bottom: 0.5rem;
 
   label {
     display: block;
     color: white;
-    font-weight: bold;
+    font-weight: 400;
     margin-bottom: 0.5rem;
+    font-family: "Montserrat", sans-serif;
   }
 
   input {
     font: inherit;
-    // background-color: #f1e1fc;
-    // color: #38015c;
     border-radius: 4px;
     border: 1px solid white;
     width: 240px;
-    height: 24px;
+    height: 20px;
     text-align: left;
     padding: 0.25rem;
   }
@@ -71,45 +88,123 @@ const Button = styled.button`
   }
 `;
 
+const Errortext = styled.p`
+  font-family: "Montserrat", sans-serif;
+  color: #c3b2b9;
+  font-size: smaller;
+  font-weight: 600;
+`;
+
 const Logo = styled.div`
-  background-image: url(${logoImage});
-  height: 181px;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  background-repeat: no-repeat;
-  margin: auto;
+  height: 100%;
   display: block;
 `;
 
 const AuthForm = () => {
-  // const [isLogin, setIsLogin] = useState(true);
+  const [confirmPassState, setConfirmPassState] = useState(true);
 
   // const switchAuthModeHandler = () => {
   //   setIsLogin((prevState) => !prevState);
   // };
-  const fullNameInputRef = useRef();
-  const emailInputRef = useRef();
-  const userNameInputRef = useRef();
-  const passwordInputRef = useRef();
-  const confirmPasswordInputRef = useRef();
 
+  const isNotEmpty = (value) => value.trim() !== "";
+  const isEmail = (value) => value.includes("@");
+  const isPassword = (value) => value.trim().length >= 8;
+  const history = useNavigate()
+
+
+  const {
+    value: firstNameValue,
+    isValid: firstNameIsValid,
+    hasError: firstNameHasError,
+    valueChangeHandler: firstNameChangeHandler,
+    inputBlurHandler: firstNameBlurHandler,
+    reset: resetFirstName,
+  } = useInput(isNotEmpty);
+  const {
+    value: lastNameValue,
+    isValid: lastNameIsValid,
+    hasError: lastNameHasError,
+    valueChangeHandler: lastNameChangeHandler,
+    inputBlurHandler: lastNameBlurHandler,
+    reset: resetLastName,
+  } = useInput(isNotEmpty);
+  const {
+    value: userNameValue,
+    isValid: userNameIsValid,
+    hasError: userNameHasError,
+    valueChangeHandler: userNameChangeHandler,
+    inputBlurHandler: userNameBlurHandler,
+    reset: resetUserName,
+  } = useInput(isNotEmpty);
+  const {
+    value: emailValue,
+    isValid: emailIsValid,
+    hasError: emailHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: resetEmail,
+  } = useInput(isEmail);
+
+  const {
+    value: passwordValue,
+    isValid: passwordIsValid,
+    hasError: passwordHasError,
+    valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: resetPassword,
+  } = useInput(isPassword);
+
+  const {
+    value: confirmPasswordValue,
+    isValid: confirmPasswordIsValid,
+    hasError: confirmPasswordHasError,
+    valueChangeHandler: confirmPasswordChangeHandler,
+    inputBlurHandler: confirmPasswordBlurHandler,
+    reset: resetconfirmPassword,
+  } = useInput(isPassword);
+
+  let formIsValid = false;
+  if (
+    firstNameIsValid &&
+    lastNameIsValid &&
+    emailIsValid &&
+    userNameIsValid &&
+    passwordIsValid &&
+    confirmPasswordIsValid
+  ) {
+    formIsValid = true;
+  }
   const submitHandler = (event) => {
     event.preventDefault();
-    const enteredFullName = fullNameInputRef.current.value;
-    const enteredEmail = emailInputRef.current.value;
-    const enteredUserName = userNameInputRef.current.value;
-    const enteredpassword = passwordInputRef.current.value;
-    const confirmPassword = confirmPasswordInputRef.value;
+    if (!formIsValid) {
+      return;
+    }
+    if (passwordValue !== confirmPasswordValue){
+      setConfirmPassState(false);
+      return;
+    }
+    console.log("Submitted!");
+    console.log(firstNameValue, lastNameValue, emailValue);
+
+    resetFirstName();
+    resetLastName();
+    resetEmail();
+    resetPassword();
+    resetUserName();
+    resetconfirmPassword();
+    setConfirmPassState(true)
     const body = JSON.stringify({
-      fullName: enteredFullName,
-      email: enteredEmail,
-      userName: enteredUserName,
-      password: enteredpassword,
+      firstName: firstNameValue,
+      lastName:lastNameValue,
+      email: emailValue,
+      userName: userNameValue,
+      password: passwordValue,
       role: "Customer",
     });
 
     console.log(body);
+    history("/userchat")
     // fetch("API", {
     //   method: "POST",
     //   body: JSON.stringify({
@@ -127,28 +222,79 @@ const AuthForm = () => {
 
   return (
     <Auth>
-      <Logo />
-      <form onSubmit={submitHandler}>
+      <Logo>
+        <img src={logoImage} alt="My Happy SVG" />
+      </Logo>
+
+      <FormControl onSubmit={submitHandler}>
         <Control>
-          <label htmlFor="fullname">Full Name</label>
-          <input type="text" id="fullname" required ref={fullNameInputRef} />
+          <label htmlFor="first_name">First Name</label>
+          <input
+            type="text"
+            id="first_name"
+            required
+            value={firstNameValue}
+            onChange={firstNameChangeHandler}
+            onBlur={firstNameBlurHandler}
+          />
+          {firstNameHasError && (
+            <Errortext>Please enter a first name.</Errortext>
+          )}
+        </Control>
+        <Control>
+          <label htmlFor="last_name">Last Name</label>
+          <input
+            type="text"
+            id="last_name"
+            required
+            value={lastNameValue}
+            onChange={lastNameChangeHandler}
+            onBlur={lastNameBlurHandler}
+          />
+          {lastNameHasError && (
+            <Errortext>Please enter a Last name.</Errortext>
+          )}
         </Control>
         <Control>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input
+            type="email"
+            id="email"
+            required
+            value={emailValue}
+            onChange={emailChangeHandler}
+            onBlur={emailBlurHandler}
+          />
+          {emailHasError && (
+            <Errortext>E-Mail is not valid.</Errortext>
+          )}
         </Control>
         <Control>
           <label htmlFor="username">User Name</label>
-          <input type="text" id="username" required ref={userNameInputRef} />
+          <input
+            type="text"
+            id="username"
+            required
+            value={userNameValue}
+            onChange={userNameChangeHandler}
+            onBlur={userNameBlurHandler}
+          />
+          {userNameHasError && (
+            <Errortext>Please enter a user name.</Errortext>
+          )}
         </Control>
         <Control>
           <label htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
-            required
-            ref={passwordInputRef}
+            value={passwordValue}
+            onChange={passwordChangeHandler}
+            onBlur={passwordBlurHandler}
           />
+          {passwordHasError && (
+            <Errortext>Please enter a password with length 8 or greater </Errortext>
+          )}
         </Control>
 
         <Control>
@@ -156,14 +302,21 @@ const AuthForm = () => {
           <input
             type="password"
             id="confirm_password"
-            required
-            ref={confirmPasswordInputRef}
+            value={confirmPasswordValue}
+            onChange={confirmPasswordChangeHandler}
+            onBlur={confirmPasswordBlurHandler}
           />
+          {confirmPasswordHasError && (
+            <Errortext>Please enter a password with length 8 or greater </Errortext>
+          )}
+          {!confirmPassState && (
+            <Errortext>Please the same password</Errortext>
+          )}
         </Control>
         <Actions>
           <Button>REGISTER</Button>
         </Actions>
-      </form>
+      </FormControl>
     </Auth>
   );
 };

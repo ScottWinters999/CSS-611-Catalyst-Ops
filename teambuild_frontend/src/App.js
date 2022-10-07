@@ -5,6 +5,7 @@ import Homepage from "./pages/HomePage";
 import AuthPage from "./pages/AuthPage";
 
 import SidebarNavigation from "./components/layout/SidebarNavigation";
+import CatyChatPage from "./pages/CatyChatPage";
 
 function App() {
   
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<SignIn />} />
+        <Route path="/userchat" element={<CatyChatPage />} />
         <Route path="/signup" element={<AuthPage />} />
       </Routes>
     </div>
