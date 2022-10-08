@@ -1,0 +1,11 @@
+.bg_image {
+  background-image: url("../../images/Vector.svg");
+  background-repeat: no-repeat;
+  position: absolute;
+  transform: translateX(400px);
+  width: 864px;
+  height: 721.5px;
+  top: 0;
+  right: 410px;
+  z-index: -1;
+}
