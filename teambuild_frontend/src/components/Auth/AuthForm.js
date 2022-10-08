@@ -205,19 +205,13 @@ const AuthForm = () => {
 
     console.log(body);
     history("/userchat")
-    // fetch("API", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     fullName: enteredFullName,
-    //     email: enteredEmail,
-    //     userName: enteredUserName,
-    //     password: enteredpassword,
-    //     role: "Customer",
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    fetch("http://localhost:5000/signup", {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(res=>console.log(res));
   };
 
   return (
