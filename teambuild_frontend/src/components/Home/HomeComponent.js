@@ -3,15 +3,16 @@ import Card from "../UI/Card";
 import logoImage from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 const OuterContainerWrapper = styled.div`
-  // height: 80vh;
+  height: 80vh;
   display: flex;
   justify-content: center;
 `;
 
 const InnerContainerWrapper = styled.div`
-  height: 90%;
+  // height: 90%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 `;
 
 const Logo = styled.div`
