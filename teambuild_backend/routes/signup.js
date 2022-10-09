@@ -9,9 +9,6 @@ const db=require('../util/database');
 const bodyParser=require('body-parser').json();
 const { User }=require('../controllers');
 router.post('/signup',bodyParser,User.create);
-<<<<<<< HEAD
 router.post('/login',bodyParser,User.login);
-=======
->>>>>>> 32d7e9155c034216a8aa0cf2af05856719c5a5a6
 
 module.exports=router;
