@@ -1,6 +1,7 @@
 const {model: { User } }=require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+// const generateAccessToken = require("./generateAccessToken")
 module.exports={
     create: async(req,res)=>{
         console.log(req.body);
@@ -43,6 +44,17 @@ module.exports={
         }
     }
 
+    },
+    login: async(req,res)=>{
+        console.log(req.body);
+        const userExists = await User.findOne({ where: { userName: req.body.userName , password: req.body.password} });
+        if (userExists) {
+            console.log("Logged In Successfully!");
+            res.status(200).send('Status: Successfully Logged In!');
+        } else {
+            console.log("Username or Password is wrong. Try again!");
+            res.status(403).send('Wrong username or password');
+        }
     }
 }
 
