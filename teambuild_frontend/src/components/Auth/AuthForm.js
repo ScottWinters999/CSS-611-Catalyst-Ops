@@ -7,14 +7,10 @@ import logoImage from "../../images/logo.svg";
 import { useState } from "react";
 
 const Auth = styled.section`
-  margin: 24px auto 0px;
-  width: 95%;
-  max-width: 25rem;
-  border-radius: 6px;
-  // background-color: #38015c;
-  // box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: auto;
 
   h1 {
     text-align: center;
@@ -23,7 +19,8 @@ const Auth = styled.section`
 `;
 
 const FormControl = styled.form`
-  width: 100%;
+  margin: auto;
+  width: 30%;
   border: 1px solid;
   background: #4471d8;
   padding: 16px 14px;
@@ -36,15 +33,31 @@ const FormControl = styled.form`
   backdrop-filter: blur(8.9px);
   -webkit-backdrop-filter: blur(8.9px);
   border: 1px solid rgba(90, 81, 248, 0.22);
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 1024px) {
+    width: 60%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Control = styled.div`
-  margin-bottom: 0.5rem;
+  display: flex;
 
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  width: 74%;
+  padding: 2px 4px 6px 2px;
   label {
+    font-size: 16px;
     display: block;
     color: white;
-    font-weight: 400;
+    font-weight: 600;
     margin-bottom: 0.5rem;
     font-family: "Montserrat", sans-serif;
   }
@@ -53,10 +66,14 @@ const Control = styled.div`
     font: inherit;
     border-radius: 4px;
     border: 1px solid white;
-    width: 240px;
-    height: 20px;
+    width: 100%;
+    height: 30px;
     text-align: left;
     padding: 0.25rem;
+  }
+
+  @media (max-width: 540px) {
+    width: 100%;
   }
 `;
 
@@ -80,7 +97,7 @@ const Button = styled.button`
   border: 1px solid #9f5ccc;
   border-radius: 4px;
   padding: 6px ​4px 5px 4p;
-  width: 240px;
+  width: 74%;
   height: 30px;
   &:hover {
     background-color: #5ebb62;
@@ -90,28 +107,27 @@ const Button = styled.button`
 
 const Errortext = styled.p`
   font-family: "Montserrat", sans-serif;
-  color: #c3b2b9;
-  font-size: smaller;
-  font-weight: 600;
+  color: #d8c1c1;
+  font-size: 14px;
+  font-weight: bold;
 `;
 
 const Logo = styled.div`
-  height: 100%;
+  height: auto;
   display: block;
+  padding: 4px 4px 4px 4px;
+  display: flex;
+  justify-content: center;
 `;
 
 const AuthForm = () => {
   const [confirmPassState, setConfirmPassState] = useState(true);
 
-  // const switchAuthModeHandler = () => {
-  //   setIsLogin((prevState) => !prevState);
-  // };
-
   const isNotEmpty = (value) => value.trim() !== "";
   const isEmail = (value) => value.includes("@");
   const isPassword = (value) => value.trim().length >= 8;
-  const history = useNavigate()
-
+  const history = useNavigate();
+  const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
 
   const {
     value: firstNameValue,
@@ -175,43 +191,63 @@ const AuthForm = () => {
   ) {
     formIsValid = true;
   }
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     if (!formIsValid) {
       return;
     }
-    if (passwordValue !== confirmPasswordValue){
+    if (passwordValue !== confirmPasswordValue) {
       setConfirmPassState(false);
       return;
     }
     console.log("Submitted!");
-    console.log(firstNameValue, lastNameValue, emailValue);
-
+    // console.log(firstNameValue, lastNameValue, emailValue);
+    const body = JSON.stringify({
+      firstName: firstNameValue,
+      lastName: lastNameValue,
+      email: emailValue,
+      userName: userNameValue,
+      password: passwordValue,
+      role: "Customer",
+    });
     resetFirstName();
     resetLastName();
     resetEmail();
     resetPassword();
     resetUserName();
     resetconfirmPassword();
-    setConfirmPassState(true)
-    const body = JSON.stringify({
-      firstName: firstNameValue,
-      lastName:lastNameValue,
-      email: emailValue,
-      userName: userNameValue,
-      password: passwordValue,
-      role: "Customer",
-    });
+    setConfirmPassState(true);
+
+    // const test = {
+    //   firstName: "asheeque",
+    //   lastName: "cm",
+    //   email: "test1@test",
+    //   userName: "test",
+    //   password: "test",
+    //   role: "Customer",
+    // };
+    // const body = JSON.stringify(test);
 
     console.log(body);
-    history("/userchat")
-    fetch("http://localhost:5000/signup", {
-      method: "POST",
-      body: body,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(res=>console.log(res));
+    // history("/userchat");
+    try {
+      const response = await fetch("http://localhost:5000/signup", {
+        method: "POST",
+        body: body,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data.Status == "user already exist") {
+        setEmailAlreadyExist(true);
+      } else {
+        history("/userchat");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -226,7 +262,6 @@ const AuthForm = () => {
           <input
             type="text"
             id="first_name"
-            required
             value={firstNameValue}
             onChange={firstNameChangeHandler}
             onBlur={firstNameBlurHandler}
@@ -240,42 +275,33 @@ const AuthForm = () => {
           <input
             type="text"
             id="last_name"
-            required
             value={lastNameValue}
             onChange={lastNameChangeHandler}
             onBlur={lastNameBlurHandler}
           />
-          {lastNameHasError && (
-            <Errortext>Please enter a Last name.</Errortext>
-          )}
+          {lastNameHasError && <Errortext>Please enter a Last name.</Errortext>}
         </Control>
         <Control>
           <label htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            required
             value={emailValue}
             onChange={emailChangeHandler}
             onBlur={emailBlurHandler}
           />
-          {emailHasError && (
-            <Errortext>E-Mail is not valid.</Errortext>
-          )}
+          {emailHasError && <Errortext>E-Mail is not valid.</Errortext>}
         </Control>
         <Control>
           <label htmlFor="username">User Name</label>
           <input
             type="text"
             id="username"
-            required
             value={userNameValue}
             onChange={userNameChangeHandler}
             onBlur={userNameBlurHandler}
           />
-          {userNameHasError && (
-            <Errortext>Please enter a user name.</Errortext>
-          )}
+          {userNameHasError && <Errortext>Please enter a user name.</Errortext>}
         </Control>
         <Control>
           <label htmlFor="password">Password</label>
@@ -287,7 +313,9 @@ const AuthForm = () => {
             onBlur={passwordBlurHandler}
           />
           {passwordHasError && (
-            <Errortext>Please enter a password with length 8 or greater </Errortext>
+            <Errortext>
+              Please enter a password with length 8 or greater{" "}
+            </Errortext>
           )}
         </Control>
 
@@ -301,11 +329,12 @@ const AuthForm = () => {
             onBlur={confirmPasswordBlurHandler}
           />
           {confirmPasswordHasError && (
-            <Errortext>Please enter a password with length 8 or greater </Errortext>
+            <Errortext>
+              Please enter a password with length 8 or greater{" "}
+            </Errortext>
           )}
-          {!confirmPassState && (
-            <Errortext>Please the same password</Errortext>
-          )}
+          {!confirmPassState && <Errortext>Please the same password</Errortext>}
+          {emailAlreadyExist && <Errortext>E-Mail already exist</Errortext>}
         </Control>
         <Actions>
           <Button>REGISTER</Button>
