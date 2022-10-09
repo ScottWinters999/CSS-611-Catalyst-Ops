@@ -2,6 +2,7 @@ const {model: { User } }=require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 // const generateAccessToken = require("./generateAccessToken")
+const jwt = require("jsonwebtoken")
 module.exports={
     create: async(req,res)=>{
         console.log(req.body);
@@ -47,14 +48,32 @@ module.exports={
     },
     login: async(req,res)=>{
         console.log(req.body);
-        const userExists = await User.findOne({ where: { userName: req.body.userName , password: req.body.password} });
-        if (userExists) {
-            console.log("Logged In Successfully!");
-            res.status(200).send('Status: Successfully Logged In!');
-        } else {
-            console.log("Username or Password is wrong. Try again!");
-            res.status(403).send('Wrong username or password');
-        }
+        const userExists = await User.findOne({ where: { email: req.body.email} });
+        bcrypt.compare(req.body.password, userExists.password, function(err, response) {
+            if (err){
+                // handle error
+                console.log("error", err)
+              }
+              if (response) {
+                // Send JWT
+                console.log("Logged In Successfully!");
+                const token = jwt.sign(
+                    { email: userExists.email, role: userExists.role },
+                    "secret_this_should_be_longer",
+                    { expiresIn: "1h" }
+                  );
+            
+                  res.status(200).json({
+                    token: token
+                  });
+            
+              } else {
+                // response is OutgoingMessage object that server response http request
+                console.log("Username or Password is wrong. Try again!");
+                res.status(403).send('Wrong username or password');
+              }
+            
+        });
     }
 }
 
