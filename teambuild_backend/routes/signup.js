@@ -9,6 +9,6 @@ const db=require('../util/database');
 const bodyParser=require('body-parser').json();
 const { User }=require('../controllers');
 router.post('/signup',bodyParser,User.create);
-
+router.post('/login',bodyParser,User.login);
 
 module.exports=router;
