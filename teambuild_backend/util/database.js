@@ -15,3 +15,13 @@ module.exports={
     PASSWORD: 'Porsche@2024',
     DIALECT:'mysql'
 }
+
+// module.exports={
+//     HOST: 'ec2-3-83-135-245.compute-1.amazonaws.com',
+//     USER: 'ubuntu',
+//     DATABSE: 'caty',
+//     PASSWORD: 'Ubcaty@2023',
+//     DIALECT:'mysql',
+//     port:'3306',
+//     timeout:'5000'
+// }
