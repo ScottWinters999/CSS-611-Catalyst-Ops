@@ -26,11 +26,11 @@ CREATE TABLE UserViewed(
     Date_of_view DATE
 );
 
-CREATE TABLE Goal(
-    GoalID INT,
-    GoalName VARCHAR(20),
+CREATE TABLE Team(
+    TeamID INT,
+    TeamName VARCHAR(20),
     UserID INT,
-    Goal_Status VARCHAR(20),
+    Team_Status VARCHAR(20),
     CreatedAt DATE
 );
 
