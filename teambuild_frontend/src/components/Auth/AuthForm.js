@@ -1,5 +1,5 @@
 import useInput from "../../hooks/use-input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // import classes from "./AuthForm.module.css";
 import styled from "styled-components";
@@ -11,13 +11,21 @@ const Auth = styled.section`
   justify-content: center;
   flex-direction: column;
   height: auto;
-
   h1 {
     text-align: center;
     color: white;
   }
 `;
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
 
+  color: white;
+  &:hover {
+    color: #3bd0d0;
+  }
+`;
 const FormControl = styled.form`
   margin: auto;
   width: 30%;
@@ -35,11 +43,9 @@ const FormControl = styled.form`
   border: 1px solid rgba(90, 81, 248, 0.22);
   display: flex;
   flex-direction: column;
-
   @media (max-width: 1024px) {
     width: 60%;
   }
-
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -47,7 +53,6 @@ const FormControl = styled.form`
 
 const Control = styled.div`
   display: flex;
-
   justify-content: center;
   flex-direction: column;
   margin: auto;
@@ -61,7 +66,6 @@ const Control = styled.div`
     margin-bottom: 0.5rem;
     font-family: "Montserrat", sans-serif;
   }
-
   input {
     font: inherit;
     border-radius: 4px;
@@ -71,7 +75,6 @@ const Control = styled.div`
     text-align: left;
     padding: 0.25rem;
   }
-
   @media (max-width: 540px) {
     width: 100%;
   }
@@ -339,6 +342,11 @@ const AuthForm = () => {
         <Actions>
           <Button>REGISTER</Button>
         </Actions>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <ButtonWrapper>
+            <p>Sign In</p>
+          </ButtonWrapper>
+        </Link>
       </FormControl>
     </Auth>
   );
