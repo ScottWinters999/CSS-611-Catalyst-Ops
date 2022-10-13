@@ -61,7 +61,7 @@ const HomeComponent = () => {
           <img src={logoImage} alt="My Happy SVG" />
         </Logo>
         <WelcomeWrapper> Welcome to catalyst ops</WelcomeWrapper>
-        <Link to="/signup" style={{ textDecoration:'none' }}>
+        <Link to="/login" style={{ textDecoration:'none' }}>
           <ButtonWrapper>
             <Button>GET STARTED</Button>
           </ButtonWrapper>

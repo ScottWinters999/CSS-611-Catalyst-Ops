@@ -9,7 +9,7 @@ module.exports={
         const emailExists = await User.findOne({ where: { email: req.body.email } });
         if (emailExists ) {
             console.log("Email Already exists");
-            res.status(403).send('Status: user already exist');
+            res.status(403).json({Status: "user already exist"});
         }else{
         if(req.body.userName && req.body.password){
             console.log(req.body);
@@ -35,7 +35,7 @@ module.exports={
                         role
 
                     }).then(
-                        res.status(200).send('Status: Inserted'));
+                        res.status(200).json({Status: "Inserted"}));
                 })
            // const {username,email,newpassword}=req.body;
             
@@ -70,7 +70,7 @@ module.exports={
               } else {
                 // response is OutgoingMessage object that server response http request
                 console.log("Username or Password is wrong. Try again!");
-                res.status(403).send('Wrong username or password');
+                res.status(403).json({Status:'Wrong username or password'});
               }
             
         });
