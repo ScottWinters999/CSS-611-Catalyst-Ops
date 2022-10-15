@@ -16,16 +16,7 @@ const Auth = styled.section`
     color: white;
   }
 `;
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  cursor: pointer;
 
-  color: white;
-  &:hover {
-    color: #3bd0d0;
-  }
-`;
 const FormControl = styled.form`
   margin: auto;
   width: 30%;
@@ -123,6 +114,17 @@ const Logo = styled.div`
   justify-content: center;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+
+  color: white;
+  &:hover {
+    color: #3bd0d0;
+  }
+`;
+
 const AuthForm = () => {
   const [confirmPassState, setConfirmPassState] = useState(true);
 
@@ -197,6 +199,7 @@ const AuthForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     if (!formIsValid) {
+
       return;
     }
     if (passwordValue !== confirmPasswordValue) {
@@ -263,6 +266,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="first_name">First Name</label>
           <input
+          // required
             type="text"
             id="first_name"
             value={firstNameValue}
