@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import Card from "../UI/Card";
 import logoImage from "../../images/logo.svg";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../shared/context/auth-context";
 const OuterContainerWrapper = styled.div`
   height: 80vh;
   display: flex;
@@ -54,6 +56,15 @@ const Button = styled.button`
 `;
 
 const HomeComponent = () => {
+  const authCtx = useContext(AuthContext);
+  let nextroute;
+  console.log(authCtx.isLoggedIn)
+  if(authCtx.isLoggedIn){
+    nextroute = "userdashboard"
+  }
+  else{
+    nextroute = "login"
+  } 
   return (
     <OuterContainerWrapper>
       <InnerContainerWrapper>
@@ -61,7 +72,7 @@ const HomeComponent = () => {
           <img src={logoImage} alt="My Happy SVG" />
         </Logo>
         <WelcomeWrapper> Welcome to catalyst ops</WelcomeWrapper>
-        <Link to="/login" style={{ textDecoration:'none' }}>
+        <Link to={`/${nextroute}`} style={{ textDecoration:'none' }}>
           <ButtonWrapper>
             <Button>GET STARTED</Button>
           </ButtonWrapper>
