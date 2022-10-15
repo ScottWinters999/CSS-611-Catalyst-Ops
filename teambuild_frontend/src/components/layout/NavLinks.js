@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const NavBar = styled.ul`
   list-style: none;
@@ -59,20 +61,34 @@ const NavBar = styled.ul`
 `;
 
 const NavLinks = () => {
+  const auth = useContext(AuthContext);
   return (
     <NavBar>
-      {/* <li>
-            <NavLink to="/">HomePage</NavLink>
-          </li>
-          <li>
-            <NavLink to="/login">Login</NavLink>
-          </li> */}
-      <li>
-        <NavLink to="/profilesearch">Profilesearch</NavLink>
-      </li>
-      <li>
-        <NavLink to="/userdashboard">Dashboard</NavLink>
-      </li>
+      {!auth.isLoggedIn && (
+        <li>
+          <NavLink to="/">HomePage</NavLink>
+        </li>
+      )}
+      {!auth.isLoggedIn && (
+        <li>
+          <NavLink to="/login">Login</NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/profilesearch">Profilesearch</NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <NavLink to="/userdashboard">Dashboard</NavLink>
+        </li>
+      )}
+      {auth.isLoggedIn && (
+        <li>
+          <button onClick={auth.logout}>LOGOUT</button>
+        </li>
+      )}
     </NavBar>
   );
 };

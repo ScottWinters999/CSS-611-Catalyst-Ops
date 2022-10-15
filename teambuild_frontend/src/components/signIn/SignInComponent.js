@@ -9,7 +9,7 @@
 
 // const SignIn = styled.section`
 //   margin: 100px auto 0px;
-//   width: 95%;
+//   width: 95%;  
 //   max-width: 25rem;
 //   border-radius: 6px;
 //   // background-color: #38015c;
@@ -342,9 +342,10 @@ import { useNavigate } from "react-router-dom";
 // import classes from "./AuthForm.module.css";
 import styled from "styled-components";
 import logoImage from "../../images/logo.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import a from '../signIn/Signin.module.css'
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Auth = styled.section`
   display: flex;
@@ -496,7 +497,7 @@ const AuthForm = () => {
   const isPassword = (value) => value.trim().length >= 8;
   const history = useNavigate();
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
-
+  const authCtx = useContext(AuthContext);
   // const {
   //   value: firstNameValue,
   //   isValid: firstNameIsValid,
@@ -615,7 +616,9 @@ const AuthForm = () => {
         resetPassword();
         return;
       } else {
-        history("/userchat");
+        // console.log(da)
+        authCtx.login(data.token)
+        history("/userdashboard");
       }
     } catch (err) {
       console.log(err);
