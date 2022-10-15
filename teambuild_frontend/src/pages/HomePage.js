@@ -7,6 +7,7 @@ import HomeComponent from "../components/Home/HomeComponent";
 function Homepage() {
   return (
     <MainBg>
+        
         <HomeComponent />
     </MainBg>
   );
