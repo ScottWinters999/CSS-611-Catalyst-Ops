@@ -10,5 +10,6 @@ const bodyParser=require('body-parser').json();
 const { User }=require('../controllers');
 router.post('/signup',bodyParser,User.create);
 router.post('/login',bodyParser,User.login);
+router.post('/profile',bodyParser,User.profile);
 
 module.exports=router;
