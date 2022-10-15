@@ -1,6 +1,7 @@
 const express=require('express');
 const router=express.Router();
 const db=require('../util/database');
+// const auth=require('../midlleware/check-auth')
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10;
 // const authController=require('../controllers/auth');
@@ -10,5 +11,6 @@ const bodyParser=require('body-parser').json();
 const { User }=require('../controllers');
 router.post('/signup',bodyParser,User.create);
 router.post('/login',bodyParser,User.login);
+// router.get('/skill',auth,bodyParser,skill.getSkill);
 
 module.exports=router;
