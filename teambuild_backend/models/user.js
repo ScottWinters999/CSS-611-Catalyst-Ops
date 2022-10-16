@@ -21,6 +21,11 @@ module.exports=(sequelize,DataTypes)=>{
 
   const User=sequelize.define('user',
   {
+    userId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true
+      
+  },
     userName:DataTypes.STRING,
     password:DataTypes.STRING,
     email: {

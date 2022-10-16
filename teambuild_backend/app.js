@@ -3,6 +3,8 @@ const app=express();
 const db=require('./models');
 const routes=require('./routes/signup');
 const bodyParser=require('body-parser');
+const { Server }= require('socket.io');
+const cors=require('cors');
 
 
 app.use((req, res, next) => {
@@ -25,6 +27,8 @@ app.use((req, res, next) => {
       message: 'Post added successfully'
     });
   });
+
+  
   
 app.use(bodyParser.urlencoded({ extended: false }));
 (async()=>{
@@ -38,4 +42,24 @@ app.use('/', (req,res,next)=>{
     res.send('<h1> Welcome to Signup</h1>');
 })
 
-app.listen(5000);
+const server=app.listen(5000);
+
+
+const io= new Server(server,{
+  cors:{
+    origin:"http://localhost/3000",
+    method:["GET","POST"]
+  },
+})
+
+io.on("connection",(socket)=>{
+  console.log(socket.id);
+  socket.on("sent",(data)=>{
+    
+    socket.emit("receive_message", data);
+
+  })
+  socket.on("disconnect",()=>{
+    console.log("disconnected",socket.id);
+  })
+})
