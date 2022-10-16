@@ -73,40 +73,7 @@ module.exports={
               }
             
         });
-    },
-    profile: async(req,res)=>{
-        console.log(req.body);
-        var decoded = jwt_decode(token);
-        const firstName=req.body.firstName;
-        const lastName=req.body.lastName;
-        const location=req.body.location;
-        const curPos=req.body.curPos;
-        const industry=req.body.industry;
-        const phoneNumber=req.body.phoneNumber;
-        const email=req.body.email;
-        const skillset=req.body.skillset;
-        const experience=req.body.experience;
-        const goal=req.body.goal;
-        const addNewGoal=req.body.addNewGoal;
-        // Store hash in your password DB.
-        UserProfile.create({
-            firstName,
-            lastName,
-            location,
-            curPos,
-            industry,
-            phoneNumber,
-            email,
-            skillset,
-            experience,
-            goal,
-            addNewGoal
-        }).then(
-            res.status(200).json({"First name": firstName, "Last name": lastName, "Location": location, "Current Position": curPos, "Industry": industry, 
-            "Phone Number": phoneNumber, "Email": email, "Skillset": skillset, "Experience": experience, "Goal": goal, "Add New Goal": addNewGoal}));
-           // const {username,email,newpassword}=req.body;
-            console.log("Profile Successfully created")
-        }
+    }
     }
 
 

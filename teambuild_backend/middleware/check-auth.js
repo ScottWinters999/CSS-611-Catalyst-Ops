@@ -1,7 +1,9 @@
 const jwt=require('jsonwebtoken');
 const HttpError=require('../models/http-error');
-module.exports=(res,req,next)=>{
+module.exports=(req,res,next)=>{
+    // console.log(req.headers)
     try{
+        // console.log(req.headers.authorization)
         const token = req.headers.authorization.split(' ')[1];
         if(!token){
             throw new Error('Authentication Failed');

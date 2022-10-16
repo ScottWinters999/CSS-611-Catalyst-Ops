@@ -24,21 +24,21 @@ module.exports=(sequelize,DataTypes)=>{
     userId: {
       type: DataTypes.INTEGER,
       autoIncrement: true
-      
   },
     firstName:DataTypes.STRING,
     lastName:DataTypes.STRING,
-    location:DataTypes.STRING,
-    currentPosition:DataTypes.STRING,
-    phoneNumber:DataTypes.INTEGER,
-    industry:DataTypes.STRING,
+    location:{type: DataTypes.STRING, 
+      allowNull: true},
+    currentPosition:{type: DataTypes.STRING, 
+      allowNull: true},
+    phoneNumber:{type: DataTypes.INTEGER, 
+      allowNull: true},
+    industry: {type: DataTypes.STRING, 
+      allowNull: true},
     email: {
       type: DataTypes.STRING,
       primaryKey:true
-    },
-    skillset: DataTypes.STRING,
-    experience:DataTypes.STRING,
-    goal: DataTypes.STRING
+    }
   },
   );
 
