@@ -23,14 +23,15 @@ module.exports=(sequelize,DataTypes)=>{
   {
     userId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true
+      autoIncrement: true,
+      primaryKey:true
       
   },
     userName:DataTypes.STRING,
     password:DataTypes.STRING,
     email: {
-      type: DataTypes.STRING,
-      primaryKey:true
+      type: DataTypes.STRING
+      
     },
     firstName: DataTypes.STRING,
     lastName:DataTypes.STRING,
