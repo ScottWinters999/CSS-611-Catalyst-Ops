@@ -18,6 +18,7 @@ function App() {
   let routes;
 
   if (token) {
+    console.log(token)
     routes = (
       <Routes>
         <Route path="/userchat" element={<CatyChatPage />} />

@@ -3,9 +3,10 @@ const app=express();
 const db=require('./models');
 const routes=require('./routes/signup');
 const bodyParser=require('body-parser');
+const http=require('http');
 const { Server }= require('socket.io');
 const cors=require('cors');
-
+app.use(cors());
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -42,24 +43,43 @@ app.use('/', (req,res,next)=>{
     res.send('<h1> Welcome to Signup</h1>');
 })
 
-const server=app.listen(5000);
+//const server=app.listen(5000);
+const httpserver= http.createServer(app);
 
 
-const io= new Server(server,{
+const io= new Server(httpserver,{
   cors:{
-    origin:"http://localhost/3000",
-    method:["GET","POST"]
+    origin:"http://localhost:3000",
+    method:["GET","POST"],
+    transports :['websocket']
   },
-})
+});
+const messageData = {
+  room: "123",
+  author: "caty",
+  message: "new_message",
+  time:
+    new Date(Date.now()).getHours() +
+    ":" +
+    new Date(Date.now()).getMinutes(),
+};
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
 
-io.on("connection",(socket)=>{
+  socket.on("join_room", (data) => {
+    socket.join('123');
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
   console.log(socket.id);
-  socket.on("sent",(data)=>{
+  socket.on("send_message",(data)=>{
     
-    socket.emit("receive_message", data);
+    socket.emit("receive_message", messageData);
 
   })
   socket.on("disconnect",()=>{
     console.log("disconnected",socket.id);
   })
-})
+});
+httpserver.listen(5000, () => {
+  console.log("SERVER RUNNING");
+});

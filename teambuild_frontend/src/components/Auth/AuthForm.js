@@ -4,7 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 // import classes from "./AuthForm.module.css";
 import styled from "styled-components";
 import logoImage from "../../images/logo.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Auth = styled.section`
   display: flex;
@@ -133,7 +134,7 @@ const AuthForm = () => {
   const isPassword = (value) => value.trim().length >= 8;
   const history = useNavigate();
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
-
+  const authCtx=useContext(AuthContext);
   const {
     value: firstNameValue,
     isValid: firstNameIsValid,
@@ -248,7 +249,8 @@ const AuthForm = () => {
       console.log(data);
       if (data.Status == "user already exist") {
         setEmailAlreadyExist(true);
-      } else {
+      } else  if(data.token){
+        authCtx.login(data.token);
         history("/userchat");
       }
     } catch (err) {
@@ -346,7 +348,7 @@ const AuthForm = () => {
         <Actions>
           <Button>REGISTER</Button>
         </Actions>
-        <Link to="/login" style={{ textDecoration: "none" }}>
+        <Link to="/userchat" style={{ textDecoration: "none" }}>
           <ButtonWrapper>
             <p>Sign In</p>
           </ButtonWrapper>
