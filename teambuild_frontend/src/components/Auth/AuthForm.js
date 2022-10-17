@@ -238,7 +238,7 @@ const AuthForm = () => {
     console.log(body);
     // history("/userchat");
     try {
-      const response = await fetch("http://localhost:5000/signup", {
+      const response = await fetch("http://localhost:5000/api/signup", {
         method: "POST",
         body: body,
         headers: {
