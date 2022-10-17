@@ -1,6 +1,7 @@
 
 import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // import classes from "./AuthForm.module.css";
 import styled from "styled-components";
@@ -386,7 +387,7 @@ const AuthForm = () => {
             {'Forgot Password?'}
             </Text2>
             <Text2>
-            <a href="http://localhost:3000/signup">Sign Up</a>
+            <Link to='/signup'>Signup</Link>
             </Text2>
             </ActionsTwo>
       </FormControl>
