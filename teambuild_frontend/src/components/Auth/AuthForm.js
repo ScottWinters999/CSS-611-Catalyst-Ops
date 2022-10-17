@@ -238,7 +238,7 @@ const AuthForm = () => {
     console.log(body);
     // history("/userchat");
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch("http://3.226.212.199:5000/api/signup", {
         method: "POST",
         body: body,
         headers: {
@@ -268,7 +268,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="first_name">First Name</label>
           <input
-          // required
+          required
             type="text"
             id="first_name"
             value={firstNameValue}
@@ -283,6 +283,7 @@ const AuthForm = () => {
           <label htmlFor="last_name">Last Name</label>
           <input
             type="text"
+            required
             id="last_name"
             value={lastNameValue}
             onChange={lastNameChangeHandler}
@@ -295,6 +296,7 @@ const AuthForm = () => {
           <input
             type="email"
             id="email"
+            required
             value={emailValue}
             onChange={emailChangeHandler}
             onBlur={emailBlurHandler}
@@ -306,6 +308,7 @@ const AuthForm = () => {
           <input
             type="text"
             id="username"
+            required
             value={userNameValue}
             onChange={userNameChangeHandler}
             onBlur={userNameBlurHandler}
@@ -317,6 +320,7 @@ const AuthForm = () => {
           <input
             type="password"
             id="password"
+            required
             value={passwordValue}
             onChange={passwordChangeHandler}
             onBlur={passwordBlurHandler}
@@ -333,6 +337,7 @@ const AuthForm = () => {
           <input
             type="password"
             id="confirm_password"
+            required
             value={confirmPasswordValue}
             onChange={confirmPasswordChangeHandler}
             onBlur={confirmPasswordBlurHandler}
