@@ -34,8 +34,20 @@ module.exports={
                         lastName,
                         role
 
-                    }).then(
-                        res.status(200).json({Status: "Inserted"}));
+                    }).then(()=>{
+                        const token = jwt.sign(
+                            { email: email, role: role },
+                            "secret_this_should_be_longer",
+                            { expiresIn: "1h" }
+                          );
+                    
+                          res.status(200).json({
+                            token: token
+                          });
+                    }
+                        
+                        // res.status(200).json({Status: "Inserted"})
+                        );
                 })
            // const {username,email,newpassword}=req.body;
             
