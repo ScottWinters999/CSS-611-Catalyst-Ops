@@ -61,6 +61,9 @@ module.exports={
     login: async(req,res)=>{
         console.log(req.body);
         const userExists = await User.findOne({ where: { email: req.body.email} });
+        if(!userExists){
+            res.status(403).json({Status: 'User does not exist'});
+        }else{
         bcrypt.compare(req.body.password, userExists.password, function(err, response) {
             if (err){
                 // handle error
@@ -86,6 +89,7 @@ module.exports={
               }
             
         });
+    }
     }
 }
 

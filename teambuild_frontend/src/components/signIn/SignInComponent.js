@@ -159,7 +159,7 @@ const AuthForm = () => {
   const isEmail = (value) => value.includes("@");
   const isPassword = (value) => value.trim().length >= 8;
   const history = useNavigate();
-  const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
+  const [WrongCred, setWrongCred] = useState(false);
   const authCtx = useContext(AuthContext);
   // const {
   //   value: firstNameValue,
@@ -273,7 +273,8 @@ const AuthForm = () => {
       });
       const data = await response.json();
       console.log(data);
-      if (data.Status == "Wrong username or password") {
+      if (data.Status == "Wrong username or password" || data.Status=='User does not exist') {
+        setWrongCred(true);
         console.log('613')
         resetEmail();
         resetPassword();
@@ -322,6 +323,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="email">Email</label>
           <input
+          required
             type="email"
             id="email"
             value={emailValue}
@@ -344,6 +346,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="password">Password</label>
           <input
+          required
             type="password"
             id="password"
             value={passwordValue}
@@ -376,6 +379,7 @@ const AuthForm = () => {
         </Control> */}
         <Actions>
           <Button>Login</Button>
+          {WrongCred && <Errortext>Wrong Email or Password</Errortext>}
         </Actions>
         <ActionsTwo>
             <Text2>
