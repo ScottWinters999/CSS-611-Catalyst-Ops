@@ -52,7 +52,7 @@ const httpserver= http.createServer(app);
 
 const io= new Server(httpserver,{
   cors:{
-    origin:"http://3.226.212.199:3000",
+    origin:"http://localhost:3000",
     method:["GET","POST"],
     transports :['websocket']
   },

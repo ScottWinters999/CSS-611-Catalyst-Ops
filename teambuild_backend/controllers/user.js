@@ -73,7 +73,7 @@ module.exports={
                 // Send JWT
                 console.log("Logged In Successfully!");
                 const token = jwt.sign(
-                    { email: userExists.email, role: userExists.role },
+                    { userId: userExists.userId, email: userExists.email, role: userExists.role },
                     "secret_this_should_be_longer",
                     { expiresIn: "1h" }
                   );
@@ -92,6 +92,4 @@ module.exports={
     }
     }
 }
-
-
 
