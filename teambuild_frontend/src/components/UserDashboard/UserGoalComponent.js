@@ -28,7 +28,10 @@ const Table = styled.table`
   border: 2px solid #bcbcbc;
   //   width: 800px;
   //   height: 200px;
-  color: #9f9f9f;
+  // color: #9f9f9f;
+  height: 100%;
+  overflow-y: scroll;
+  color: #000000;
 `;
 const Th = styled.th`
   border-bottom: 1px solid #bcbcbc;
@@ -37,18 +40,20 @@ const Td = styled.td`
   text-align: center;
 `;
 
-const UserGoalComponent = () => {
-  const data = [
-    { name: "Anom", age: 19, gender: "Male" },
-    { name: "Megha", age: 19, gender: "Female" },
-    { name: "Subham", age: 25, gender: "Male" },
-  ];
+const UserGoalComponent = (props) => {
+  // const data = [
+  //   { name: "Anom", age: 19, gender: "Male" },
+  //   { name: "Megha", age: 19, gender: "Female" },
+  //   { name: "Subham", age: 25, gender: "Male" },
+  // ];
+  const data = props.data
   return (
     <GoalsOutsideWrapper>
       <Card>
         <CardInnerWrapper>
           <GoalHeader>Goals</GoalHeader>
           <Table>
+            <tbody>
             <tr>
               <Th>Team Name</Th>
               <Th>Matched With</Th>
@@ -57,12 +62,13 @@ const UserGoalComponent = () => {
             {data.map((val, key) => {
               return (
                 <tr key={key}>
-                  <Td>{val.name}</Td>
-                  <Td>{val.age}</Td>
-                  <Td>{val.gender}</Td>
+                  <Td>{val.teamName}</Td>
+                  <Td>{val.matchedWith}</Td>
+                  <Td>{val.status}</Td>
                 </tr>
               );
             })}
+            </tbody>
           </Table>
         </CardInnerWrapper>
       </Card>

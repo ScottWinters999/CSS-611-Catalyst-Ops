@@ -4,8 +4,13 @@ import UserInfoComponent from "./UserInfoComponent";
 import UserSkillComponent from "./UserSkillComponent";
 import { AiOutlinePlus } from "react-icons/ai";
 import UserGoalComponent from "./UserGoalComponent";
+
+import { IoDiamond } from "react-icons/io5";
+import ScrollToBottom from "react-scroll-to-bottom";
+import TextField from '@mui/material/TextField';
+
 const UserDashboardWrapper = styled.div`
-  //   height: 90vh;
+  height: 90vh;
   width: 80%;
   background-color: white;
   border-radius: 20px;
@@ -13,24 +18,51 @@ const UserDashboardWrapper = styled.div`
   margin-left: 4px;
   display: flex;
   flex-direction: column;
+  @media (max-width: 1200px) {
+    height: fit-content;
+  }
+
+  @media (max-height: 1100px) {
+    height: fit-content;
+  }
+  
 `;
 const SectionOne = styled.div`
-  height: 5%;
+  height: 8%;
   padding: 12px 8px;
   display: flex;
   justify-content: flex-end;
+  @media (max-height: 1200px) {
+    height: 60px;
+  }
 `;
 const SectionTwo = styled.div`
-  height: 55%;
+  height: 52%;
   padding: 12px 8px;
   display: flex;
   margin: 12px 0px;
+  @media (max-width: 1200px) {
+    display: flex;
+    margin: 12px 0px;
+    // flex-direction: column;
+
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+  }
 `;
 const SectionThree = styled.div`
   height: 40%;
   padding: 12px 8px;
   display: flex;
   flex-direction: row;
+
+  @media (max-width: 1200px) {
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const SectionTwoInnerWrapper = styled.div`
@@ -39,13 +71,28 @@ const SectionTwoInnerWrapper = styled.div`
   width: 50%;
   justify-content: center;
   padding: 26px 24px;
+  height: 80%;
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+
+  @media (max-width: 760px) {
+    width: 100%;
+  }
 `;
 
 const SkillWrapper = styled.div`
   display: flex;
   flex-direction: column;
   //   width: 100%;
-  width: 66%;
+  width: 60%;
+  @media (max-width: 1200px) {
+    width: 70%;
+  }
+
+  @media (max-width: 760px) {
+    width: 100%;
+  }
 `;
 
 const SectionThreeInnerWrapper = styled.div`
@@ -54,6 +101,9 @@ const SectionThreeInnerWrapper = styled.div`
   width: 50%;
   justify-content: center;
   padding: 26px 24px;
+  @media (max-width: 1100px) {
+    width: 90%;
+  }
 `;
 
 const AddGoalButton = styled.button`
@@ -81,29 +131,77 @@ const AddGoalButtonWrapper = styled.div`
   height: 20%;
   display: flex;
   align-items: center;
+  @media (max-width: 1200px) {
+    width: 100%;
+    height: 70px;
+  }
 `;
 
-const UserDashboardComponent = () => {
-  const skillSet = {
-    header: "Skillset",
-    items: ["python", "java", "c++"],
-  };
+// const PremiumD = styled.div`
+// @media (max-width: 1200px) 
+//   // width: 100%;
+//   height: 35px;
 
-  const experience = {
-    header: "Experience",
-    items: ["Java developer", "python developer", "Devops"],
+// `
+
+const UserDashboardComponent = () => {
+  const userData = {
+    basicUserInfo: {
+      userName: "John",
+      location: "buffalo,Newyork",
+      currentPosition: "manager",
+      phone: "+171111111",
+      email: "john@buffalo",
+      industry: "software",
+      userType: "premium",
+    },
+    experience: {
+      header: "Experience",
+      items: ["Java developer", "python developer", "Devops"],
+    },
+    skillSet: {
+      header: "Skillset",
+      items: ["python", "java", "c++"],
+    },
+    goals: [
+      {
+        teamName: "Alpha",
+        matchedWith: "Software",
+        status: "Incomplete",
+      },
+      {
+        teamName: "Beta",
+        matchedWith: "CEO",
+        status: "Complete",
+      },
+      {
+        teamName: "Alpha",
+        matchedWith: "Finance",
+        status: "Incomplete",
+      },
+    ],
   };
+  console.log(userData);
+
   return (
+    // <ScrollToBottom>
     <UserDashboardWrapper>
-      <SectionOne>sadsad</SectionOne>
+      
+      <SectionOne>
+        {userData.basicUserInfo.userType && (
+          <div>
+            <IoDiamond style={{ height: "100%", width: "100%" ,color:"#264fc0"}} />
+          </div>
+        )}
+      </SectionOne>
       <SectionTwo>
         <SectionTwoInnerWrapper>
-          <UserInfoComponent />
+          <UserInfoComponent userData={userData.basicUserInfo} />
         </SectionTwoInnerWrapper>
         <SectionTwoInnerWrapper>
           <SkillWrapper>
-            <UserSkillComponent data={skillSet} />
-            <UserSkillComponent data={experience} />
+            <UserSkillComponent data={userData.skillSet} />
+            <UserSkillComponent data={userData.experience} />
           </SkillWrapper>
         </SectionTwoInnerWrapper>
       </SectionTwo>
@@ -117,10 +215,12 @@ const UserDashboardComponent = () => {
           </AddGoalButtonWrapper>
         </SectionThreeInnerWrapper>
         <SectionThreeInnerWrapper>
-          <UserGoalComponent />
+          <UserGoalComponent data={userData.goals} />
         </SectionThreeInnerWrapper>
       </SectionThree>
+      
     </UserDashboardWrapper>
+
   );
 };
 

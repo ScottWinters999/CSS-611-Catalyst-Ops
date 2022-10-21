@@ -1,11 +1,19 @@
 import styled from "styled-components";
+import { useForm } from "../../hooks/form-hook";
+import ImageUpload from "./imageUpload/ImageUpload";
 import Card from "../UI/Card";
 
 const UserInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: fit-content;
   padding: 20px 24px;
+  @media (max-width: 1200px) {
+    padding: 20px 16px;
+    
+ 
+  }
+  
 `;
 const UserNameContainer = styled.div`
   display: flex;
@@ -14,7 +22,9 @@ const UserNameContainer = styled.div`
 `;
 
 const UserProfilePhotoWrapper = styled.div`
-  width: 40%;
+width: 50%;
+display: flex;
+align-items: flex-end;
 `;
 
 const UserProfileNameOutsideWrapper = styled.div`
@@ -25,7 +35,9 @@ const UserProfileNameInsideWrapper = styled.div`
   color: blue;
   font-weight: 500;
   font-family: "Roboto";
-  font-size: 24px;
+  font-size: 3rem;
+
+  
 `;
 
 const Hr = styled.hr`
@@ -43,14 +55,19 @@ const UserProfileInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 4px 26px;
+  @media (max-width: 1200px) {
+    padding: 4px 4px;
+    
+ 
+  }
 `;
 
 const UserProfileInfoBulletinWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  font-size: 16px;
+  font-size: 20px;
   font-family: "Roboto";
-  font-weight: lighter;
+  font-weight: 500;
   flex-grow: 1;
 `;
 
@@ -58,16 +75,34 @@ const UserProfileInfoBulletinInnerWrapper = styled.div`
   width: 40%;
 `;
 
-const UserInfoComponent = () => {
+const UserInfoComponent = (props) => {
+
+  const basicInfo = props.userData
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      name: {
+        value: '',
+        isValid: false
+      },
+      image: {
+        value: null,
+        isValid: false
+      }
+    },
+    false
+  );
+  console.log(basicInfo)
   return (
     <Card>
       <UserInfoOuterWrapper>
         <UserNameContainer>
-          <UserProfilePhotoWrapper>swadsa</UserProfilePhotoWrapper>
+          <UserProfilePhotoWrapper>
+            <ImageUpload center id="image" onInput={inputHandler} header="Image Upload"/>
+            </UserProfilePhotoWrapper>
           <UserProfileNameOutsideWrapper>
-            <UserProfileNameInsideWrapper>John</UserProfileNameInsideWrapper>
+            <UserProfileNameInsideWrapper>{basicInfo.userName}</UserProfileNameInsideWrapper>
             <UserProfileLocationWrapper>
-              Buffalo,Newyork
+            {basicInfo.location}
             </UserProfileLocationWrapper>
           </UserProfileNameOutsideWrapper>
         </UserNameContainer>
@@ -78,25 +113,25 @@ const UserInfoComponent = () => {
             <UserProfileInfoBulletinInnerWrapper>
               Current position :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>sdasd</div>
+            <div>{basicInfo.currentPosition}</div>
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Industry :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>sdasd</div>
+            <div>{basicInfo.industry}</div>
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Phone :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>sdasd</div>
+            <div>{basicInfo.phone}</div>
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Email:
             </UserProfileInfoBulletinInnerWrapper>
-            <div>sdasd</div>
+            <div>{basicInfo.email}</div>
           </UserProfileInfoBulletinWrapper>
           {/* </div> */}
         </UserProfileInfoWrapper>

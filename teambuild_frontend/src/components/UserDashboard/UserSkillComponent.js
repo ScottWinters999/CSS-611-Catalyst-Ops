@@ -6,6 +6,10 @@ const SkillInfoOuterWrapper = styled.div`
   flex-direction: column;
   height: 100%;
   padding: 20px 24px;
+
+  @media (max-width:760){
+    align-items: center;
+  }
 `;
 
 const HeadingWrapper = styled.div`
