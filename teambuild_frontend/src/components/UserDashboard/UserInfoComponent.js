@@ -65,9 +65,9 @@ const UserProfileInfoWrapper = styled.div`
 const UserProfileInfoBulletinWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  font-size: 20px;
+  font-size: 18px;
   font-family: "Roboto";
-  font-weight: 500;
+  font-weight: 400;
   flex-grow: 1;
 `;
 

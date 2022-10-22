@@ -4,10 +4,12 @@ import UserInfoComponent from "./UserInfoComponent";
 import UserSkillComponent from "./UserSkillComponent";
 import { AiOutlinePlus } from "react-icons/ai";
 import UserGoalComponent from "./UserGoalComponent";
+import { useHttpClient } from '../../hooks/http-hook'
 
 import { IoDiamond } from "react-icons/io5";
 import ScrollToBottom from "react-scroll-to-bottom";
 import TextField from '@mui/material/TextField';
+import { useEffect, useState } from "react";
 
 const UserDashboardWrapper = styled.div`
   height: 90vh;
@@ -145,14 +147,45 @@ const AddGoalButtonWrapper = styled.div`
 // `
 
 const UserDashboardComponent = () => {
+
+  const { isLoading, error, sendRequest ,clearError} = useHttpClient();
+  const [loadedUserInfo, setLoadedUserInfo] = useState();
+  const token = JSON.parse(localStorage.getItem('userData'))
+  console.log(token)
+  const authorization = "Bearer "+token.token
+  console.log(authorization)
+  // const user
+
+  useEffect(() => {
+    const userInfo = async () => {
+      try {
+        const headers = {
+          authorization: 'Bearer ' + token.token
+      };
+        fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
+          return res.json()
+        }).then((res) =>{
+          console.log(res)
+          setLoadedUserInfo(res.userData)
+        })
+        // responseData.t
+        // responseData./
+        // console.log(responseData,'aa')
+        // setLoadedPlaces(responseData.places);
+      } catch (err) {}
+    };
+    userInfo();
+  }, [sendRequest,authorization]);
+
+  console.log(loadedUserInfo)
   const userData = {
     basicUserInfo: {
-      userName: "John",
-      location: "buffalo,Newyork",
-      currentPosition: "manager",
-      phone: "+171111111",
-      email: "john@buffalo",
-      industry: "software",
+      userName: loadedUserInfo.firstName,
+      location: loadedUserInfo.location,
+      currentPosition: loadedUserInfo.currentPosition,
+      phone: loadedUserInfo.phone,
+      email: loadedUserInfo.email,
+      industry: loadedUserInfo.industry,
       userType: "premium",
     },
     experience: {
