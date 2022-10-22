@@ -34,6 +34,8 @@ module.exports=(sequelize,DataTypes)=>{
         allowNull: true},
       industry: {type: DataTypes.STRING, 
         allowNull: true},
+      isPremiumUser: {type: DataTypes.BOOLEAN, 
+          allowNull: true},
       email: {
         type: DataTypes.STRING
         

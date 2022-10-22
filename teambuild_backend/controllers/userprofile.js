@@ -14,8 +14,8 @@ module.exports={
                 userId = req.userData.userId
                 console.log(userId)
                 const userExists = await UserProfile.findOne({ where: { userId: userId} });
-                const userSkill= await Skills.findOne({where: {userId: userId} });
-                const userGoal = await Goal.findOne({where:{userId: userId}});
+                const userSkill= await Skills.findAll({where: {userId: userId} });
+                const userGoal = await Goal.findAll({where:{userId: userId}});
                 // console.log(userExists)
                 let userObject;
                 if(userExists){
@@ -28,9 +28,9 @@ module.exports={
                                 'phone' : userExists.dataValues.phoneNumber,
                                 'currentPosition' : userExists.dataValues.currentPosition,
                                 'industry' : userExists.dataValues.industry,
-                                'skillset' : userSkill.dataValues.skillset,
-                                'experience' : userSkill.dataValues.experience,
-                                'goal' : userGoal.dataValues.goal
+                                'isPremiumUser' : userExists.dataValues.isPremiumUser,
+                                'skillset' : userSkill,
+                                'goal' : userGoal
                         }
                         
                         res.status(200).json({userData:userObject})
