@@ -13,6 +13,9 @@ const { User }=require('../controllers');
 const { UserProfile }=require('../controllers');
 router.post('/signup',bodyParser,User.create);
 router.post('/login',bodyParser,User.login);
+router.post('/forgetpassword',bodyParser,User.forgetpassword);
+router.post('/resetpassword',bodyParser,User.resetpassword);
+
 router.get('/userprofile',auth,bodyParser,UserProfile.userprofile);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);

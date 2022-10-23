@@ -384,7 +384,7 @@ const AuthForm = () => {
         </Actions>
         <ActionsTwo>
             <Text2>
-            {'Forgot Password?'}
+            <Link to='/forgetpassword'>Forget password?</Link>
             </Text2>
             <Text2>
             <Link to='/signup'>Signup</Link>

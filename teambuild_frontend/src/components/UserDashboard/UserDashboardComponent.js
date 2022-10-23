@@ -156,36 +156,37 @@ const UserDashboardComponent = () => {
   console.log(authorization)
   // const user
 
-  useEffect(() => {
-    const userInfo = async () => {
-      try {
-        const headers = {
-          authorization: 'Bearer ' + token.token
-      };
-        fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
-          return res.json()
-        }).then((res) =>{
-          console.log(res)
-          setLoadedUserInfo(res.userData)
-        })
-        // responseData.t
-        // responseData./
-        // console.log(responseData,'aa')
-        // setLoadedPlaces(responseData.places);
-      } catch (err) {}
-    };
-    userInfo();
-  }, [sendRequest,authorization]);
+  // useEffect(() => {
 
-  console.log(loadedUserInfo)
+  //   const userInfo = async () => {
+  //     try {
+  //       const headers = {
+  //         authorization: 'Bearer ' + token.token
+  //     };
+  //       fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
+  //         return res.json()
+  //       }).then((res) =>{
+  //         console.log(res)
+  //         setLoadedUserInfo(res.userData)
+  //       })
+  //       // responseData.t
+  //       // responseData./
+  //       // console.log(responseData,'aa')
+  //       // setLoadedPlaces(responseData.places);
+  //     } catch (err) {}
+  //   };
+  //   userInfo();
+  // }, [sendRequest,authorization]);
+
+  // console.log(loadedUserInfo)
   const userData = {
     basicUserInfo: {
-      userName: loadedUserInfo.firstName,
-      location: loadedUserInfo.location,
-      currentPosition: loadedUserInfo.currentPosition,
-      phone: loadedUserInfo.phone,
-      email: loadedUserInfo.email,
-      industry: loadedUserInfo.industry,
+      userName: "loadedUserInfo.firstName",
+      location: "loadedUserInfo.location",
+      currentPosition: "loadedUserInfo.currentPosition",
+      phone: "loadedUserInfo.phone",
+      email: "loadedUserInfo.email",
+      industry: "loadedUserInfo.industry",
       userType: "premium",
     },
     experience: {
