@@ -11,12 +11,11 @@ const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const crypto = require("crypto");
-
 const transporter = nodemailer.createTransport(
   sendgridTransport({
     auth: {
       api_key:
-        "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",
+        process.env.SENDGRID_API_KEY,
     },
   })
 );
@@ -116,6 +115,7 @@ module.exports = {
     }
   },
   forgetpassword: async (req, response) => {
+    
     console.log(req.body);
     const userExists = await User.findOne({ where: { email: req.body.email } });
     console.log(120,userExists)
@@ -155,6 +155,8 @@ module.exports = {
 
   resetpassword: async (req, res) =>{
     console.log(req.body)
+    console.log(process.env.SENDGRID_API_KEY,'api')
+
     const password = req.body.password;
     const newToken = req.body.token;
     const userExists = await User.findOne({ where: { resetPasswordToken: newToken,
