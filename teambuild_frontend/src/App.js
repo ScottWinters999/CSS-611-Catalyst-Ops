@@ -10,6 +10,8 @@ import UserPartnerSearchPage from "./pages/UserPartnerSearchPage";
 import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
 import { useAuth } from './hooks/auth-hook';
+import ForgetPasswordPage from "./pages/ForgetPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   
@@ -34,6 +36,8 @@ function App() {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<AuthPage />} />
+        <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
+        <Route path="/resetpassword/:token" element={<ResetPasswordPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );

@@ -20,7 +20,7 @@ const CatyChatPage = () => {
     return (
         <Outsidewrapper>
             <SidebarNavigation />
-            {/* <div><ChatMain/></div> */}
+            <div><ChatMain/></div>
             </Outsidewrapper>
       );
   };
