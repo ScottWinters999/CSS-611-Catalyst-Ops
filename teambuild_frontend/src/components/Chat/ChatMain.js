@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import ChatBoard from "./ChatBoard";
 
-const socket = io.connect("http://3.226.212.199:5000");
+const socket = io.connect("http://localhost:5000");
 
 function ChatMain() {
   const [username, setUsername] = useState("");

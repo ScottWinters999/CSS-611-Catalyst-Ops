@@ -1,7 +1,12 @@
 .card {
   background-color: white;
   border-radius: 26px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); */
   margin: 20px 10px;
   width: 100%;
+  box-shadow: 0 24px 30px rgb(52 73 177 / 42%);
+}
+
+.card:hover {
+  background-color: #d9dff152;
 }
