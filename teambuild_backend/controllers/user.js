@@ -154,8 +154,8 @@ module.exports = {
   },
 
   resetpassword: async (req, res) =>{
-    console.log(req.body)
-    console.log(process.env.SENDGRID_API_KEY,'api')
+    //console.log(req.body)
+   // console.log(process.env.SENDGRID_API_KEY,'api')
 
     const password = req.body.password;
     const newToken = req.body.token;

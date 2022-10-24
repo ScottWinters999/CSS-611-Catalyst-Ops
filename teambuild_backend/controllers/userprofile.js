@@ -1,6 +1,5 @@
 // const generateAccessToken = require("./generateAccessToken")
 const jwt = require("jsonwebtoken");
-const {model: { User } }=require('../models');
 const {model: { UserProfile } }=require('../models');
 const {model: { Skills } }=require('../models');
 const {model: { Goal } }=require('../models');
@@ -48,7 +47,6 @@ module.exports={
         if (req.userData.userId) {
                 //const decoded_token = jwt.decode(jwttoken)
                 userId = req.userData.userId
-                console.log(userId)
                 const userExistsAll = await UserProfile.findAll({ where: { [Op.not]: [
                         { userId: userId }]}} );
                 var userExistsAll_length = userExistsAll.length
