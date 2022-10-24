@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { useForm } from "../../hooks/form-hook";
 import ImageUpload from "./imageUpload/ImageUpload";
 import Card from "../UI/Card";
-
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 const UserInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,10 +12,7 @@ const UserInfoOuterWrapper = styled.div`
   padding: 20px 24px;
   @media (max-width: 1200px) {
     padding: 20px 16px;
-    
- 
   }
-  
 `;
 const UserNameContainer = styled.div`
   display: flex;
@@ -22,9 +21,9 @@ const UserNameContainer = styled.div`
 `;
 
 const UserProfilePhotoWrapper = styled.div`
-width: 50%;
-display: flex;
-align-items: flex-end;
+  width: 50%;
+  display: flex;
+  align-items: flex-end;
 `;
 
 const UserProfileNameOutsideWrapper = styled.div`
@@ -36,8 +35,6 @@ const UserProfileNameInsideWrapper = styled.div`
   font-weight: 500;
   font-family: "Roboto";
   font-size: 3rem;
-
-  
 `;
 
 const Hr = styled.hr`
@@ -57,8 +54,6 @@ const UserProfileInfoWrapper = styled.div`
   padding: 4px 26px;
   @media (max-width: 1200px) {
     padding: 4px 4px;
-    
- 
   }
 `;
 
@@ -76,33 +71,41 @@ const UserProfileInfoBulletinInnerWrapper = styled.div`
 `;
 
 const UserInfoComponent = (props) => {
-
-  const basicInfo = props.userData
+  const basicInfo = props.userData;
+  const [isEdit,setIsEdit] = useState(false)
   const [formState, inputHandler, setFormData] = useForm(
     {
       name: {
-        value: '',
-        isValid: false
+        value: "",
+        isValid: false,
       },
       image: {
         value: null,
-        isValid: false
-      }
+        isValid: false,
+      },
     },
     false
   );
-  console.log(basicInfo)
+  console.log(basicInfo);
   return (
     <Card>
       <UserInfoOuterWrapper>
         <UserNameContainer>
           <UserProfilePhotoWrapper>
-            <ImageUpload center id="image" onInput={inputHandler} header="Image Upload"/>
-            </UserProfilePhotoWrapper>
+            <ImageUpload
+              center
+              id="image"
+              onInput={inputHandler}
+              header="Image Upload"
+            />
+          </UserProfilePhotoWrapper>
           <UserProfileNameOutsideWrapper>
-            <UserProfileNameInsideWrapper>{basicInfo.userName}</UserProfileNameInsideWrapper>
+            <UserProfileNameInsideWrapper>
+              {basicInfo.userName}
+            </UserProfileNameInsideWrapper>
+            {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" size="small" /> */}
             <UserProfileLocationWrapper>
-            {basicInfo.location}
+              {basicInfo.location}
             </UserProfileLocationWrapper>
           </UserProfileNameOutsideWrapper>
         </UserNameContainer>
@@ -136,6 +139,21 @@ const UserInfoComponent = (props) => {
           {/* </div> */}
         </UserProfileInfoWrapper>
       </UserInfoOuterWrapper>
+
+      {isEdit && (
+        <Box
+          component="form"
+          sx={{
+            "& > :not(style)": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+          <TextField id="filled-basic" label="Filled" variant="filled" />
+          <TextField id="standard-basic" label="Standard" variant="standard" />
+        </Box>
+      )}
     </Card>
   );
 };

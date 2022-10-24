@@ -155,38 +155,38 @@ const UserDashboardComponent = () => {
   const authorization = "Bearer "+token.token
   console.log(authorization)
   // const user
+  const headers = {
+    authorization: 'Bearer ' + token.token
+}; 
+  useEffect(() => {
 
-  // useEffect(() => {
-
-  //   const userInfo = async () => {
-  //     try {
-  //       const headers = {
-  //         authorization: 'Bearer ' + token.token
-  //     };
-  //       fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
-  //         return res.json()
-  //       }).then((res) =>{
-  //         console.log(res)
-  //         setLoadedUserInfo(res.userData)
-  //       })
-  //       // responseData.t
-  //       // responseData./
-  //       // console.log(responseData,'aa')
-  //       // setLoadedPlaces(responseData.places);
-  //     } catch (err) {}
-  //   };
-  //   userInfo();
-  // }, [sendRequest,authorization]);
+    const userInfo = async () => {
+      try {
+        
+        fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
+          return res.json()
+        }).then((res) =>{
+          console.log(res)
+          setLoadedUserInfo(res.userData)
+        })
+        // responseData.t
+        // responseData./
+        // console.log(responseData,'aa')
+        // setLoadedPlaces(responseData.places);
+      } catch (err) {}
+    };
+    userInfo();
+  }, [sendRequest,authorization]);
 
   // console.log(loadedUserInfo)
   const userData = {
     basicUserInfo: {
-      userName: "loadedUserInfo.firstName",
-      location: "loadedUserInfo.location",
-      currentPosition: "loadedUserInfo.currentPosition",
-      phone: "loadedUserInfo.phone",
-      email: "loadedUserInfo.email",
-      industry: "loadedUserInfo.industry",
+      userName: loadedUserInfo?loadedUserInfo.firstName:'',
+      location: loadedUserInfo?loadedUserInfo.location:'',
+      currentPosition:loadedUserInfo?loadedUserInfo.currentPosition:'',
+      phone: loadedUserInfo?loadedUserInfo.phone:'',
+      email: loadedUserInfo?loadedUserInfo.email:'',
+      industry: loadedUserInfo?loadedUserInfo.industry:'',
       userType: "premium",
     },
     experience: {

@@ -8,6 +8,8 @@ const { Server }= require('socket.io');
 const cors=require('cors');
 const path=require('path');
 app.use(cors());
+const dotenv = require('dotenv');
+dotenv.config();
 
 
 // app.use(express.static(path.join('public')))
@@ -39,7 +41,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
     await db.sequelize.sync();
 })();
 
+// process.env./
 
+console.log(process.env.AB,'api')
 app.use('/api',routes);
 
 // app.use( (req,res,next)=>{
