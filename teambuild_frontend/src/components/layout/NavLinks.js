@@ -8,7 +8,7 @@ const NavBar = styled.ul`
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,24 +40,7 @@ const NavBar = styled.ul`
 }
   }
 
-  & button {
-    cursor: pointer;
-    border: 1px solid #292929;
-    color: #292929;
-    background: transparent;
-    padding: 0.5rem;
-    font: inherit;
-  }
-
-  & button:focus {
-    outline: none;
-  }
-
-  & button:hover,
-  & button:active {
-    background: #292929;
-    color: white;
-  }
+  
 `;
 
 const NavLinks = () => {
@@ -84,11 +67,7 @@ const NavLinks = () => {
           <NavLink to="/userdashboard">Dashboard</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
-        <li>
-          <button onClick={auth.logout}>LOGOUT</button>
-        </li>
-      )}
+      
     </NavBar>
   );
 };
