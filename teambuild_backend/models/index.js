@@ -14,4 +14,8 @@ db.model.User=require('./user')(sequelize,Sequelize.DataTypes);
 db.model.UserProfile=require('./userprofile')(sequelize,Sequelize.DataTypes);
 db.model.Skills=require('./skill')(sequelize,Sequelize.DataTypes);
 db.model.Goal=require('./goal')(sequelize,Sequelize.DataTypes);
+
+db.model.Chat=require('./chat')(sequelize,Sequelize.DataTypes);
+
+
 module.exports=db;

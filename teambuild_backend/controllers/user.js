@@ -10,15 +10,16 @@ const { Op } = require('sequelize')
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
+// const dotenv = require('dotenv');
+// dotenv.config();
 const crypto = require("crypto");
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        process.env.SENDGRID_API_KEY,
-    },
-  })
-);
+// console.log(process.env,'aa') // remove this after you've confirmed it is working
+// console.log(process.env.SENDGRID_API_KEY,'send')
+
+// const dotenv = require('dotenv');
+// dotenv.config();
+// const backend = process.env.SENDGRID_API_KEY
+
 
 module.exports = {
   create: async (req, res) => {
@@ -115,7 +116,16 @@ module.exports = {
     }
   },
   forgetpassword: async (req, response) => {
-    
+    // console.log('API',backend)
+    const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+    const transporter = nodemailer.createTransport(
+      sendgridTransport({
+        auth: {
+          api_key:SENDGRID_API_KEY,
+        },
+      })
+    );
+
     console.log(req.body);
     const userExists = await User.findOne({ where: { email: req.body.email } });
     console.log(120,userExists)
@@ -147,7 +157,12 @@ module.exports = {
                     `,
         }).then(() =>{
             response.status(200).json({ status: "Link send" })
-        });
+        })
+        .catch(() =>{
+          response.status(400).json({ status: "Wrong credentials" })
+
+        })
+        ;
       });
       console.log(userExists);
     }
@@ -155,7 +170,6 @@ module.exports = {
 
   resetpassword: async (req, res) =>{
     console.log(req.body)
-    console.log(process.env.SENDGRID_API_KEY,'api')
 
     const password = req.body.password;
     const newToken = req.body.token;

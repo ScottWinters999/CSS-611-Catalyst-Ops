@@ -1,0 +1,17 @@
+.rw-conversation-container .rw-response{
+
+    background-color: #0f82ff;
+    color: #ffffff;
+    border-radius: 0px 41.5946px 41.5946px 41.59px;;
+    font-weight: 500;
+    font-size: 28.587px;
+    line-height: 158.5%;
+}
+.rw-conversation-container .rw-client{
+    background-color: #001835;
+    color: #ffffff;
+    border-radius: 41.59px 41.5946px 0px;
+    font-weight: 500;
+    font-size: 28.587px;
+    line-height: 158.5%;
+}

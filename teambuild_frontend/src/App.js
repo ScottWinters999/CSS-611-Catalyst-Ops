@@ -33,6 +33,7 @@ function App() {
   } else {
     routes = (
       <Routes>
+        <Route path="/userchat" element={<CatyChatPage />} />
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<AuthPage />} />
