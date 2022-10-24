@@ -17,6 +17,7 @@ router.post('/forgetpassword',bodyParser,User.forgetpassword);
 router.post('/resetpassword',bodyParser,User.resetpassword);
 
 router.get('/userprofile',auth,bodyParser,UserProfile.userprofile);
+router.get('/search',auth,bodyParser,UserProfile.search);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.get('/skill',auth,bodyParser,skill.getSkill);
