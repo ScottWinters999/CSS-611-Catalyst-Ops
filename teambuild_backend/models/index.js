@@ -1,10 +1,24 @@
 const dbconfig=require('../util/database');
 const Sequelize=require('sequelize');
 
-const sequelize=new Sequelize(dbconfig.DATABSE,dbconfig.USER,dbconfig.PASSWORD,{
+const sequelize=new Sequelize(dbconfig.DATABASE,dbconfig.USER,dbconfig.PASSWORD,
+        {
     host:dbconfig.HOST,
-    dialect:dbconfig.DIALECT
-});
+    // port:dbconfig.PORT,
+    dialect:dbconfig.DIALECT,
+    // path:dbconfig.PATH,
+    
+    // pool: {
+    //     handleDisconnects: true,
+    //     max: 13,
+    //     min: 1, 
+    //     idle: 10000, 
+    //     acquire: 100000 // i also tried 50000
+    // },
+    dialectOptions: {
+        connectTimeout: 1000000
+      }
+        });
 
 
 const db={};

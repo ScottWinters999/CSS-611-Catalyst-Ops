@@ -9,10 +9,10 @@ module.exports={
         // const jwttoken = req.headers.authorization.split(' ')[1];
         // console.log(jwttoken)
         // const decoded = jwt.verify(jwttoken, 'secret_this_should_be_longer');
-        if (req.userData.userId) {
+        if (req) {
                 //const decoded_token = jwt.decode(jwttoken)
                 userId = req.userData.userId
-                console.log(userId)
+                console.log("16",userId)
                 const userExists = await UserProfile.findOne({ where: { userId: userId} });
                 const userSkill= await Skills.findAll({where: {userId: userId} });
                 const userGoal = await Goal.findAll({where:{userId: userId}});
@@ -24,13 +24,13 @@ module.exports={
                                 'firstName':userExists.dataValues.firstName,
                                 'lastName':userExists.dataValues.lastName,
                                 'email':userExists.dataValues.email,
-                                'location': userExists.dataValues.location,
-                                'phone' : userExists.dataValues.phoneNumber,
-                                'currentPosition' : userExists.dataValues.currentPosition,
-                                'industry' : userExists.dataValues.industry,
-                                'isPremiumUser' : userExists.dataValues.isPremiumUser,
-                                'skillset' : userSkill,
-                                'goal' : userGoal
+                                'location': userExists.dataValues.location?userExists.dataValues.location:'',
+                                'phone' : userExists.dataValues.phoneNumber?userExists.dataValues.phoneNumber:'',
+                                'currentPosition' : userExists.dataValues.currentPosition?userExists.dataValues.currentPosition:'',
+                                'industry' : userExists.dataValues.industry?userExists.dataValues.industry:'',
+                                'isPremiumUser' : userExists.dataValues.isPremiumUser?userExists.dataValues.isPremiumUser:'',
+                                'skillset' : userSkill?userSkill:'',
+                                'goal' : userGoal?userGoal:''
                         }
                         
                         res.status(200).json({userData:userObject})
