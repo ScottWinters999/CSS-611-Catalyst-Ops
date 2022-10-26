@@ -7,12 +7,14 @@
 // });
 
 // module.exports=pool.promise();
-
+require('dotenv').config();
 module.exports={
-    HOST: 'localhost',
-    USER: 'root',
-    DATABSE: 'caty',
-    PASSWORD: 'Porsche@2024',
+    
+
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    DATABASE: process.env.DB_NAME,
+    PASSWORD: process.env.DB_PASSWORD,
     DIALECT:'mysql'
 }
 

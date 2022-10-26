@@ -1,6 +1,7 @@
 const {
   model: { User },
 } = require("../models");
+const {model: { UserProfile } }=require('../models');
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 // const generateAccessToken = require("./generateAccessToken")
@@ -28,6 +29,7 @@ module.exports = {
     });
     if (emailExists) {
       console.log("Email Already exists");
+      console.log(emailExists.userId);
       res.status(403).json({ Status: "user already exist" });
     } else {
       if (req.body.userName && req.body.password) {
@@ -52,22 +54,53 @@ module.exports = {
               email,
               firstName,
               lastName,
-              role,
+              role
             }).then(
-              () => {
+              (response) => {
+               // console.log("60", response);
                 const token = jwt.sign(
-                  { email: email, role: role },
+                  { userId: response.userId,email: email, role: role },
                   "secret_this_should_be_longer",
                   { expiresIn: "1h" }
                 );
-
+                return token;
+                // res.status(200).json({
+                //   token: token,
+                // });
+              }
+            
+             // res.status(200).json({Status: "Inserted"})
+            ).  then(async(token)=>{
+              const userNew = await User.findOne({
+                where: { email: email }
+              });
+              if(userNew){
+                  const userId=userNew.userId;
+                  
+                  UserProfile.create({
+                  userId,
+                  firstName,
+                  lastName,
+                  email
+              }).then(()=>{
                 res.status(200).json({
                   token: token,
                 });
+              });
               }
+              //   console.log("printing usewNEw ",userNew);
+              // else
+              //   console.log("not printing userNew");
+              // res.status(200).json({
+              //       token: token,
+              //     });
+              
 
-              // res.status(200).json({Status: "Inserted"})
-            );
+            });
+            
+            
+
+
           });
         // const {username,email,newpassword}=req.body;
       } else {
