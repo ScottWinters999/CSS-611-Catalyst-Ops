@@ -13,7 +13,10 @@ module.exports=(sequelize,DataTypes)=>{
     goalId: {
       type: DataTypes.INTEGER,
       autoIncrement:true,
-      primaryKey: true
+      foreignKey: true,
+      goalComponentId:{type: DataTypes.INT, 
+        foreignKey: true,
+        allowNull: true}
     }
   },
   );
