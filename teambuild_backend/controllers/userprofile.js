@@ -13,9 +13,9 @@ module.exports={
                 //const decoded_token = jwt.decode(jwttoken)
                 userId = req.userData.userId
                 console.log("16",userId)
-                const userExists = await UserProfile.findOne({ where: { userId: userId} });
-                const userSkill= await Skills.findAll({where: {userId: userId} });
-                const userGoal = await Goal.findAll({where:{userId: userId}});
+                const userExists = await UserProfile.findOne({ where: { userUserId: userId} });
+                const userSkill= await Skills.findAll({where: {userUserId: userId} });
+                const userGoal = await Goal.findAll({where:{userUserId: userId}});
                 // console.log(userExists)
                 let userObject;
                 if(userExists){
@@ -62,7 +62,7 @@ module.exports={
                 const phone =req.body.phoneNumber;
                 const email= req.body.email;
                 const location= req.body.location;
-                const userprofile=  await UserProfile.findOne({ where :{userId:req.body.userId}}); 
+                const userprofile=  await UserProfile.findOne({ where :{userUserId:req.body.userId}}); 
                 UserProfile.update({
                         firstName: firstName,
                         lastName:lastName,
@@ -74,7 +74,7 @@ module.exports={
                         
                       },{
                         where: {
-                                userId: req.body.userId,
+                                userUserId: req.body.userId,
                               },
 
                       }).then(()=>{

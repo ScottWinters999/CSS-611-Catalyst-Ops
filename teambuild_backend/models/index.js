@@ -28,4 +28,39 @@ db.model.User=require('./user')(sequelize,Sequelize.DataTypes);
 db.model.UserProfile=require('./userprofile')(sequelize,Sequelize.DataTypes);
 db.model.Skills=require('./skill')(sequelize,Sequelize.DataTypes);
 db.model.Goal=require('./goal')(sequelize,Sequelize.DataTypes);
+db.model.GoalComponent=require('./goalcomponent')(sequelize,Sequelize.DataTypes);
+
+db.model.User.hasMany(db.model.Goal);
+db.model.User.hasMany(db.model.Skills);
+db.model.User.hasOne(db.model.UserProfile);
+db.model.UserProfile.hasMany(db.model.Skills);
+db.model.UserProfile.hasMany(db.model.Goal);
+db.model.Goal.hasMany(db.model.GoalComponent);
+
+// db.model.User.hasOne(db.model.Skills,{
+//   foreignKey:'userId'
+//   // as: 'skills'
+// })
+
+// db.model.User.hasOne(db.model.UserProfile,{
+//   foreignKey:'userId'
+//   // as: 'skills'
+// })
+
+// db.model.Skills.hasOne(db.model.UserProfile,{
+//   foreignKey:'userId'
+// })
+
+// db.model.UserProfile.hasOne(db.model.Skills,{
+//   foreignKey:'userId'
+// })
+
+
+
+// db.model.Skills.belongsTo(db.model.UserProfile,{
+//   foreignKey:'userId',
+//   as:'userprofile'
+// })
 module.exports=db;
+
+

@@ -2,6 +2,7 @@ const {
   model: { User },
 } = require("../models");
 const {model: { UserProfile } }=require('../models');
+
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 // const generateAccessToken = require("./generateAccessToken")
@@ -75,10 +76,10 @@ module.exports = {
                 where: { email: email }
               });
               if(userNew){
-                  const userId=userNew.userId;
+                  const userUserId=userNew.userId;
                   
                   UserProfile.create({
-                  userId,
+                  userUserId,
                   firstName,
                   lastName,
                   email
@@ -230,6 +231,27 @@ module.exports = {
         console.log('ccc')
     }
         
+  },
+
+  upload: async (req, response) => {
+    const image = req.file.buffer.toString('base64');
+    const userId=req.body.userId;
+    if(userId && image){
+      User.update(
+        {
+          userId: userId,
+          profilePicture: image
+        }
+      ).then(()=>{
+        res.status(200).json({status:"Photo Updated successfully"})
+      })
+    }else{
+      res.status(400).json({status:"Wrong user or image"});
+    }
+
+    
   }
+
+  
 
 };
