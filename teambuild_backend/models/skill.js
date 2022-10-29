@@ -4,10 +4,10 @@ module.exports=(sequelize,DataTypes)=>{
 
   const Skills=sequelize.define('skills',
   {
-    userId: {
-      type: DataTypes.INTEGER,
-      foreignKey:true
-  },
+  //   userId: {
+  //     type: DataTypes.INTEGER,
+  //     foreignKey:true
+  // },
     skillset:{type: DataTypes.STRING, 
       allowNull: true},
     experience:{type: DataTypes.STRING, 
@@ -22,3 +22,5 @@ module.exports=(sequelize,DataTypes)=>{
 
   return Skills;
 };
+
+

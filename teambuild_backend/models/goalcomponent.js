@@ -2,21 +2,25 @@ const bcrypt = require('bcrypt');
 //const saltRounds = 10;
 module.exports=(sequelize,DataTypes)=>{
 
-  const Goal=sequelize.define('goal',
+  const GoalComponent=sequelize.define('goalcomponent',
   {
   //   userId: {
   //     type: DataTypes.INTEGER,
   //     foreignKey: true
   // },
-    goal:{type: DataTypes.STRING, 
+    goalComponent:{type: DataTypes.STRING, 
       allowNull: true},
-    goalId: {
+    goalCompoonentId: {
       type: DataTypes.INTEGER,
       autoIncrement:true,
       primaryKey: true
+    },
+    matchedUserId:{
+        type:DataTypes.INTEGER,
+        allowNull:true
     }
   },
   );
 
-  return Goal;
+  return GoalComponent;
 };

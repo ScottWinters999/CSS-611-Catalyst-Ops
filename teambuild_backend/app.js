@@ -35,7 +35,8 @@ app.use((req, res, next) => {
   });
 
   
-  
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 (async()=>{
     await db.sequelize.sync();

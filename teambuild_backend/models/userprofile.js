@@ -16,14 +16,15 @@
 // module.exports = UserModel
 //const {sequelize, DataTypes} = require("sequelize");
 //const saltRounds = 10;
+//sconst {model: { User },} = require("./user");
 module.exports=(sequelize,DataTypes)=>{
 
     const UserProfile=sequelize.define('userprofile',
     {
-      userId: {
-        type: DataTypes.INTEGER,
-        foreignKey: true
-    },
+    //   userId: {
+    //     type: DataTypes.INTEGER,
+    //     foreignKey: true
+    // },
       firstName:DataTypes.STRING,
       lastName:DataTypes.STRING,
       location:{type: DataTypes.STRING, 
@@ -47,6 +48,43 @@ module.exports=(sequelize,DataTypes)=>{
     }
     },
     );
-  
+   
+    
     return UserProfile;
   };
+
+
+
+//   module.exports = (sequelize, DataTypes) => { 
+//     const group = sequelize.define( 
+//     "group", 
+//     { 
+//         uuid: {
+//             type: DataTypes.STRING, 
+//             primaryKey: true, 
+//             allowNull: false, 
+//             unique: true, 
+//     }, 
+//         title: { 
+//             type: DataTypes.STRING, 
+//             unique: true, 
+//             allowNull: false, 
+//     }, 
+//         author: { 
+//             type: DataTypes.STRING, 
+//             unique: false, 
+//             allowNull: false, 
+//     }, 
+//     }, { 
+//         freezeTableName: true, 
+//         } 
+//     );
+// group.associate = (models) => {
+//     group.belongsToMany(models.user, { 
+//         as: "groupsPerUser", 
+//         through: models.user_group, 
+//         foreignKey: "group_uuid", 
+//     }); 
+// };
+// return group; 
+// };
