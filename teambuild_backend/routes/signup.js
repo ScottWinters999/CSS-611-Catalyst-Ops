@@ -19,7 +19,7 @@ router.post('/forgetpassword',bodyParser,User.forgetpassword);
 router.post('/resetpassword',bodyParser,User.resetpassword);
 
 router.get('/userprofile',auth,bodyParser,UserProfile.userprofile);
-router.put('/userupdate',auth,bodyParser,UserProfile.userProfileUpdate);
+router.patch('/userupdate',auth,bodyParser,UserProfile.userProfileUpdate);
 
 router.get('/usermatch',bodyParser,UserMatch.userMatch)
 

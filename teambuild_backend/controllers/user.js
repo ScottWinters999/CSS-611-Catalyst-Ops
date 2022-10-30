@@ -7,20 +7,12 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 // const generateAccessToken = require("./generateAccessToken")
 const jwt = require("jsonwebtoken");
-const { Op } = require('sequelize')
+const { Op } = require("sequelize");
 
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const crypto = require("crypto");
-const transporter = nodemailer.createTransport(
-  sendgridTransport({
-    auth: {
-      api_key:
-        process.env.SENDGRID_API_KEY,
-    },
-  })
-);
 
 module.exports = {
   create: async (req, res) => {
@@ -149,17 +141,25 @@ module.exports = {
     }
   },
   forgetpassword: async (req, response) => {
-    
     console.log(req.body);
+    const send_grid_api = process.env.SENDGRID_API_KEY;
+    const transporter = nodemailer.createTransport(
+      sendgridTransport({
+        auth: {
+          api_key: send_grid_api,
+        },
+      })
+    );
+    console.log(send_grid_api,'apii');
     const userExists = await User.findOne({ where: { email: req.body.email } });
-    console.log(120,userExists)
+    console.log(120, userExists);
     if (!userExists) {
-        response.status(403).json({ Status: "User does not exist" });
+      response.status(403).json({ Status: "User does not exist" });
     } else {
       const token = crypto.randomBytes(32).toString("hex");
-      console.log(token,'token');
-      console.log('125',req.body.email)
-    //   console.log()
+      console.log(token, "token");
+      console.log("125", req.body.email);
+      //   console.log()
       User.update(
         {
           resetPasswordToken: token,
@@ -171,61 +171,68 @@ module.exports = {
           },
         }
       ).then((res) => {
-        transporter.sendMail({
-          to: req.body.email,
-          from: "asheeque123456@gmail.com",
-          subject: "Reset password",
-          html: `
+        transporter
+          .sendMail({
+            to: req.body.email,
+            from: "asheeque123456@gmail.com",
+            subject: "Reset password",
+            html: `
                     <p>You requested a password reset</p>
                     <p>Click this <a href="http://localhost:3000/resetpassword/${token}">link</a> to set a new password</p>
                     `,
-        }).then(() =>{
-            response.status(200).json({ status: "Link send" })
-        });
+          })
+          .then(() => {
+            response.status(200).json({ status: "Link send" });
+          });
       });
       console.log(userExists);
     }
   },
 
-  resetpassword: async (req, res) =>{
-    console.log(req.body)
-    console.log(process.env.SENDGRID_API_KEY,'api')
+  resetpassword: async (req, res) => {
+    console.log(req.body);
+    console.log(process.env.SENDGRID_API_KEY, "api");
 
     const password = req.body.password;
     const newToken = req.body.token;
-    const userExists = await User.findOne({ where: { resetPasswordToken: newToken,
-    
-        resetPasswordExpires:{
-            [Op.gt]:Date.now()
-        }
-    } });
+    const userExists = await User.findOne({
+      where: {
+        resetPasswordToken: newToken,
+
+        resetPasswordExpires: {
+          [Op.gt]: Date.now(),
+        },
+      },
+    });
     if (userExists) {
-        console.log(userExists);
-        const email = userExists.dataValues.email
-        // console.log(pe,Date.UTC())
-        bcrypt
-          .genSalt(saltRounds)
-          .then((salt) => {
-            console.log(`Salt: ${salt}`);
-            return bcrypt.hash(password, salt);
-          })
-          .then((hash) => {
-            console.log(hash)
-            User.update(
-                {
-                  resetPasswordToken: null,
-                  resetPasswordExpires: null,
-                  password:hash
-                },
-                {
-                  where: {
-                    email: email,
-                  },
-                }
-              ).then((data) =>{
-                res.status(200).json({status:'password updated'})
-              })
-          })
+      console.log(userExists);
+      const email = userExists.dataValues.email;
+      // console.log(pe,Date.UTC())
+      bcrypt
+        .genSalt(saltRounds)
+        .then((salt) => {
+          console.log(`Salt: ${salt}`);
+          return bcrypt.hash(password, salt);
+        })
+        .then((hash) => {
+          console.log(hash);
+          User.update(
+            {
+              resetPasswordToken: null,
+              resetPasswordExpires: null,
+              password: hash,
+            },
+            {
+              where: {
+                email: email,
+              },
+            }
+          ).then((data) => {
+            res.status(200).json({ status: "password updated" });
+          });
+        });
+    } else {
+      console.log("ccc");
     }
     else{
         console.log('ccc')

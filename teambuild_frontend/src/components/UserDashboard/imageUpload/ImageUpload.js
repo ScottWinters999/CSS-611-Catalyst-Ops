@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { BsPencilFill } from "react-icons/bs";
+import { RiUpload2Fill } from "react-icons/ri";
+
 // import Button from './Button';
 import "./ImageUpload.css";
 import Modal from "../../UI/Modal";
@@ -109,16 +111,16 @@ const Pick = styled.p`
   padding: 0px;
   width: 70%;
   padding: 6px 6px;
-  border: 1px solid;
 `;
 
-const ImageUpload = (props) => {
+const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
   const [file, setFile] = useState();
   const [errorUpload, setErrorUpload] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [profilePhotoUrl, setProfilePhotoUrl] = useState();
   const [isValid, setIsValid] = useState(false);
-
+  // const {isEdit} = props.isEdit
+  console.log(isEdit);
   const filePickerRef = useRef();
 
   useEffect(() => {
@@ -144,11 +146,14 @@ const ImageUpload = (props) => {
       setIsValid(false);
       fileIsValid = false;
     }
-    props.onInput(props.id, pickedFile, fileIsValid);
+    onInput(id, pickedFile, fileIsValid);
   };
 
   const pickImageHandler = () => {
     // filePickerRef.current.click();
+    if (!isEdit) {
+      return;
+    }
     openModalHandler();
   };
 
@@ -177,8 +182,8 @@ const ImageUpload = (props) => {
   const [showModal, setShowModal] = useState(false);
 
   const openModalHandler = () => {
-    if (profilePhotoUrl){
-      setPreviewUrl(profilePhotoUrl)
+    if (profilePhotoUrl) {
+      setPreviewUrl(profilePhotoUrl);
     }
     setShowModal(true);
   };
@@ -205,13 +210,13 @@ const ImageUpload = (props) => {
         onCancel={closeModalHandler}
         modalHeader={ModalHeader}
         contentClass={ItemModal}
-        header={props.header}
+        header={header}
         footerClass={ItemActions}
         footer={modalFooter}
       >
         <div className="form-control">
           <input
-            id={props.id}
+            id={id}
             ref={filePickerRef}
             style={{ display: "none" }}
             type="file"
@@ -219,7 +224,7 @@ const ImageUpload = (props) => {
             onChange={pickedHandler}
           />
           <div
-            className={`image-upload ${props.center && "center"}`}
+            className={`image-upload ${center && "center"}`}
             onClick={uploadImageHandler}
           >
             <div className="image-upload__preview">
@@ -231,16 +236,26 @@ const ImageUpload = (props) => {
           PICK IMAGE
         </Button> */}
           </div>
-          {!isValid && <p>{props.errorText}</p>}
+          {!isValid && <p>'error'</p>}
         </div>
       </Modal>
       <div className="image-upload__onprofile">
         {profilePhotoUrl && <img src={profilePhotoUrl} alt="Preview" />}
-        {!profilePhotoUrl && <Pick>Please pick an image.</Pick>}
+        {!profilePhotoUrl && (
+          <Pick
+            className={isEdit ? "edit_form" : ""}
+            onClick={pickImageHandler}
+          >
+            <RiUpload2Fill
+              className={`edit_icon ${isEdit ? "edit_icon_active" : ""}`}
+            />
+            {/* <div>Upload</div> */}
+          </Pick>
+        )}
       </div>
-      <Pencil>
+      {/* <Pencil>
         <BsPencilFill type="button" onClick={pickImageHandler} />
-      </Pencil>
+      </Pencil> */}
     </React.Fragment>
   );
 };

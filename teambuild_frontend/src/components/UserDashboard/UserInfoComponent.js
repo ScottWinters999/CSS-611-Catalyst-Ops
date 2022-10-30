@@ -4,7 +4,10 @@ import ImageUpload from "./imageUpload/ImageUpload";
 import Card from "../UI/Card";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { BsPencilFill, BsCheckLg } from "react-icons/bs";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+
 const UserInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,9 +35,9 @@ const UserProfileNameOutsideWrapper = styled.div`
 
 const UserProfileNameInsideWrapper = styled.div`
   color: blue;
-  font-weight: 500;
-  font-family: "Roboto";
-  font-size: 3rem;
+  font-weight: 700;
+  font-family:'PT Serif',serif;
+  font-size: 36px;
 `;
 
 const Hr = styled.hr`
@@ -61,18 +64,168 @@ const UserProfileInfoBulletinWrapper = styled.div`
   display: flex;
   flex-direction: row;
   font-size: 18px;
-  font-family: "Roboto";
+  font-family: 'PT Serif',serif;
   font-weight: 400;
   flex-grow: 1;
+  padding: 4px 0px;
 `;
 
 const UserProfileInfoBulletinInnerWrapper = styled.div`
   width: 40%;
+  font-weight: 600;
+`;
+const Pencil = styled.div`
+  padding: 0px;
+  margin-left: 12px;
+  margin-right: 12px;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
 `;
 
-const UserInfoComponent = (props) => {
-  const basicInfo = props.userData;
-  const [isEdit,setIsEdit] = useState(false)
+const Control = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  width: 74%;
+  padding: 2px 4px 6px 2px;
+  label {
+    font-size: 16px;
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: "Montserrat", sans-serif;
+  }
+  input {
+    font: inherit;
+    border-radius: 4px;
+    border: 1px solid white;
+    width: 100%;
+    height: 30px;
+    text-align: left;
+    padding: 0.25rem;
+  }
+  @media (max-width: 540px) {
+    width: 100%;
+  }
+`;
+
+const Errortext = styled.p`
+  font-family: "Montserrat", sans-serif;
+  color: #d8c1c1;
+  font-size: 14px;
+  font-weight: bold;
+`;
+
+// const useStyles = makeStyles(() =>
+//   createStyles({
+//     textfield: {
+//       backgroundColor: 'red',
+//     },
+//   }),
+// );
+
+const UserInfoComponent = ({ userData }) => {
+  // console.log(props)
+  // const basicInfo = props.userData;
+  // const classes = useStyles();
+  const [isEdit, setIsEdit] = useState(false);
+  const basicInfo = userData;
+  const token = JSON.parse(localStorage.getItem('userData'))
+  const headers = {
+    authorization: 'Bearer ' + token.token,
+    "Content-Type": "application/json"
+}; 
+  // if (props){
+  //   setName(basicInfo.userName)
+  //   console.log(name,basicInfo.userName,basicInfo)
+  // }
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [isnameInvalid, setIsnameInvalid] = useState(false);
+  const [location, setLocation] = useState("");
+  const [currentPosition, setCurrentPosition] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    if (userData) {
+      console.log("140");
+      setFirstName(userData.firstName);
+      setLastName(userData.lastName);
+      setLocation(userData.location);
+      setCurrentPosition(userData.currentPosition);
+      setIndustry(userData.industry);
+      setPhone(userData.phone);
+      setEmail(userData.email);
+    }
+  }, [userData]);
+
+  const setEditOnHandler = () => {
+    console.log(isEdit);
+    setIsEdit((prev) => {
+      return !prev;
+    });
+  };
+
+  const onNameChangeHandler = (event) => {
+    console.log(event.target.value.length);
+    let name = event.target.value.trim();
+
+    if (name.length <= 0) {
+      setIsnameInvalid(true);
+    }
+    if (isnameInvalid) {
+      setIsnameInvalid(false);
+    }
+    setFirstName(event.target.value);
+  };
+
+  const onLocationChangeHandler = (event) => {
+    console.log(event.target);
+    setLocation(event.target.value);
+  };
+
+  const submitHandler = async(event) => {
+    event.preventDefault();
+    console.log("hi");
+    if (isnameInvalid) {
+      return;
+    }
+
+    const body = {
+      firstName: firstName,
+      lastName: lastName,
+      currentPosition: currentPosition,
+      industry: industry,
+      phoneNumber: phone,
+      location: location,
+    };
+
+    try {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}userupdate`, {
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: headers,
+      });
+      const data = await response.json();
+      console.log(data);
+      if(data){
+        console.log(data)
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    // fetch(process.env.BACKEND_SERVER)
+
+    setEditOnHandler();
+  };
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       name: {
@@ -97,15 +250,50 @@ const UserInfoComponent = (props) => {
               id="image"
               onInput={inputHandler}
               header="Image Upload"
+              isEdit={isEdit}
             />
           </UserProfilePhotoWrapper>
           <UserProfileNameOutsideWrapper>
-            <UserProfileNameInsideWrapper>
+            {/* <UserProfileNameInsideWrapper>
               {basicInfo.userName}
-            </UserProfileNameInsideWrapper>
-            {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" size="small" /> */}
+            </UserProfileNameInsideWrapper> */}
+            <Pencil>
+              {isEdit && <BsCheckLg type="button" onClick={submitHandler} />}
+              {!isEdit && (
+                <BsPencilFill type="button" onClick={setEditOnHandler} />
+              )}
+            </Pencil>
+            {isEdit && (
+              <TextField
+                error={false}
+                id="standard-basic"
+                // label="Name"
+                // className={classes.textfield}
+                variant="standard"
+                size="small"
+                value={firstName}
+                helperText={isnameInvalid ? "Enter a valid name" : ""}
+                onChange={onNameChangeHandler}
+              />
+            )}
+            {!isEdit && (
+              <UserProfileNameInsideWrapper>
+                {firstName}
+              </UserProfileNameInsideWrapper>
+            )}
+
             <UserProfileLocationWrapper>
-              {basicInfo.location}
+              {isEdit && (
+                <TextField
+                  id="standard-basic"
+                  label="Location"
+                  variant="standard"
+                  size="small"
+                  value={location}
+                  onChange={onLocationChangeHandler}
+                />
+              )}
+              {!isEdit && <React.Fragment>{location}</React.Fragment>}
             </UserProfileLocationWrapper>
           </UserProfileNameOutsideWrapper>
         </UserNameContainer>
@@ -116,44 +304,62 @@ const UserInfoComponent = (props) => {
             <UserProfileInfoBulletinInnerWrapper>
               Current position :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>{basicInfo.currentPosition}</div>
+            {!isEdit && <div>{currentPosition}</div>}
+            {isEdit && (
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                size="small"
+                value={currentPosition}
+                onChange={(event) => {
+                  setCurrentPosition(event.target.value);
+                }}
+              />
+            )}
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Industry :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>{basicInfo.industry}</div>
+            {!isEdit && <div>{industry}</div>}
+            {isEdit && (
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                size="small"
+                value={industry}
+                onChange={(event) => {
+                  setIndustry(event.target.value);
+                }}
+              />
+            )}
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Phone :
             </UserProfileInfoBulletinInnerWrapper>
-            <div>{basicInfo.phone}</div>
+            {!isEdit && <div>{phone}</div>}
+            {isEdit && (
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                size="small"
+                value={phone}
+                onChange={(event) => {
+                  setPhone(event.target.value);
+                }}
+              />
+            )}
           </UserProfileInfoBulletinWrapper>
           <UserProfileInfoBulletinWrapper>
             <UserProfileInfoBulletinInnerWrapper>
               Email:
             </UserProfileInfoBulletinInnerWrapper>
-            <div>{basicInfo.email}</div>
+            <div>{email}</div>
           </UserProfileInfoBulletinWrapper>
           {/* </div> */}
         </UserProfileInfoWrapper>
       </UserInfoOuterWrapper>
-
-      {isEdit && (
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "25ch" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-          <TextField id="filled-basic" label="Filled" variant="filled" />
-          <TextField id="standard-basic" label="Standard" variant="standard" />
-        </Box>
-      )}
     </Card>
   );
 };

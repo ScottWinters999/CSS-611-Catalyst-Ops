@@ -45,7 +45,8 @@ module.exports={
         // const jwttoken = req.headers.authorization.split(' ')[1];
         // console.log(jwttoken)
         // const decoded = jwt.verify(jwttoken, 'secret_this_should_be_longer');
-        if (req.body.userId) {
+        console.log(req['userData']['userId'])
+        if (req.body) {
                 //const decoded_token = jwt.decode(jwttoken)
                 // userId = req.userData.userId
                 // console.log(userId)

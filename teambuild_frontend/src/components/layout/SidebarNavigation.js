@@ -58,6 +58,7 @@ const Logo = styled.div`
 `;
 
 function SidebarNavigation() {
+  
   const auth = useContext(AuthContext)
   return (
     <SidebarWrapper>
