@@ -22,7 +22,7 @@ router.post('/resetpassword',bodyParser,User.resetpassword);
 router.get('/userprofile',auth,bodyParser,UserProfile.userprofile);
 router.patch('/userupdate',auth,bodyParser,UserProfile.userProfileUpdate);
 
-router.get('/usermatch',bodyParser,UserMatch.userMatch)
+router.get('/usermatch',auth,bodyParser,UserMatch.userMatch)
 router.get('/getpicture',auth,bodyParser,User.getPic);
 
 router.post('/upload',auth,fileUpload.single('image'),bodyParser,User.upload);

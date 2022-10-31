@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import MainContainer from "../components/layout/MainContainer";
 import SidebarNavigation from "../components/layout/SidebarNavigation";
-import UserDashboardComponent from "../components/UserDashboard/UserDashboardComponent";
+import SearchComponent from "../components/Search/SearchComponent";
 
 const Outsidewrapper = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const UserPartnerSearchPage = () => {
   return (
     <Outsidewrapper>
       <SidebarNavigation />
-      <div>Profile search</div>
+      <SearchComponent/>
     </Outsidewrapper>
   );
 };
