@@ -2,6 +2,7 @@ import { TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import styled from "styled-components";
 import Card from "../UI/Card";
 import { BsPencilFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
 
 
 const SkillInfoOuterWrapper = styled.div`
@@ -50,18 +51,24 @@ const Table = styled.table`
 `;
 
 const UserSkillComponent = ({ title, data }) => {
-  console.log(data, "aaaaaaaaaaaaaaaaa");
-  const skill = data.items;
-  if (data) {
-    // skill.map((val, key) => {
-    //   console.log(val, key);
-    // });
+  
+  // if(data){
+  //   console.log(data,'asadasdasdsad')
+  // }
 
-    const listItems = skill.map((val, key) => (
-      <SkillBulletin key={key}>
-        <span>{val.skillset}</span> - <span>{val.experience}</span>
-      </SkillBulletin>
-    ));
+  const [skill,setSkill] = useState([])
+
+  // const skill = data;
+  useEffect(() =>{
+
+    if(data){
+      setSkill(data)
+
+    }
+
+  },[data])
+  if (data) {
+    
 
     return (
       <Card>
@@ -71,17 +78,17 @@ const UserSkillComponent = ({ title, data }) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{"font-size": "20px"}}>Skill Name</TableCell>
-                  <TableCell style={{"font-size": "20px"}}>Experience</TableCell>
-                  <TableCell style={{"font-size": "20px"}}>Edit</TableCell>
+                  <TableCell style={{"fontSize": "20px"}}>Skill Name</TableCell>
+                  <TableCell style={{"fontSize": "20px"}}>Experience</TableCell>
+                  <TableCell style={{"fontSize": "20px"}}>Edit</TableCell>
 
                 </TableRow>
               </TableHead>
               <TableBody>
                 {skill.map((val, key) => (
-                  <TableRow kry={key}>
-                  <TableCell style={{"font-size": "18px"}}>{val.skillset}</TableCell>
-                  <TableCell style={{"font-size": "18px"}}>{val.experience}</TableCell>
+                  <TableRow key={key}>
+                  <TableCell style={{"fontSize": "18px"}}>{val.skillset}</TableCell>
+                  <TableCell style={{"fontSize": "18px"}}>{val.experience}</TableCell>
                   <TableCell align="left" >
                       <BsPencilFill/>
                     </TableCell>

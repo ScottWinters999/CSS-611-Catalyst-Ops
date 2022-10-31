@@ -17,7 +17,7 @@ const UserPartnerSearchPage = () => {
   return (
     <Outsidewrapper>
       <SidebarNavigation />
-      <div>sdadsa</div>
+      <div>Profile search</div>
     </Outsidewrapper>
   );
 };

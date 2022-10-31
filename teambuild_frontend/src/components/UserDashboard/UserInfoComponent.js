@@ -152,10 +152,10 @@ const UserInfoComponent = ({ userData }) => {
   const [industry, setIndustry] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-
+  const [photoUrl,setPhotoUrl] = useState("")
   useEffect(() => {
     if (userData) {
-      console.log("140");
+      // console.log("140");
       setFirstName(userData.firstName);
       setLastName(userData.lastName);
       setLocation(userData.location);
@@ -166,15 +166,39 @@ const UserInfoComponent = ({ userData }) => {
     }
   }, [userData]);
 
+  useEffect(() => {
+    const userPhoto = async () => {
+      try {
+        fetch("http://localhost:5000/api/getpicture", { headers: headers })
+          .then((res) => {
+            // console.log(res)
+            return res.json();
+          })
+          .then((res) => {
+            // console.log(res);
+            const imgUrl = "http://localhost:5000/upload/images/" + res.image
+            // console.log(imgUrl)
+            setPhotoUrl(imgUrl)
+            // setLoadedUserInfo(res.userData);
+          });
+        // responseData.t
+        // responseData./
+        // console.log(responseData,'aa')
+        // setLoadedPlaces(responseData.places);
+      } catch (err) {}
+    };
+    userPhoto();
+  }, []);
+
   const setEditOnHandler = () => {
-    console.log(isEdit);
+    // console.log(isEdit);
     setIsEdit((prev) => {
       return !prev;
     });
   };
 
   const onNameChangeHandler = (event) => {
-    console.log(event.target.value.length);
+    // console.log(event.target.value.length);
     let name = event.target.value.trim();
 
     if (name.length <= 0) {
@@ -187,13 +211,13 @@ const UserInfoComponent = ({ userData }) => {
   };
 
   const onLocationChangeHandler = (event) => {
-    console.log(event.target);
+    // console.log(event.target);
     setLocation(event.target.value);
   };
 
   const submitHandler = async(event) => {
     event.preventDefault();
-    console.log("hi");
+    // console.log("hi");
     if (isnameInvalid) {
       return;
     }
@@ -214,7 +238,7 @@ const UserInfoComponent = ({ userData }) => {
         headers: headers,
       });
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if(data){
         console.log(data)
       }
@@ -239,7 +263,7 @@ const UserInfoComponent = ({ userData }) => {
     },
     false
   );
-  console.log(basicInfo);
+  // console.log(basicInfo);
   return (
     <Card>
       <UserInfoOuterWrapper>
@@ -251,6 +275,7 @@ const UserInfoComponent = ({ userData }) => {
               onInput={inputHandler}
               header="Image Upload"
               isEdit={isEdit}
+              img={photoUrl}
             />
           </UserProfilePhotoWrapper>
           <UserProfileNameOutsideWrapper>

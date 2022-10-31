@@ -37,16 +37,10 @@ const Td = styled.td`
 `;
 
 const TableWrapper = styled.div`
-  padding: 4px 8px;
-  overflow-y: scroll;
-
-  max-height: 280px !important;
-  // &::-webkit-scrollbar{
-  //   display: none;
-  //   :hover & {
-  //     display: show;
-  //   }
-  // }
+padding: 4px 8px;
+overflow-y: scroll;
+max-height: 280px !important;
+height: 75%;
 `;
 const Header = styled.header`
   padding: 6px 8px;
@@ -149,10 +143,10 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   );
 };
 
-const UserGoalComponent = (props) => {
+const UserGoalComponent = ({data}) => {
   const classes = useStyles();
 
-  const data = props.data;
+  console.log(data,'GOALSS')
   // return (
   //   <GoalsOutsideWrapper>
   //     <Card>

@@ -13,6 +13,7 @@ const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
 const crypto = require("crypto");
+const { constants } = require("buffer");
 
 module.exports = {
   create: async (req, res) => {
@@ -234,26 +235,67 @@ module.exports = {
     } else {
       console.log("ccc");
     }
-    else{
-        console.log('ccc')
-    }
         
   },
 
-  upload: async (req, response) => {
-    const image = req.file.buffer.toString('base64');
-    const userId=req.body.userId;
-    if(userId && image){
-      User.update(
-        {
-          userId: userId,
-          profilePicture: image
-        }
-      ).then(()=>{
-        res.status(200).json({status:"Photo Updated successfully"})
-      })
-    }else{
-      res.status(400).json({status:"Wrong user or image"});
+  upload: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId=req.userData.userId;
+    console.log("246",userId);
+    if (!req.file) {
+      console.log("No file upload");
+  } else {
+      console.log(req.file.filename)
+      // var imgsrc = '/upload/images/' + req.file.filename
+      var imgsrc = req.file.filename
+
+      console.log(imgsrc);
+      if(userId!=null && imgsrc!=null){
+        console.log("252 entered", userId);
+
+        User.update(
+          {
+            
+            profilePicture: imgsrc
+          },
+          {
+            where: {
+                   userId:userId,
+                  }
+
+          },
+          
+        ).then(()=>{
+
+          res.status(200).json({status:"Photo Updated successfully"})
+        })
+      }else{
+        res.status(400).json({status:"Wrong user or image"});
+      }
+  
+      // var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
+      // db.query(insertData, [imgsrc], (err, result) => {
+      //     if (err) throw err
+      //     console.log("file uploaded")
+      // })
+  }
+
+    
+  },
+
+  getPic: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId=req.userData.userId;
+   
+     if (userId) {
+      
+      const userDetails = await User.findOne({where:{userId:userId}});
+      console.log(userDetails.dataValues);
+      res.status(200).json({"image":userDetails.dataValues.profilePicture});
     }
 
     

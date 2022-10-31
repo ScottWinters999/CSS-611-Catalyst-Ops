@@ -113,15 +113,25 @@ const Pick = styled.p`
   padding: 6px 6px;
 `;
 
-const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
+const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
   const [file, setFile] = useState();
   const [errorUpload, setErrorUpload] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [profilePhotoUrl, setProfilePhotoUrl] = useState();
   const [isValid, setIsValid] = useState(false);
+  // console.log(img, "ii");
+
   // const {isEdit} = props.isEdit
-  console.log(isEdit);
+  // console.log(isEdit);
   const filePickerRef = useRef();
+
+  const [currentImg, setImg] = useState("");
+  useEffect(() => {
+    if (img) {
+      setPreviewUrl(img);
+      setProfilePhotoUrl(img);
+    }
+  }, [img]);
 
   useEffect(() => {
     if (!file) {
@@ -161,11 +171,35 @@ const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
     filePickerRef.current.click();
   };
 
-  const uploadImageButtonHandle = () => {
+  const uploadImageButtonHandle = async () => {
     if (!previewUrl) {
       setErrorUpload(true);
     }
+
+    const token = JSON.parse(localStorage.getItem("userData"));
+    const headers = {
+      authorization: "Bearer " + token.token,
+    };
+    const formData = new FormData();
+    formData.append("image", file);
+    // console.log(formData, file);
+    try {
+      const response = await fetch("http://localhost:5000/api/upload", {
+        method: "POST",
+        body: formData,
+        headers: headers
+    }
+      );
+      const data = await response.json();
+      // console.log(data);
+      // if(data)
+      
+    } catch (err) {
+      console.log(err);
+    }
+
     setProfilePhotoUrl(previewUrl);
+
     closeModalHandler();
   };
 
@@ -196,9 +230,9 @@ const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
       <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
         Upload
       </UploadButton>
-      {profilePhotoUrl && (
+      {/* {profilePhotoUrl && (
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
-      )}
+      )} */}
       <CloseButton onClick={closeModalHandler}>Close</CloseButton>
     </React.Fragment>
   );
@@ -236,11 +270,13 @@ const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
           PICK IMAGE
         </Button> */}
           </div>
-          {!isValid && <p>'error'</p>}
+          {/* {!isValid && <p>'error'</p>} */}
         </div>
       </Modal>
       <div className="image-upload__onprofile">
-        {profilePhotoUrl && <img src={profilePhotoUrl} alt="Preview" />}
+        {profilePhotoUrl && (
+          <img src={profilePhotoUrl} onClick={pickImageHandler} alt="Preview" />
+        )}
         {!profilePhotoUrl && (
           <Pick
             className={isEdit ? "edit_form" : ""}
@@ -249,13 +285,12 @@ const ImageUpload = ({ center, header, id, isEdit, onInput }) => {
             <RiUpload2Fill
               className={`edit_icon ${isEdit ? "edit_icon_active" : ""}`}
             />
-            {/* <div>Upload</div> */}
           </Pick>
         )}
       </div>
-      {/* <Pencil>
+      {/* {isEdit &&<Pencil>
         <BsPencilFill type="button" onClick={pickImageHandler} />
-      </Pencil> */}
+      </Pencil> }  */}
     </React.Fragment>
   );
 };

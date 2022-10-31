@@ -25,7 +25,7 @@ const UserDashboardWrapper = styled.div`
   }
 
   @media (max-height: 1100px) {
-    height: fit-content;
+    height: "90%";
   }
 `;
 const SectionOne = styled.div`
@@ -158,9 +158,7 @@ const UserDashboardComponent = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUserInfo, setLoadedUserInfo] = useState();
   const token = JSON.parse(localStorage.getItem("userData"));
-  console.log(token);
   const authorization = "Bearer " + token.token;
-  console.log(authorization);
   // const user
   const headers = {
     authorization: "Bearer " + token.token,
@@ -176,10 +174,7 @@ const UserDashboardComponent = () => {
             console.log(res);
             setLoadedUserInfo(res.userData);
           });
-        // responseData.t
-        // responseData./
-        // console.log(responseData,'aa')
-        // setLoadedPlaces(responseData.places);
+
       } catch (err) {}
     };
     userInfo();
@@ -197,35 +192,35 @@ const UserDashboardComponent = () => {
       industry: loadedUserInfo ? loadedUserInfo.industry : "",
       userType: "premium",
     },
-    skillsets: {
-      header: "Skillset",
-      items: [
-        {
-          skillset: "Frontend",
-          experience: "3 years",
-        },
-        {
-          skillset: "Backend",
-          experience: "3 years",
-        },
-        {
-          skillset: "Devops",
-          experience: "3 years",
-        },
-        {
-          skillset: "Frontend",
-          experience: "3 years",
-        },
-        {
-          skillset: "Backend",
-          experience: "3 years",
-        },
-        {
-          skillset: "Devops",
-          experience: "3 years",
-        }
-      ],
-    },
+    // skillsets: {
+    //   header: "Skillset",
+    //   items: [
+    //     {
+    //       skillset: "Frontend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Backend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Devops",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Frontend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Backend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Devops",
+    //       experience: "3 years",
+    //     }
+    //   ],
+    // },
     
     // goals: [
     //   {
@@ -270,7 +265,7 @@ const UserDashboardComponent = () => {
     //   },
     // ],
   };
-  console.log(userData);
+  console.log(loadedUserInfo,'ll');
 
   return (
     // <ScrollToBottom>
@@ -291,16 +286,16 @@ const UserDashboardComponent = () => {
           </SectionTwoLeftInnerWrapper>
           <SectionTwoLeftInnerWrapper>
             {/* <SkillWrapper> */}
-            <UserSkillComponent title="skillset" data={userData.skillsets} />
+            <UserSkillComponent title="skillset" data={loadedUserInfo?.skillset} />
             {/* <UserSkillComponent data={userData.experience} /> */}
             {/* </SkillWrapper> */}
           </SectionTwoLeftInnerWrapper>
         </SectionTwoLeft>
         <SectionTwoRight>
           <SectionTwoRightInnerWrapper>
-            <UserGoalComponent data={userData.goals} />
+            <UserGoalComponent data={loadedUserInfo?.goal} />
           </SectionTwoRightInnerWrapper>
-          <SectionTwoRightInnerWrapper style={{ "align-items": "center" }}>
+          <SectionTwoRightInnerWrapper style={{ "alignItems": "center" }}>
             <AddGoalButtonWrapper>
               <AddGoalButton>
                 Add Goal

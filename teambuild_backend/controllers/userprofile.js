@@ -89,7 +89,7 @@ module.exports={
         // const jwttoken = req.headers.authorization.split(' ')[1];
         // console.log(jwttoken)
         // const decoded = jwt.verify(jwttoken, 'secret_this_should_be_longer');
-        console.log(req['userData']['userId'])
+        console.log(req['userData']['userId'],'sss')
         if (req.body) {
                 //const decoded_token = jwt.decode(jwttoken)
                 // userId = req.userData.userId
@@ -107,7 +107,7 @@ module.exports={
                 const phone =req.body.phoneNumber;
                 const email= req.body.email;
                 const location= req.body.location;
-                const userprofile=  await UserProfile.findOne({ where :{userUserId:req.body.userId}}); 
+                const userprofile=  await UserProfile.findOne({ where :{userUserId:req['userData']['userId']}}); 
                 UserProfile.update({
                         firstName: firstName,
                         lastName:lastName,
@@ -119,7 +119,7 @@ module.exports={
                         
                       },{
                         where: {
-                                userUserId: req.body.userId,
+                                userUserId: req['userData']['userId'],
                               },
 
                       }).then(()=>{

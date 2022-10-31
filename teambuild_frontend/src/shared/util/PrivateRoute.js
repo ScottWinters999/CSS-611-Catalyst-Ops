@@ -9,7 +9,7 @@ const PrivateRoutes = () => {
   
   const tok = JSON.parse(localStorage.getItem("userData"))
   
-  console.log(tok);
+  // console.log(tok);
   return authCtx.isLoggedIn|| tok?.['token']  ? <Outlet /> : <Navigate to="/login" />;
 };
 

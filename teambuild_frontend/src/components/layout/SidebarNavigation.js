@@ -67,7 +67,7 @@ function SidebarNavigation() {
         <img src={logoImage} alt="My Happy SVG" />
       </Logo>
 
-      <nav style={{'height':'68%','justify-content': 'flex-start'}}>
+      <nav style={{'height':'68%','justifyContent': 'flex-start'}}>
         <NavLinks/>
       </nav>
       {auth.isLoggedIn && (
