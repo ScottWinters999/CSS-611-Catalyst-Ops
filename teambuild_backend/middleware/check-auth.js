@@ -3,6 +3,7 @@ const HttpError=require('../models/http-error');
 module.exports=(req,res,next)=>{
     try{
         //console.log("Entered try")
+        console.log(req.headers)
         const token = req.headers.authorization.split(' ')[1];
         //console.log(token, "6")
         const decoded = jwt.verify(token, 'secret_this_should_be_longer');

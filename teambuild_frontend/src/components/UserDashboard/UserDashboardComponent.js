@@ -4,11 +4,11 @@ import UserInfoComponent from "./UserInfoComponent";
 import UserSkillComponent from "./UserSkillComponent";
 import { AiOutlinePlus } from "react-icons/ai";
 import UserGoalComponent from "./UserGoalComponent";
-import { useHttpClient } from '../../hooks/http-hook'
+import { useHttpClient } from "../../hooks/http-hook";
 
 import { IoDiamond } from "react-icons/io5";
 import ScrollToBottom from "react-scroll-to-bottom";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 
 const UserDashboardWrapper = styled.div`
@@ -25,9 +25,8 @@ const UserDashboardWrapper = styled.div`
   }
 
   @media (max-height: 1100px) {
-    height: fit-content;
+    height: "90%";
   }
-  
 `;
 const SectionOne = styled.div`
   height: 8%;
@@ -38,11 +37,13 @@ const SectionOne = styled.div`
     height: 60px;
   }
 `;
-const SectionTwo = styled.div`
-  height: 52%;
+const SectionTwoLeft = styled.div`
+  // height: 100%;
+  flex-direction: column;
+  width: 50%;
   padding: 12px 8px;
   display: flex;
-  margin: 12px 0px;
+  // margin: 12px 0px;
   @media (max-width: 1200px) {
     display: flex;
     margin: 12px 0px;
@@ -53,11 +54,12 @@ const SectionTwo = styled.div`
     align-items: center;
   }
 `;
-const SectionThree = styled.div`
-  height: 40%;
+const SectionTwoRight = styled.div`
+  // height: 100%;
+  width: 50%;
   padding: 12px 8px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 
   @media (max-width: 1200px) {
     display: flex;
@@ -67,10 +69,10 @@ const SectionThree = styled.div`
   }
 `;
 
-const SectionTwoInnerWrapper = styled.div`
+const SectionTwoLeftInnerWrapper = styled.div`
   display: flex;
   //   justify-content: flex-end;
-  width: 50%;
+  width: 100%;
   justify-content: center;
   padding: 26px 24px;
   height: 80%;
@@ -87,7 +89,7 @@ const SkillWrapper = styled.div`
   display: flex;
   flex-direction: column;
   //   width: 100%;
-  width: 60%;
+  // width: 100%;
   @media (max-width: 1200px) {
     width: 70%;
   }
@@ -97,10 +99,10 @@ const SkillWrapper = styled.div`
   }
 `;
 
-const SectionThreeInnerWrapper = styled.div`
+const SectionTwoRightInnerWrapper = styled.div`
   display: flex;
+  height: 50%;
   //   justify-content: flex-end;
-  width: 50%;
   justify-content: center;
   padding: 26px 24px;
   @media (max-width: 1100px) {
@@ -139,44 +141,44 @@ const AddGoalButtonWrapper = styled.div`
   }
 `;
 
+const SectionTwoOuter = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+`;
+
 // const PremiumD = styled.div`
-// @media (max-width: 1200px) 
+// @media (max-width: 1200px)
 //   // width: 100%;
 //   height: 35px;
 
 // `
 
 const UserDashboardComponent = () => {
-
-  const { isLoading, error, sendRequest ,clearError} = useHttpClient();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [loadedUserInfo, setLoadedUserInfo] = useState();
-  const token = JSON.parse(localStorage.getItem('userData'))
-  console.log(token)
-  const authorization = "Bearer "+token.token
-  console.log(authorization)
+  const token = JSON.parse(localStorage.getItem("userData"));
+  const authorization = "Bearer " + token.token;
   // const user
   const headers = {
-    authorization: 'Bearer ' + token.token
-}; 
+    authorization: "Bearer " + token.token,
+  };
   useEffect(() => {
-
     const userInfo = async () => {
       try {
-        
-        fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
-          return res.json()
-        }).then((res) =>{
-          console.log(res)
-          setLoadedUserInfo(res.userData)
-        })
-        // responseData.t
-        // responseData./
-        // console.log(responseData,'aa')
-        // setLoadedPlaces(responseData.places);
+        fetch("http://localhost:5000/api/userprofile", { headers: headers })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            console.log(res);
+            setLoadedUserInfo(res.userData);
+          });
+
       } catch (err) {}
     };
     userInfo();
-  }, [sendRequest,authorization]);
+  }, [sendRequest, authorization]);
 
   // console.log(loadedUserInfo)
   if (loadedUserInfo){
@@ -184,80 +186,129 @@ const UserDashboardComponent = () => {
   }
   const userData = {
     basicUserInfo: {
-      userName: loadedUserInfo?loadedUserInfo.firstName:'',
-      location: loadedUserInfo?loadedUserInfo.location:'',
-      currentPosition:loadedUserInfo?loadedUserInfo.currentPosition:'',
-      phone: loadedUserInfo?loadedUserInfo.phone:'',
-      email: loadedUserInfo?loadedUserInfo.email:'',
-      industry: loadedUserInfo?loadedUserInfo.industry:'',
+      firstName: loadedUserInfo ? loadedUserInfo.firstName : "",
+      lastName: loadedUserInfo ? loadedUserInfo.lastName : "",
+      location: loadedUserInfo ? loadedUserInfo.location : "",
+      currentPosition: loadedUserInfo ? loadedUserInfo.currentPosition : "",
+      phone: loadedUserInfo ? loadedUserInfo.phone : "",
+      email: loadedUserInfo ? loadedUserInfo.email : "",
+      industry: loadedUserInfo ? loadedUserInfo.industry : "",
       userType: "premium",
     },
-    experience: {
-      header: "Experience",
-      items: ["Java developer", "python developer", "Devops"],
-    },
-    skillSet: {
-      header: "Skillset",
-      items: ["python", "java", "c++"],
-    },
-    goals: [
-      {
-        teamName: "Alpha",
-        matchedWith: "Software",
-        status: "Incomplete",
-      },
-      {
-        teamName: "Beta",
-        matchedWith: "CEO",
-        status: "Complete",
-      },
-      {
-        teamName: "Alpha",
-        matchedWith: "Finance",
-        status: "Incomplete",
-      },
-    ],
+    // skillsets: {
+    //   header: "Skillset",
+    //   items: [
+    //     {
+    //       skillset: "Frontend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Backend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Devops",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Frontend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Backend",
+    //       experience: "3 years",
+    //     },
+    //     {
+    //       skillset: "Devops",
+    //       experience: "3 years",
+    //     }
+    //   ],
+    // },
+    
+    // goals: [
+    //   {
+    //     teamName: "Alpha",
+    //     matchedWith: "Software",
+    //     status: "Incomplete",
+    //   },
+    //   {
+    //     teamName: "Beta",
+    //     matchedWith: "CEO",
+    //     status: "Complete",
+    //   },
+    //   {
+    //     teamName: "Alpha",
+    //     matchedWith: "Finance",
+    //     status: "Incomplete",
+    //   },
+    //   {
+    //     teamName: "Beta",
+    //     matchedWith: "CEO",
+    //     status: "Complete",
+    //   },
+    //   {
+    //     teamName: "Alpha",
+    //     matchedWith: "Finance",
+    //     status: "Incomplete",
+    //   },
+    //   {
+    //     teamName: "Alpha",
+    //     matchedWith: "Finance",
+    //     status: "Incomplete",
+    //   },
+    //   {
+    //     teamName: "Beta",
+    //     matchedWith: "CEO",
+    //     status: "Complete",
+    //   },
+    //   {
+    //     teamName: "Alpha",
+    //     matchedWith: "Finance",
+    //     status: "Incomplete",
+    //   },
+    // ],
   };
-  console.log(userData);
+  console.log(loadedUserInfo,'ll');
 
   return (
     // <ScrollToBottom>
     <UserDashboardWrapper>
-      
       <SectionOne>
         {userData.basicUserInfo.userType && (
           <div>
-            <IoDiamond style={{ height: "100%", width: "100%" ,color:"#264fc0"}} />
+            <IoDiamond
+              style={{ height: "100%", width: "100%", color: "#264fc0" }}
+            />
           </div>
         )}
       </SectionOne>
-      <SectionTwo>
-        <SectionTwoInnerWrapper>
-          <UserInfoComponent userData={userData.basicUserInfo} />
-        </SectionTwoInnerWrapper>
-        <SectionTwoInnerWrapper>
-          <SkillWrapper>
-            <UserSkillComponent data={userData.skillSet} />
-            <UserSkillComponent data={userData.experience} />
-          </SkillWrapper>
-        </SectionTwoInnerWrapper>
-      </SectionTwo>
-      <SectionThree>
-        <SectionThreeInnerWrapper>
-          <AddGoalButtonWrapper>
-            <AddGoalButton>
-              Add Goal
-              <AiOutlinePlus />
-            </AddGoalButton>
-          </AddGoalButtonWrapper>
-        </SectionThreeInnerWrapper>
-        <SectionThreeInnerWrapper>
-          <UserGoalComponent data={userData.goals} />
-        </SectionThreeInnerWrapper>
-      </SectionThree>
-      
+      <SectionTwoOuter>
+        <SectionTwoLeft>
+          <SectionTwoLeftInnerWrapper>
+            <UserInfoComponent userData={userData.basicUserInfo} />
+          </SectionTwoLeftInnerWrapper>
+          <SectionTwoLeftInnerWrapper>
+            {/* <SkillWrapper> */}
+            <UserSkillComponent title="skillset" data={loadedUserInfo?.skillset} />
+            {/* <UserSkillComponent data={userData.experience} /> */}
+            {/* </SkillWrapper> */}
+          </SectionTwoLeftInnerWrapper>
+        </SectionTwoLeft>
+        <SectionTwoRight>
+          <SectionTwoRightInnerWrapper>
+            <UserGoalComponent data={loadedUserInfo?.goal} />
+          </SectionTwoRightInnerWrapper>
+          <SectionTwoRightInnerWrapper style={{ "alignItems": "center" }}>
+            <AddGoalButtonWrapper>
+              <AddGoalButton>
+                Add Goal
+                <AiOutlinePlus />
+              </AddGoalButton>
+            </AddGoalButtonWrapper>
+          </SectionTwoRightInnerWrapper>
+        </SectionTwoRight>
+      </SectionTwoOuter>
     </UserDashboardWrapper>
-
   );
 };
 
