@@ -1,25 +1,31 @@
 import styled from "styled-components";
 import MainContainer from "../layout/MainContainer";
 import UserInfoComponent from "./UserInfoComponent";
-import UserSkillComponent from "./UserSkillComponent";
 import { AiOutlinePlus } from "react-icons/ai";
-import UserGoalComponent from "./UserGoalComponent";
 import { useHttpClient } from '../../hooks/http-hook'
 
 import { IoDiamond } from "react-icons/io5";
 import ScrollToBottom from "react-scroll-to-bottom";
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 
 const UserDashboardWrapper = styled.div`
-  height: 90vh;
-  width: 80%;
+  height: 50vh;
+  width: 100%;
   background-color: white;
   border-radius: 20px;
   padding: 18px 16px;
   margin-left: 4px;
   display: flex;
   flex-direction: column;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 29px;
   @media (max-width: 1200px) {
     height: fit-content;
   }
@@ -39,16 +45,19 @@ const SectionOne = styled.div`
   }
 `;
 const SectionTwo = styled.div`
-  height: 52%;
+  height: 80%;
   padding: 12px 8px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin: 12px 0px;
+  width:100%
   @media (max-width: 1200px) {
-    display: flex;
+    display: grid;
     margin: 12px 0px;
     // flex-direction: column;
 
     flex-direction: column;
+    columns:2;
     align-content: center;
     align-items: center;
   }
@@ -70,7 +79,7 @@ const SectionThree = styled.div`
 const SectionTwoInnerWrapper = styled.div`
   display: flex;
   //   justify-content: flex-end;
-  width: 50%;
+  width: 100%;
   justify-content: center;
   padding: 26px 24px;
   height: 80%;
@@ -146,11 +155,12 @@ const AddGoalButtonWrapper = styled.div`
 
 // `
 
-const UserDashboardComponent = () => {
+const UserSearchComponent = () => {
 
   const { isLoading, error, sendRequest ,clearError} = useHttpClient();
-  const [loadedUserInfo, setLoadedUserInfo] = useState();
+  const [userMatches, setUserMatches] = useState();
   const token = JSON.parse(localStorage.getItem('userData'))
+  const name = JSON.parse(localStorage.getItem('firstName'))
   console.log(token)
   const authorization = "Bearer "+token.token
   console.log(authorization)
@@ -163,11 +173,35 @@ const UserDashboardComponent = () => {
     const userInfo = async () => {
       try {
         
-        fetch("http://localhost:5000/api/userprofile",{headers:headers}).then(res =>{
-          return res.json()
+        fetch("http://localhost:5000/api/usermatch",{headers:headers}).then(res =>{
+            // console.log(res.matchedData)
+          return res
         }).then((res) =>{
           console.log(res)
-          setLoadedUserInfo(res.userData)
+        //   setUserMatches(res.userData)
+        return res.json()
+        })
+        .then((res) =>{
+            // console.log(res)
+
+            let reqData = []
+            const  currentUserMatches = res.matchedData
+            currentUserMatches.map((i,key) =>{
+
+                let temp = {}
+                temp ={
+                    "firstname":i?.user?.firstName,
+                    "lastname":i?.user?.lastName,
+                    "email":i?.user?.email,
+                    "industry":i?.user?.industry,
+                    "location":i?.user?.location,
+                    "skillset":i?.skillset
+                }
+                // console.log(temp)
+                reqData.push(temp)
+            })
+
+            setUserMatches(reqData)
         })
         // responseData.t
         // responseData./
@@ -176,89 +210,74 @@ const UserDashboardComponent = () => {
       } catch (err) {}
     };
     userInfo();
-  }, [sendRequest,authorization]);
+    // console.log(userMatches)
+  }, []);
 
-  // console.log(loadedUserInfo)
-  if (loadedUserInfo){
-    localStorage.setItem('firstName',JSON.stringify(loadedUserInfo.firstName))
-  }
-  const userData = {
-    basicUserInfo: {
-      userName: loadedUserInfo?loadedUserInfo.firstName:'',
-      location: loadedUserInfo?loadedUserInfo.location:'',
-      currentPosition:loadedUserInfo?loadedUserInfo.currentPosition:'',
-      phone: loadedUserInfo?loadedUserInfo.phone:'',
-      email: loadedUserInfo?loadedUserInfo.email:'',
-      industry: loadedUserInfo?loadedUserInfo.industry:'',
-      userType: "premium",
-    },
-    experience: {
-      header: "Experience",
-      items: ["Java developer", "python developer", "Devops"],
-    },
-    skillSet: {
-      header: "Skillset",
-      items: ["python", "java", "c++"],
-    },
-    goals: [
-      {
-        teamName: "Alpha",
-        matchedWith: "Software",
-        status: "Incomplete",
-      },
-      {
-        teamName: "Beta",
-        matchedWith: "CEO",
-        status: "Complete",
-      },
-      {
-        teamName: "Alpha",
-        matchedWith: "Finance",
-        status: "Incomplete",
-      },
-    ],
-  };
-  console.log(userData);
+  console.log(userMatches)
+
+//   const userData = {
+//     basicUserInfo: {
+//       userName: userMatches?userMatches.firstName:'',
+//       location: userMatches?userMatches.location:'',
+//       phone: userMatches?userMatches.phone:'',
+//       email: userMatches?userMatches.email:'',
+//       industry: userMatches?userMatches.industry:'',
+//     },
+//     skillSet: {
+//       header: "Skillset",
+//       items: ["python", "java", "c++"],
+//     },
+//     goals: [
+//       {
+//         teamName: "Alpha",
+//         matchedWith: "Software",
+//         status: "Incomplete",
+//       },
+//       {
+//         teamName: "Beta",
+//         matchedWith: "CEO",
+//         status: "Complete",
+//       },
+//       {
+//         teamName: "Alpha",
+//         matchedWith: "Finance",
+//         status: "Incomplete",
+//       },
+//     ],
+//   };
+//   console.log(userData);
 
   return (
-    // <ScrollToBottom>
+      <div style={{"width":"80%"}}>
+          <ScrollToBottom style={{width:"160%"}}>
     <UserDashboardWrapper>
       
       <SectionOne>
-        {userData.basicUserInfo.userType && (
+        {/* {userData.basicUserInfo.userType && ( */}
           <div>
             <IoDiamond style={{ height: "100%", width: "100%" ,color:"#264fc0"}} />
+            Hi {name} , Please find your potential matches
           </div>
-        )}
+        {/* )} */}
       </SectionOne>
       <SectionTwo>
-        <SectionTwoInnerWrapper>
-          <UserInfoComponent userData={userData.basicUserInfo} />
-        </SectionTwoInnerWrapper>
-        <SectionTwoInnerWrapper>
-          <SkillWrapper>
-            <UserSkillComponent data={userData.skillSet} />
-            <UserSkillComponent data={userData.experience} />
-          </SkillWrapper>
-        </SectionTwoInnerWrapper>
-      </SectionTwo>
-      <SectionThree>
-        <SectionThreeInnerWrapper>
-          <AddGoalButtonWrapper>
-            <AddGoalButton>
-              Add Goal
-              <AiOutlinePlus />
-            </AddGoalButton>
-          </AddGoalButtonWrapper>
-        </SectionThreeInnerWrapper>
-        <SectionThreeInnerWrapper>
-          <UserGoalComponent data={userData.goals} />
-        </SectionThreeInnerWrapper>
-      </SectionThree>
-      
+          { userMatches && (
+              userMatches.map((singleUser,idx) => (
+                <SectionTwoInnerWrapper key={idx}> 
+                    <Link to='/userdashboard'>
+                        <UserInfoComponent userData={singleUser} />
+                    </Link>
+                </SectionTwoInnerWrapper>
+              )))
+          }
+        
+      </SectionTwo> 
+    
     </UserDashboardWrapper>
-
+</ScrollToBottom>
+      </div>
+    
   );
 };
 
-export default UserDashboardComponent;
+export default UserSearchComponent;

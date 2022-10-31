@@ -21,9 +21,9 @@ router.post('/resetpassword',bodyParser,User.resetpassword);
 router.get('/userprofile',auth,bodyParser,UserProfile.userprofile);
 router.put('/userupdate',auth,bodyParser,UserProfile.userProfileUpdate);
 
-router.get('/usermatch',bodyParser,UserMatch.userMatch)
+router.get('/usermatch',auth,bodyParser,UserMatch.userMatch)
 
-router.post('/upload',upload.single('image'),bodyParser,User.upload);
+// router.post('/upload',upload.single('image'),bodyParser,User.upload);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.get('/skill',auth,bodyParser,skill.getSkill);
