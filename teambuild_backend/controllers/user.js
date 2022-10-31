@@ -1,11 +1,13 @@
 const {
   model: { User },
 } = require("../models");
+const {model: { UserProfile } }=require('../models');
+
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 // const generateAccessToken = require("./generateAccessToken")
 const jwt = require("jsonwebtoken");
-const { Op } = require('sequelize')
+const { Op } = require("sequelize");
 
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -13,13 +15,7 @@ const sendgridTransport = require("nodemailer-sendgrid-transport");
 // const dotenv = require('dotenv');
 // dotenv.config();
 const crypto = require("crypto");
-// console.log(process.env,'aa') // remove this after you've confirmed it is working
-// console.log(process.env.SENDGRID_API_KEY,'send')
-
-// const dotenv = require('dotenv');
-// dotenv.config();
-// const backend = process.env.SENDGRID_API_KEY
-
+const { constants } = require("buffer");
 
 module.exports = {
   create: async (req, res) => {
@@ -29,6 +25,7 @@ module.exports = {
     });
     if (emailExists) {
       console.log("Email Already exists");
+      console.log(emailExists.userId);
       res.status(403).json({ Status: "user already exist" });
     } else {
       if (req.body.userName && req.body.password) {
@@ -53,22 +50,53 @@ module.exports = {
               email,
               firstName,
               lastName,
-              role,
+              role
             }).then(
-              () => {
+              (response) => {
+               // console.log("60", response);
                 const token = jwt.sign(
-                  { email: email, role: role },
+                  { userId: response.userId,email: email, role: role },
                   "secret_this_should_be_longer",
                   { expiresIn: "1h" }
                 );
-
+                return token;
+                // res.status(200).json({
+                //   token: token,
+                // });
+              }
+            
+             // res.status(200).json({Status: "Inserted"})
+            ).  then(async(token)=>{
+              const userNew = await User.findOne({
+                where: { email: email }
+              });
+              if(userNew){
+                  const userUserId=userNew.userId;
+                  
+                  UserProfile.create({
+                  userUserId,
+                  firstName,
+                  lastName,
+                  email
+              }).then(()=>{
                 res.status(200).json({
                   token: token,
                 });
+              });
               }
+              //   console.log("printing usewNEw ",userNew);
+              // else
+              //   console.log("not printing userNew");
+              // res.status(200).json({
+              //       token: token,
+              //     });
+              
 
-              // res.status(200).json({Status: "Inserted"})
-            );
+            });
+            
+            
+
+
           });
         // const {username,email,newpassword}=req.body;
       } else {
@@ -118,7 +146,7 @@ module.exports = {
   forgetpassword: async (req, response) => {
     // console.log('API',backend)
     const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
-    const transporter = nodemailer.createTransport(
+    let transporter = nodemailer.createTransport(
       sendgridTransport({
         auth: {
           api_key:SENDGRID_API_KEY,
@@ -126,16 +154,17 @@ module.exports = {
       })
     );
 
-    console.log(req.body);
+    
+    console.log(SENDGRID_API_KEY,'apii');
     const userExists = await User.findOne({ where: { email: req.body.email } });
-    console.log(120,userExists)
+    console.log(120, userExists);
     if (!userExists) {
-        response.status(403).json({ Status: "User does not exist" });
+      response.status(403).json({ Status: "User does not exist" });
     } else {
       const token = crypto.randomBytes(32).toString("hex");
-      console.log(token,'token');
-      console.log('125',req.body.email)
-    //   console.log()
+      console.log(token, "token");
+      console.log("125", req.body.email);
+      //   console.log()
       User.update(
         {
           resetPasswordToken: token,
@@ -147,11 +176,12 @@ module.exports = {
           },
         }
       ).then((res) => {
-        transporter.sendMail({
-          to: req.body.email,
-          from: "asheeque123456@gmail.com",
-          subject: "Reset password",
-          html: `
+        transporter
+          .sendMail({
+            to: req.body.email,
+            from: "asheeque123456@gmail.com",
+            subject: "Reset password",
+            html: `
                     <p>You requested a password reset</p>
                     <p>Click this <a href="http://localhost:3000/resetpassword/${token}">link</a> to set a new password</p>
                     `,
@@ -173,44 +203,111 @@ module.exports = {
 
     const password = req.body.password;
     const newToken = req.body.token;
-    const userExists = await User.findOne({ where: { resetPasswordToken: newToken,
-    
-        resetPasswordExpires:{
-            [Op.gt]:Date.now()
-        }
-    } });
+    const userExists = await User.findOne({
+      where: {
+        resetPasswordToken: newToken,
+
+        resetPasswordExpires: {
+          [Op.gt]: Date.now(),
+        },
+      },
+    });
     if (userExists) {
-        console.log(userExists);
-        const email = userExists.dataValues.email
-        // console.log(pe,Date.UTC())
-        bcrypt
-          .genSalt(saltRounds)
-          .then((salt) => {
-            console.log(`Salt: ${salt}`);
-            return bcrypt.hash(password, salt);
-          })
-          .then((hash) => {
-            console.log(hash)
-            User.update(
-                {
-                  resetPasswordToken: null,
-                  resetPasswordExpires: null,
-                  password:hash
-                },
-                {
-                  where: {
-                    email: email,
-                  },
-                }
-              ).then((data) =>{
-                res.status(200).json({status:'password updated'})
-              })
-          })
-    }
-    else{
-        console.log('ccc')
+      console.log(userExists);
+      const email = userExists.dataValues.email;
+      // console.log(pe,Date.UTC())
+      bcrypt
+        .genSalt(saltRounds)
+        .then((salt) => {
+          console.log(`Salt: ${salt}`);
+          return bcrypt.hash(password, salt);
+        })
+        .then((hash) => {
+          console.log(hash);
+          User.update(
+            {
+              resetPasswordToken: null,
+              resetPasswordExpires: null,
+              password: hash,
+            },
+            {
+              where: {
+                email: email,
+              },
+            }
+          ).then((data) => {
+            res.status(200).json({ status: "password updated" });
+          });
+        });
+    } else {
+      console.log("ccc");
     }
         
+  },
+
+  upload: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId=req.userData.userId;
+    console.log("246",userId);
+    if (!req.file) {
+      console.log("No file upload");
+  } else {
+      console.log(req.file.filename)
+      // var imgsrc = '/upload/images/' + req.file.filename
+      var imgsrc = req.file.filename
+
+      console.log(imgsrc);
+      if(userId!=null && imgsrc!=null){
+        console.log("252 entered", userId);
+
+        User.update(
+          {
+            
+            profilePicture: imgsrc
+          },
+          {
+            where: {
+                   userId:userId,
+                  }
+
+          },
+          
+        ).then(()=>{
+
+          res.status(200).json({status:"Photo Updated successfully"})
+        })
+      }else{
+        res.status(400).json({status:"Wrong user or image"});
+      }
+  
+      // var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
+      // db.query(insertData, [imgsrc], (err, result) => {
+      //     if (err) throw err
+      //     console.log("file uploaded")
+      // })
   }
+
+    
+  },
+
+  getPic: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId=req.userData.userId;
+   
+     if (userId) {
+      
+      const userDetails = await User.findOne({where:{userId:userId}});
+      console.log(userDetails.dataValues);
+      res.status(200).json({"image":userDetails.dataValues.profilePicture});
+    }
+
+    
+  }
+
+  
 
 };

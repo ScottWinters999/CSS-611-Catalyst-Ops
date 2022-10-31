@@ -37,7 +37,8 @@ module.exports=(sequelize,DataTypes)=>{
     },
     firstName: DataTypes.STRING,
     lastName:DataTypes.STRING,
-    role: DataTypes.STRING
+    role: DataTypes.STRING,
+    profilePicture: DataTypes.STRING
   },
   {
     freezeTableName:true,

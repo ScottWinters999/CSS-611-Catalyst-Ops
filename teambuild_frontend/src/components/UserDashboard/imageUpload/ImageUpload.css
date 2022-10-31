@@ -36,6 +36,12 @@
   font-size: 12px;
 }
 
+.image-upload__onprofile p {
+  border: 2px dashed #000000;
+  border-radius: 10px;
+}
+
+
 
 .image-upload__onprofile img {
   width: 6rem;
@@ -107,4 +113,19 @@
 
 .place-item__modal-content {
   padding: 0;
+}
+
+
+.edit_form{
+  border: 2px dashed blue !important;
+}
+
+.edit_icon{
+  width: 30px !important;
+  height: 28px !important;
+  color:#000000;
+}
+
+.edit_icon_active{
+  color: blue !important;
 }

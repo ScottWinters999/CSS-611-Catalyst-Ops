@@ -31,15 +31,17 @@ const ChatUi = () => {
         ref={webchatRef}
         // fullScreenMode={true}
         embedded={true}
-        initPayload="/greet"
+        // socketUrl={"http://34.125.213.190:5005"}
         socketUrl={"http://localhost:5005"}
+        
+         
         socketPath={"/socket.io/"}
         customData={{ language: "en", userId: "1" }} // arbitrary custom data. Stay minimal as this will be added to the socket
         title={"Title"}
       />
       <div className="chat-footer">
-        <button style={{ float: "right" }}>
-          <Link to="/userdashboard">End Chat</Link>
+        <button className="button-chat">
+          <Link to="/userdashboard" style={{color:"black"}}>End Chat</Link>
         </button>
       </div>
     </WidgetWrapper>

@@ -1,5 +1,9 @@
+import { TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import styled from "styled-components";
 import Card from "../UI/Card";
+import { BsPencilFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+
 
 const SkillInfoOuterWrapper = styled.div`
   display: flex;
@@ -7,7 +11,7 @@ const SkillInfoOuterWrapper = styled.div`
   height: 100%;
   padding: 20px 24px;
 
-  @media (max-width:760){
+  @media (max-width: 760) {
     align-items: center;
   }
 `;
@@ -20,49 +24,94 @@ const HeadingWrapper = styled.div`
   flex-direction: row;
   padding: 20px 0px;
   color: blue;
-  font-weight: 400;
-  font-family: "Roboto";
-  font-size: 24px;
+  font-weight: 700;
+  font-family: "PT Serif", serif;
+  font-size: 36px;
 `;
 
 const SkillBulletinOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  max-height: 226px;
 `;
 
 const SkillBulletin = styled.div`
   padding: 4px 0px;
 `;
 
-const UserSkillComponent = (props) => {
-  const skill = props.data.items;
-  console.log(skill);
-  skill.map((val, key) => {
-    console.log(val, key);
-  });
+const Table = styled.table`
+  border: 2px solid #bcbcbc;
+  //   width: 800px;
+  //   height: 200px;
+  // color: #9f9f9f;
+  
+  overflow-y: scroll;
+  color: #000000;
+`;
 
-  const listItems = skill.map((val, key) => (
-    <SkillBulletin key={key}>{val}</SkillBulletin>
-  ));
-  //   {
-  //     data.map((val, key) => {
-  //       return (
-  //         <tr key={key}>
-  //           <Td>{val.name}</Td>
-  //           <Td>{val.age}</Td>
-  //           <Td>{val.gender}</Td>
-  //         </tr>
-  //       );
-  //     });
-  //   }
-  return (
-    <Card>
-      <SkillInfoOuterWrapper>
-        <HeadingWrapper>{props.data.header}</HeadingWrapper>
-        <SkillBulletinOuterWrapper>{listItems}</SkillBulletinOuterWrapper>
-      </SkillInfoOuterWrapper>
-    </Card>
-  );
+const UserSkillComponent = ({ title, data }) => {
+  
+  // if(data){
+  //   console.log(data,'asadasdasdsad')
+  // }
+
+  const [skill,setSkill] = useState([])
+
+  // const skill = data;
+  useEffect(() =>{
+
+    if(data){
+      setSkill(data)
+
+    }
+
+  },[data])
+  if (data) {
+    
+
+    return (
+      <Card>
+        <SkillInfoOuterWrapper>
+          <HeadingWrapper>{title}</HeadingWrapper>
+          <SkillBulletinOuterWrapper>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{"fontSize": "20px"}}>Skill Name</TableCell>
+                  <TableCell style={{"fontSize": "20px"}}>Experience</TableCell>
+                  <TableCell style={{"fontSize": "20px"}}>Edit</TableCell>
+
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {skill.map((val, key) => (
+                  <TableRow key={key}>
+                  <TableCell style={{"fontSize": "18px"}}>{val.skillset}</TableCell>
+                  <TableCell style={{"fontSize": "18px"}}>{val.experience}</TableCell>
+                  <TableCell align="left" >
+                      <BsPencilFill/>
+                    </TableCell>
+                </TableRow>
+                  
+                ))}
+                
+              </TableBody>
+            </Table>
+          </SkillBulletinOuterWrapper>
+        </SkillInfoOuterWrapper>
+      </Card>
+    );
+  } else {
+    return (
+      <Card>
+        <SkillInfoOuterWrapper>
+          <HeadingWrapper>{title}</HeadingWrapper>
+          <SkillBulletinOuterWrapper>Empty list</SkillBulletinOuterWrapper>
+        </SkillInfoOuterWrapper>
+      </Card>
+    );
+  }
 };
 
 export default UserSkillComponent;
