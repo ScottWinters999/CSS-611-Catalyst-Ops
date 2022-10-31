@@ -19,29 +19,29 @@
 // }
 
 
-// module.exports={
-//     HOST: 'localhost',
-//     USER: 'root',
-//     DATABASE: 'caty',
-//     PASSWORD: 'Porsche@2024',
-//     DIALECT:'mysql',
-//     port:'3306',
-//     timeout:'5000'
-// }
-
-const dotenv = require('dotenv');
-dotenv.config();
-//console.log(DB_HOST);
 module.exports={
-    
-    HOST: process.env.DB_HOST,
-    USER: process.env.DB_USER,
-    DATABASE: process.env.DB_NAME,
-    PASSWORD: process.env.DB_PASSWORD,
+    HOST: 'localhost',
+    USER: 'root',
+    DATABASE: 'caty',
+    PASSWORD: 'Porsche@2024',
     DIALECT:'mysql',
-    port:process.env.DB_PORT,
+    port:'3306',
     timeout:'5000'
 }
+
+// const dotenv = require('dotenv');
+// dotenv.config();
+// //console.log(DB_HOST);
+// module.exports={
+    
+//     HOST: process.env.DB_HOST,
+//     USER: process.env.DB_USER,
+//     DATABASE: process.env.DB_NAME,
+//     PASSWORD: process.env.DB_PASSWORD,
+//     DIALECT:'mysql',
+//     port:process.env.DB_PORT,
+//     timeout:'5000'
+// }
 
 
 

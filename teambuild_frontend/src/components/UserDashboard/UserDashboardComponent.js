@@ -181,6 +181,9 @@ const UserDashboardComponent = () => {
   }, [sendRequest, authorization]);
 
   // console.log(loadedUserInfo)
+  if (loadedUserInfo){
+    localStorage.setItem('firstName',JSON.stringify(loadedUserInfo.firstName))
+  }
   const userData = {
     basicUserInfo: {
       firstName: loadedUserInfo ? loadedUserInfo.firstName : "",

@@ -8,12 +8,13 @@ const {model: { GoalComponent } }=require('../models');
 const db=require('../models');
 const {model: { User } }=require('../models');
 const { use } = require('../routes/signup');
+const goalcomponent = require('../models/goalcomponent');
 
 module.exports = {
 userMatch: async (req, res) =>{
     
-    // const userId=req.userData.userId;
-    const userId=req.body.userId;
+    const userId=req.userData.userId;
+    // const userId=req.body.userId;
     //const skillset= req.body.goal;
     console.log("type of userId is ",typeof userId);
 
@@ -32,13 +33,31 @@ userMatch: async (req, res) =>{
                 }
             }
         })
-        
+
+        const goaltocomponent= await Goal.findAll({
+            where:{
+                userUserId: userId 
+            }
+        })
+        let goalMap=new Map();
+        for(let i=0;i<goaltocomponent.length;i++){
+            goalMap[goaltocomponent[i].dataValues.goalId]= goaltocomponent[i].dataValues.goal;
+        }
+
+       // console.log(skillsets);
         const skills= [];
         const skillstemp=[]
         for( let i=0;i<skillsets.length;i++){
             skills[i]="'"+skillsets[i].goalComponent+"'";
             skillstemp[i]=skillsets[i].goalComponent;
         }
+
+        let goalMapComponent=new Map();
+        for(let i=0;i<skillsets.length;i++){
+            goalMapComponent[skillsets[i].goalComponent]= goalMap[skillsets[i].dataValues.goalGoalId];
+        }
+
+        console.log(goalMapComponent);
 
         const userProfileIds = await Skills.findAll({
             where:{
@@ -58,7 +77,10 @@ userMatch: async (req, res) =>{
             if(dict[userProfileIds[i].userprofileUserProfileId]==undefined){
                 dict[userProfileIds[i].userprofileUserProfileId]=[]
             }
-            dict[userProfileIds[i].userprofileUserProfileId].push(userProfileIds[i].skillset);
+            let list=[];
+            list.push(userProfileIds[i].skillset);
+            list.push(goalMapComponent[userProfileIds[i].skillset]);
+            dict[userProfileIds[i].userprofileUserProfileId].push(list);
         }
         const validuserIds=[]
         for(let i=0;i<userProfileIds.length;i++){
@@ -82,14 +104,15 @@ userMatch: async (req, res) =>{
             }
         })
 
-
+       // console.log(matchedUser)
         let matchedData=[];
         let user="user";
         for(let i=0;i<matchedUser.length;i++){
             let temp=[];
             temp={
                 "user":matchedUser[i].dataValues,
-                "skillset": dict[matchedUser[i].dataValues.userProfileId]
+                "skillset": dict[matchedUser[i].dataValues.userProfileId],
+                
             };
             matchedData.push(temp);
                 
@@ -100,8 +123,8 @@ userMatch: async (req, res) =>{
 
         
 
-           console.log(matchedData);
-            res.status(200).json({matchedData});
+           //console.log(matchedData);
+            res.status(200).json({"matchedData":matchedData});
          
 
      
