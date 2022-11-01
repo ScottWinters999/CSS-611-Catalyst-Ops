@@ -176,9 +176,12 @@ const UserInfoComponent = ({ userData }) => {
           })
           .then((res) => {
             // console.log(res);
-            const imgUrl = "http://localhost:5000/upload/images/" + res.image
-            // console.log(imgUrl)
-            setPhotoUrl(imgUrl)
+            if (res.image){
+              const imgUrl = "http://localhost:5000/upload/images/" + res.image
+              // console.log(imgUrl)
+              setPhotoUrl(imgUrl)
+            }
+            
             // setLoadedUserInfo(res.userData);
           });
         // responseData.t

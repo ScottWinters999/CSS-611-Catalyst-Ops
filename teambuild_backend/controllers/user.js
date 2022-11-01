@@ -133,6 +133,7 @@ module.exports = {
 
             res.status(200).json({
               token: token,
+              userId:userExists.userId
             });
           } else {
             // response is OutgoingMessage object that server response http request

@@ -4,7 +4,6 @@ import Card from "../UI/Card";
 import { BsPencilFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 
-
 const SkillInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -45,58 +44,81 @@ const Table = styled.table`
   //   width: 800px;
   //   height: 200px;
   // color: #9f9f9f;
-  
+
   overflow-y: scroll;
   color: #000000;
+  min-height: 200px;
+`;
+
+const Tablehead = styled.div`
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid black;
+`;
+const Tablerow = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+`;
+const Tablecell = styled.div``;
+
+const Tablebody = styled.div`
+padding: 14px 4px;
+}
+`;
+const SkillSetWrap = styled.div`
+  display: flex;
+`;
+
+const SingleSkill = styled.div`
+  display: flex;
+  justify-content: space-around;
 `;
 
 const UserSkillComponent = ({ title, data }) => {
-  
   // if(data){
   //   console.log(data,'asadasdasdsad')
   // }
 
-  const [skill,setSkill] = useState([])
+  const [skill, setSkill] = useState([]);
 
   // const skill = data;
-  useEffect(() =>{
-
-    if(data){
-      setSkill(data)
-
+  useEffect(() => {
+    if (data) {
+      setSkill(data);
     }
-
-  },[data])
+  }, [data]);
   if (data) {
-    
-
     return (
       <Card>
         <SkillInfoOuterWrapper>
           <HeadingWrapper>{title}</HeadingWrapper>
           <SkillBulletinOuterWrapper>
             <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell style={{"fontSize": "20px"}}>Skill Name</TableCell>
-                  <TableCell style={{"fontSize": "20px"}}>Experience</TableCell>
-                  <TableCell style={{"fontSize": "20px"}}>Edit</TableCell>
-
-                </TableRow>
-              </TableHead>
-              <TableBody>
+              <Tablehead>
+                <Tablerow>
+                  <Tablecell style={{ fontWeight: "600" }}>
+                    Skill Name
+                  </Tablecell>
+                  <Tablecell style={{ fontWeight: "600" }}>
+                    Experience
+                  </Tablecell>
+                  <Tablecell style={{ fontWeight: "600" }}>Edit</Tablecell>
+                </Tablerow>
+              </Tablehead>
+              <Tablebody>
                 {skill.map((val, key) => (
-                  <TableRow key={key}>
-                  <TableCell style={{"fontSize": "18px"}}>{val.skillset}</TableCell>
-                  <TableCell style={{"fontSize": "18px"}}>{val.experience}</TableCell>
-                  <TableCell align="left" >
-                      <BsPencilFill/>
-                    </TableCell>
-                </TableRow>
-                  
+                  <SkillSetWrap key={key}>
+                    <SingleSkill style={{ width: "36%" }}>{val.skillset}</SingleSkill>
+                    <SingleSkill style={{ width: "40%" }}>
+                      {val.experience}
+                    </SingleSkill>
+                    <SingleSkill style={{ width: "20%" }}>
+                      <BsPencilFill />
+                    </SingleSkill>
+                  </SkillSetWrap>
                 ))}
-                
-              </TableBody>
+              </Tablebody>
             </Table>
           </SkillBulletinOuterWrapper>
         </SkillInfoOuterWrapper>

@@ -10,18 +10,22 @@ const WidgetWrapper = styled.div`
   height: 100%;
 `;
 
+let flag = false
 const ChatUi = () => {
   const webchatRef = useRef(null);
-
+  const userId = JSON.parse(localStorage.getItem('userId'))
+  // console.log(userId)
   // triggered when something happens in your app
   function callback() {
-    if (webchatRef.current && webchatRef.current.sendMessage) {
-      webchatRef.current.sendMessage("/greet");
+    if (webchatRef.current && webchatRef.current.sendMessage && !flag) {
+      // webchatRef.current.sendMessage("/greet");
+      flag = true
     }
   }
   useEffect(() => {
     callback();
-  });
+    console.log('a')
+  },[]);
 
   // const embedded
   return (
@@ -31,12 +35,12 @@ const ChatUi = () => {
         ref={webchatRef}
         // fullScreenMode={true}
         embedded={true}
-        // socketUrl={"http://34.125.213.190:5005"}
-        socketUrl={"http://localhost:5005"}
+        socketUrl={"http://104.197.153.163:5005"}
+        // socketUrl={"http://localhost:5005"}
         
          
         socketPath={"/socket.io/"}
-        customData={{ language: "en", userId: "1" }} // arbitrary custom data. Stay minimal as this will be added to the socket
+        customData={{ language: "en", userId: userId }} // arbitrary custom data. Stay minimal as this will be added to the socket
         title={"Title"}
       />
       <div className="chat-footer">

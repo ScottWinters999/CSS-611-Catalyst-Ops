@@ -1,4 +1,3 @@
-
 import useInput from "../../hooks/use-input";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -8,7 +7,7 @@ import styled from "styled-components";
 import logoImage from "../../images/logo.svg";
 import { useContext, useState } from "react";
 
-import a from '../signIn/Signin.module.css'
+import a from "../signIn/Signin.module.css";
 import { AuthContext } from "../../shared/context/auth-context";
 
 const Auth = styled.section`
@@ -64,7 +63,7 @@ const Control = styled.div`
     color: white;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Roboto";
   }
 
   input {
@@ -89,7 +88,7 @@ const Text2 = styled.div`
     // left: 500px;
     // top: 539px;
 
-    font-family: 'Montserrat';
+    font-family: "Roboto";
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -98,7 +97,7 @@ const Text2 = styled.div`
 
     text-align: center;
 
-    color: #FFFFFF;
+    color: #ffffff;
   }
 `;
 
@@ -122,7 +121,7 @@ const ActionsTwo = styled.div`
 const Button = styled.button`
   cursor: pointer;
   filter: drop-shadow(4px 4px 2px #562929);
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto";
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -139,7 +138,7 @@ const Button = styled.button`
 `;
 
 const Errortext = styled.p`
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto";
   color: #d8c1c1;
   font-size: 14px;
   font-weight: bold;
@@ -219,7 +218,7 @@ const AuthForm = () => {
     // lastNameIsValid &&
     emailIsValid &&
     // userNameIsValid &&
-    passwordIsValid 
+    passwordIsValid
     // &&
     // confirmPasswordIsValid
   ) {
@@ -274,15 +273,20 @@ const AuthForm = () => {
       });
       const data = await response.json();
       console.log(data);
-      if (data.Status == "Wrong username or password" || data.Status=='User does not exist') {
+      if (
+        data.Status == "Wrong username or password" ||
+        data.Status == "User does not exist"
+      ) {
         setWrongCred(true);
-        console.log('613')
+        console.log("613");
         resetEmail();
         resetPassword();
         return;
       } else {
         // console.log(da)
-        authCtx.login(data.token)
+        authCtx.login(data.token);
+        // console.log(data.userId)
+        localStorage.setItem('userId',JSON.stringify(data.userId))
         history("/userdashboard");
       }
     } catch (err) {
@@ -324,7 +328,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="email">Email</label>
           <input
-          required
+            required
             type="email"
             id="email"
             value={emailValue}
@@ -347,7 +351,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="password">Password</label>
           <input
-          required
+            required
             type="password"
             id="password"
             value={passwordValue}
@@ -383,13 +387,13 @@ const AuthForm = () => {
           {WrongCred && <Errortext>Wrong Email or Password</Errortext>}
         </Actions>
         <ActionsTwo>
-            <Text2>
-            <Link to='/forgetpassword'>Forget password?</Link>
-            </Text2>
-            <Text2>
-            <Link to='/signup'>Signup</Link>
-            </Text2>
-            </ActionsTwo>
+          <Text2>
+            <Link to="/forgetpassword">Forget password?</Link>
+          </Text2>
+          <Text2>
+            <Link to="/signup">Signup</Link>
+          </Text2>
+        </ActionsTwo>
       </FormControl>
     </Auth>
   );

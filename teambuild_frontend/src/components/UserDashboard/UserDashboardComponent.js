@@ -10,6 +10,7 @@ import { IoDiamond } from "react-icons/io5";
 import ScrollToBottom from "react-scroll-to-bottom";
 import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserDashboardWrapper = styled.div`
   height: 90vh;
@@ -17,7 +18,7 @@ const UserDashboardWrapper = styled.div`
   background-color: white;
   border-radius: 20px;
   padding: 18px 16px;
-  margin-left: 4px;
+  // margin-left: 4px;
   display: flex;
   flex-direction: column;
   @media (max-width: 1200px) {
@@ -74,7 +75,7 @@ const SectionTwoLeftInnerWrapper = styled.div`
   //   justify-content: flex-end;
   width: 100%;
   justify-content: center;
-  padding: 26px 24px;
+  padding: 6px 24px;
   height: 80%;
   @media (max-width: 1200px) {
     width: 80%;
@@ -101,7 +102,7 @@ const SkillWrapper = styled.div`
 
 const SectionTwoRightInnerWrapper = styled.div`
   display: flex;
-  height: 50%;
+  height: 90%;
   //   justify-content: flex-end;
   justify-content: center;
   padding: 26px 24px;
@@ -298,14 +299,7 @@ const UserDashboardComponent = () => {
           <SectionTwoRightInnerWrapper>
             <UserGoalComponent data={loadedUserInfo?.goal} />
           </SectionTwoRightInnerWrapper>
-          <SectionTwoRightInnerWrapper style={{ "alignItems": "center" }}>
-            <AddGoalButtonWrapper>
-              <AddGoalButton>
-                Add Goal
-                <AiOutlinePlus />
-              </AddGoalButton>
-            </AddGoalButtonWrapper>
-          </SectionTwoRightInnerWrapper>
+          
         </SectionTwoRight>
       </SectionTwoOuter>
     </UserDashboardWrapper>

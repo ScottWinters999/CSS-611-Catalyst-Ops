@@ -2,6 +2,10 @@ import styled from "@emotion/styled";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
+import { BsSearch } from "react-icons/bs";
+import { MdOutlineDashboardCustomize } from "react-icons/md";
+
+import { TbRobot } from "react-icons/tb";
 
 const NavBar = styled.ul`
   list-style: none;
@@ -18,14 +22,19 @@ const NavBar = styled.ul`
   & li {
     margin-top: 1rem;
     margin-bottom: 1rem;
+    display: flex;
+    // justify-content: flex-end;
+    // padding-right:20px;
+    width: 100%;
+    
   }
 
   & a {
     font-size: 20px;
     font-family: 'Roboto';
     font-weight: 600;
-
-    padding: 0.5rem 3.5rem 0.5rem 1.5rem;
+    width: 100%;
+    padding: 4px 6px 6px 28px;
   }
 
   & a:hover,
@@ -40,7 +49,22 @@ const NavBar = styled.ul`
 }
   }
 
+
+
   
+`;
+
+const LinkName = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
+`;
+
+const LinkNameInner = styled.div`
+  padding-left: 18px;
+`;
+const NavLinkWrapper = styled.div`
+  width: 100%;
 `;
 
 const NavLinks = () => {
@@ -48,26 +72,54 @@ const NavLinks = () => {
   return (
     <NavBar>
       {!auth.isLoggedIn && (
-        <li>
-          <NavLink to="/">HomePage</NavLink>
-        </li>
-      )}
-      {!auth.isLoggedIn && (
-        <li>
-          <NavLink to="/login">Login</NavLink>
-        </li>
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
+        </NavLinkWrapper>
       )}
       {auth.isLoggedIn && (
-        <li>
-          <NavLink to="/profilesearch">Profilesearch</NavLink>
-        </li>
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/profilesearch">
+              <LinkName>
+                <div>
+                  <BsSearch   style={{"height": "24px","width": "24px"}}/>
+                </div>
+                <LinkNameInner>Profile Search</LinkNameInner>
+              </LinkName>
+            </NavLink>
+          </li>
+        </NavLinkWrapper>
       )}
       {auth.isLoggedIn && (
-        <li>
-          <NavLink to="/userdashboard">Dashboard</NavLink>
-        </li>
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/userdashboard">
+              <LinkName>
+                <div>
+                  <MdOutlineDashboardCustomize  style={{"height": "24px","width": "24px"}} />
+                </div>
+                <LinkNameInner>Dashboard</LinkNameInner>
+              </LinkName>
+            </NavLink>
+          </li>
+        </NavLinkWrapper>
       )}
-      
+      {auth.isLoggedIn && (
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/userchat">
+              <LinkName>
+                <div>
+                  <TbRobot style={{"height": "24px","width": "24px"}} />
+                </div>
+                <LinkNameInner>Caty</LinkNameInner>
+              </LinkName>
+            </NavLink>
+          </li>
+        </NavLinkWrapper>
+      )}
     </NavBar>
   );
 };

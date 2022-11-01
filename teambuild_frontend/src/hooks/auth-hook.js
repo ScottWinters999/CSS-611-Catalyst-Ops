@@ -20,6 +20,8 @@ export const useAuth = () => {
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
     setTokenExpirationDate(tokenExpirationDate);
+    // let x = atob(token)
+    // console.log(x,24)
     localStorage.setItem(
       "userData",
       JSON.stringify({
@@ -33,6 +35,9 @@ export const useAuth = () => {
     setToken(null);
     setTokenExpirationDate(null);
     localStorage.removeItem("userData");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("userId");
+
     localStorage.removeItem("chat_session")
   }, []);
 
