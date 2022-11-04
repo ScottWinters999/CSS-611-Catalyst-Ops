@@ -56,7 +56,7 @@ const Control = styled.div`
     color: white;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    font-family: "Montserrat", sans-serif;
+    font-family: 'Roboto';
   }
   input {
     font: inherit;
@@ -84,7 +84,7 @@ const Actions = styled.div`
 const Button = styled.button`
   cursor: pointer;
   filter: drop-shadow(4px 4px 2px #562929);
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Roboto';
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -101,7 +101,7 @@ const Button = styled.button`
 `;
 
 const Errortext = styled.p`
-  font-family: "Montserrat", sans-serif;
+font-family: 'Roboto';
   color: #d8c1c1;
   font-size: 14px;
   font-weight: bold;
@@ -215,7 +215,7 @@ const AuthForm = () => {
       email: emailValue,
       userName: userNameValue,
       password: passwordValue,
-      role: "Customer",
+      role: "Customer"
     });
     resetFirstName();
     resetLastName();
@@ -251,6 +251,14 @@ const AuthForm = () => {
         setEmailAlreadyExist(true);
       } else  if(data.token){
         authCtx.login(data.token);
+        localStorage.setItem('userId',JSON.stringify(data.userId))
+
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({
+            token: data.token,
+          })
+        );
         history("/userchat");
       }
     } catch (err) {

@@ -172,16 +172,17 @@
   }
   
   .chat-window .chat-footer button {
-    border: 0;
+    border: 1px solid #0047FF;
     display: grid;
     place-items: center;
     cursor: pointer;
     flex: 15%;
     height: 100%;
-    background: transparent;
+    background-color: #F5F5F5;
     outline: none;
     font-size: 25px;
-    color: #F5F5F5;;
+    color: #0F82FF;
+    border-radius: 20px;
   }
   .chat-window .chat-footer button2 {
     border: 1px solid #0047FF;

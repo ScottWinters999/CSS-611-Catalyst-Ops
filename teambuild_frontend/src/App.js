@@ -13,6 +13,8 @@ import { useAuth } from "./hooks/auth-hook";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import PrivateRoutes from "./shared/util/PrivateRoute";
+import UserProfileViewsPage from "./pages/UserProfileViewsPage";
+import { UserContextProvider } from "./shared/context/user-context";
 
 function App() {
   const { token, login, logout } = useAuth();
@@ -50,6 +52,7 @@ function App() {
           <Route path="/userchat" element={<CatyChatPage />} />
           <Route path="/userdashboard" element={<UserDashboardPage />} />
           <Route path="/profilesearch" element={<UserPartnerSearchPage />} />
+          <Route path="/profileviews" element={<UserProfileViewsPage />} />
         </Route>
         <Route path="/login" element={<SignIn />} />
         <Route path="/signup" element={<AuthPage />} />

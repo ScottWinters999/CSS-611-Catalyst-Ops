@@ -213,7 +213,26 @@ const UserSearchComponent = () => {
     // console.log(userMatches)
   }, []);
 
-  console.log(userMatches)
+  if(userMatches){
+    console.log(userMatches)
+
+    let c = 'Fr'
+    userMatches.map((user,idx) =>{
+
+      console.log(user)
+      if ("skillset" in user){
+        console.log(user?.skillset[0],'skilaa')
+        
+        let k = user?.skillset[0].map((ss) =>{
+          
+          return ss.includes(c)
+        })
+        console.log(k)
+      }
+
+
+    })
+  }
 
 //   const userData = {
 //     basicUserInfo: {

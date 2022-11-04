@@ -33,7 +33,13 @@ userMatch: async (req, res) =>{
                 }
             }
         })
-
+        // console.log(skillsets);
+        // if(skillsets){
+        //     console.log(skillsets.length)
+        // }
+        if(skillsets.length==0)
+            res.status(200).json({"Status":"No Goals to match"});
+        else{
         const goaltocomponent= await Goal.findAll({
             where:{
                 userUserId: userId 
@@ -125,7 +131,7 @@ userMatch: async (req, res) =>{
 
            //console.log(matchedData);
             res.status(200).json({"matchedData":matchedData});
-         
+    }
 
      
     }

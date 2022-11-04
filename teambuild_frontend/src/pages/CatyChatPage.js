@@ -1,9 +1,9 @@
 import MainBg from "../components/layout/MainBg";
 import SidebarNavigation from "../components/layout/SidebarNavigation";
-import App from "../components/Chat/ChatMain"
+import App from "../components/Chat/ChatMain";
 // import Chat from "../components/Chat/ChatMain";
 import ChatMain from "../components/Chat/ChatMain";
-
+import ChatUi from "../components/Chat/ChatUi";
 
 import styled from "styled-components";
 
@@ -16,14 +16,19 @@ const Outsidewrapper = styled.div`
   margin: 2px 2px;
 `;
 
+const ChatUiWrapper = styled.div`
+  width: 80%;
+`;
+
 const CatyChatPage = () => {
-    return (
-        <Outsidewrapper>
-            <SidebarNavigation />
-            <div><ChatMain/></div>
-            </Outsidewrapper>
-      );
-  };
-  
-  export default CatyChatPage;
-  
+  return (
+    <Outsidewrapper>
+      <SidebarNavigation />
+      <ChatUiWrapper>
+        <ChatUi />
+      </ChatUiWrapper>
+    </Outsidewrapper>
+  );
+};
+
+export default CatyChatPage;

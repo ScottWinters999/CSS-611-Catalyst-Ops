@@ -9,15 +9,17 @@ import { useHttpClient } from "../../hooks/http-hook";
 import { IoDiamond } from "react-icons/io5";
 import ScrollToBottom from "react-scroll-to-bottom";
 import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import UserContext from "../../shared/context/user-context";
+// const
 const UserDashboardWrapper = styled.div`
-  height: 90vh;
+  height: 100vh;
   width: 80%;
   background-color: white;
   border-radius: 20px;
   padding: 18px 16px;
-  margin-left: 4px;
+  // margin-left: 4px;
   display: flex;
   flex-direction: column;
   @media (max-width: 1200px) {
@@ -48,7 +50,7 @@ const SectionTwoLeft = styled.div`
     display: flex;
     margin: 12px 0px;
     // flex-direction: column;
-
+    width: 100%;
     flex-direction: column;
     align-content: center;
     align-items: center;
@@ -63,7 +65,7 @@ const SectionTwoRight = styled.div`
 
   @media (max-width: 1200px) {
     display: flex;
-
+    width: 100%;
     flex-direction: column;
     align-items: center;
   }
@@ -74,7 +76,7 @@ const SectionTwoLeftInnerWrapper = styled.div`
   //   justify-content: flex-end;
   width: 100%;
   justify-content: center;
-  padding: 26px 24px;
+  padding: 6px 24px;
   height: 80%;
   @media (max-width: 1200px) {
     width: 80%;
@@ -101,7 +103,7 @@ const SkillWrapper = styled.div`
 
 const SectionTwoRightInnerWrapper = styled.div`
   display: flex;
-  height: 50%;
+  height: 90%;
   //   justify-content: flex-end;
   justify-content: center;
   padding: 26px 24px;
@@ -143,8 +145,11 @@ const AddGoalButtonWrapper = styled.div`
 
 const SectionTwoOuter = styled.div`
   display: flex;
-  flex-direction: row;
+
   height: 100%;
+  @media (max-width: 1100px) {
+    flex-direction: column;
+  }
 `;
 
 // const PremiumD = styled.div`
@@ -159,6 +164,7 @@ const UserDashboardComponent = () => {
   const [loadedUserInfo, setLoadedUserInfo] = useState();
   const token = JSON.parse(localStorage.getItem("userData"));
   const authorization = "Bearer " + token.token;
+  const userCtx = useContext(UserContext);
   // const user
   const headers = {
     authorization: "Bearer " + token.token,
@@ -174,15 +180,29 @@ const UserDashboardComponent = () => {
             console.log(res);
             setLoadedUserInfo(res.userData);
           });
-
       } catch (err) {}
     };
     userInfo();
   }, [sendRequest, authorization]);
 
+  useEffect(() => {
+    if (loadedUserInfo) {
+      if (loadedUserInfo.firstName.length > 0) {
+        userCtx.onSetUserName(loadedUserInfo.firstName);
+      }
+      if (loadedUserInfo.location.length > 0) {
+        userCtx.onSetLocation(loadedUserInfo.location)
+      }
+      if (loadedUserInfo.email.length > 0) {
+        userCtx.onSetEmail(loadedUserInfo.email)
+      }
+    }
+  }, [loadedUserInfo])
   // console.log(loadedUserInfo)
-  if (loadedUserInfo){
-    localStorage.setItem('firstName',JSON.stringify(loadedUserInfo.firstName))
+  if (loadedUserInfo) {
+    localStorage.setItem("firstName", JSON.stringify(loadedUserInfo.firstName));
+    // userCtx.onSetUserName('aa')
+    // console.log(userCtx.userName.length,'leng')
   }
   const userData = {
     basicUserInfo: {
@@ -224,7 +244,7 @@ const UserDashboardComponent = () => {
     //     }
     //   ],
     // },
-    
+
     // goals: [
     //   {
     //     teamName: "Alpha",
@@ -268,7 +288,7 @@ const UserDashboardComponent = () => {
     //   },
     // ],
   };
-  console.log(loadedUserInfo,'ll');
+  console.log(loadedUserInfo, "ll");
 
   return (
     // <ScrollToBottom>
@@ -289,7 +309,10 @@ const UserDashboardComponent = () => {
           </SectionTwoLeftInnerWrapper>
           <SectionTwoLeftInnerWrapper>
             {/* <SkillWrapper> */}
-            <UserSkillComponent title="skillset" data={loadedUserInfo?.skillset} />
+            <UserSkillComponent
+              title="Skillset"
+              data={loadedUserInfo?.skillset}
+            />
             {/* <UserSkillComponent data={userData.experience} /> */}
             {/* </SkillWrapper> */}
           </SectionTwoLeftInnerWrapper>
@@ -297,14 +320,6 @@ const UserDashboardComponent = () => {
         <SectionTwoRight>
           <SectionTwoRightInnerWrapper>
             <UserGoalComponent data={loadedUserInfo?.goal} />
-          </SectionTwoRightInnerWrapper>
-          <SectionTwoRightInnerWrapper style={{ "alignItems": "center" }}>
-            <AddGoalButtonWrapper>
-              <AddGoalButton>
-                Add Goal
-                <AiOutlinePlus />
-              </AddGoalButton>
-            </AddGoalButtonWrapper>
           </SectionTwoRightInnerWrapper>
         </SectionTwoRight>
       </SectionTwoOuter>

@@ -12,6 +12,8 @@ const { Op } = require("sequelize");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 
+// const dotenv = require('dotenv');
+// dotenv.config();
 const crypto = require("crypto");
 const { constants } = require("buffer");
 
@@ -41,6 +43,7 @@ module.exports = {
             const firstName = req.body.firstName;
             const lastName = req.body.lastName;
             const role = req.body.role;
+            // const profilePicture=req.body.profile;
             // Store hash in your password DB.
             User.create({
               userName,
@@ -79,6 +82,7 @@ module.exports = {
               }).then(()=>{
                 res.status(200).json({
                   token: token,
+                  userId: userNew.userId
                 });
               });
               }
@@ -131,6 +135,7 @@ module.exports = {
 
             res.status(200).json({
               token: token,
+              userId:userExists.userId
             });
           } else {
             // response is OutgoingMessage object that server response http request
@@ -142,16 +147,18 @@ module.exports = {
     }
   },
   forgetpassword: async (req, response) => {
-    console.log(req.body);
-    const send_grid_api = process.env.SENDGRID_API_KEY;
-    const transporter = nodemailer.createTransport(
+    // console.log('API',backend)
+    const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+    let transporter = nodemailer.createTransport(
       sendgridTransport({
         auth: {
-          api_key: send_grid_api,
+          api_key:SENDGRID_API_KEY,
         },
       })
     );
-    console.log(send_grid_api,'apii');
+
+    
+    console.log(SENDGRID_API_KEY,'apii');
     const userExists = await User.findOne({ where: { email: req.body.email } });
     console.log(120, userExists);
     if (!userExists) {
@@ -181,18 +188,21 @@ module.exports = {
                     <p>You requested a password reset</p>
                     <p>Click this <a href="http://localhost:3000/resetpassword/${token}">link</a> to set a new password</p>
                     `,
-          })
-          .then(() => {
-            response.status(200).json({ status: "Link send" });
-          });
+        }).then(() =>{
+            response.status(200).json({ status: "Link send" })
+        })
+        .catch(() =>{
+          response.status(400).json({ status: "Wrong credentials" })
+
+        })
+        ;
       });
       console.log(userExists);
     }
   },
 
-  resetpassword: async (req, res) => {
-    console.log(req.body);
-    console.log(process.env.SENDGRID_API_KEY, "api");
+  resetpassword: async (req, res) =>{
+    console.log(req.body)
 
     const password = req.body.password;
     const newToken = req.body.token;

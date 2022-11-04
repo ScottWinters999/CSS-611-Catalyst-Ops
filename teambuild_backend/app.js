@@ -7,9 +7,10 @@ const http=require('http');
 const { Server }= require('socket.io');
 const cors=require('cors');
 const path=require('path');
-app.use(cors());
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({path:__dirname+'/.env'})
+app.use(cors());
+
 
 
 // app.use(express.static(path.join('public')))
@@ -44,7 +45,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // process.env./
 
-console.log(process.env.AB,'api')
 app.use('/api',routes);
 
 // app.use( (req,res,next)=>{
@@ -53,8 +53,8 @@ app.use('/api',routes);
 
 //const server=app.listen(5000);
 const httpserver= http.createServer(app);
-
-
+// console.log(__dirname)
+// dotenv.config({path:__dirname+'/.env'});
 const io= new Server(httpserver,{
   cors:{
     origin:"http://localhost:3000",
