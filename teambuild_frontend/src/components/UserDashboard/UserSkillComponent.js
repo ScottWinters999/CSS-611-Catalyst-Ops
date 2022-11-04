@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../UI/Card";
 import { BsPencilFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SkillInfoOuterWrapper = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const SkillBulletin = styled.div`
   padding: 4px 0px;
 `;
 
-const Table = styled.table`
+const Table = styled.div`
   border: 2px solid #bcbcbc;
   //   width: 800px;
   //   height: 200px;
@@ -68,6 +69,10 @@ padding: 14px 4px;
 `;
 const SkillSetWrap = styled.div`
   display: flex;
+  box-shadow: -1px 8px 65px 0px rgb(115 115 129 / 58%);
+  margin: 4px 14px;
+  padding: 10px 18px;
+  border-radius: 4px;
 `;
 
 const SingleSkill = styled.div`
@@ -79,9 +84,18 @@ const UserSkillComponent = ({ title, data }) => {
   // if(data){
   //   console.log(data,'asadasdasdsad')
   // }
-
   const [skill, setSkill] = useState([]);
+  const history = useNavigate();
+  const editSkillHandler = (id) =>{
 
+    history('/userchat',{
+      state:{
+        'editSkill':id
+      }
+    })
+    console.log(id)
+    
+  }
   // const skill = data;
   useEffect(() => {
     if (data) {
@@ -109,12 +123,14 @@ const UserSkillComponent = ({ title, data }) => {
               <Tablebody>
                 {skill.map((val, key) => (
                   <SkillSetWrap key={key}>
-                    <SingleSkill style={{ width: "36%" }}>{val.skillset}</SingleSkill>
+                    <SingleSkill style={{ width: "36%" }}>
+                      {val.skillset}
+                    </SingleSkill>
                     <SingleSkill style={{ width: "40%" }}>
                       {val.experience}
                     </SingleSkill>
-                    <SingleSkill style={{ width: "20%" }}>
-                      <BsPencilFill />
+                    <SingleSkill style={{ width: "20%",display:"flex",justifyContent:"space-around" ,'paddingLeft':"26px"}}>
+                      <BsPencilFill onClick={() => editSkillHandler(key)}/>
                     </SingleSkill>
                   </SkillSetWrap>
                 ))}

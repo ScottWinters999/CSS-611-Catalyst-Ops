@@ -1,6 +1,8 @@
 import Widget from "rasa-webchat";
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useLocation } from 'react-router-dom'
+
 import "./Chat.css";
 import "./ChatUi.css";
 import "./Chat.css";
@@ -11,7 +13,25 @@ const WidgetWrapper = styled.div`
 `;
 
 let flag = false
-const ChatUi = () => {
+const ChatUi = (props) => {
+  console.log(props)
+  const location = useLocation()
+  console.log(location)
+  if (!(location.state === null)){
+    if (Object.keys(location.state).length >0){
+
+      if (("addGoal" in location.state)){
+        console.log("came here22")
+      }
+      if (("editSkill" in location.state)){
+        console.log("came here22")
+        
+      }
+    }
+  }
+  
+  
+  // console
   const webchatRef = useRef(null);
   const userId = JSON.parse(localStorage.getItem('userId'))
   // console.log(userId)

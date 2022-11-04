@@ -3,7 +3,10 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import { BsSearch } from "react-icons/bs";
-import { MdOutlineDashboardCustomize } from "react-icons/md";
+import { MdOutlineDashboardCustomize ,MdPortrait,MdPeopleAlt} from "react-icons/md";
+// import { MdPeopleAlt }
+
+import { AiOutlineEye } from "react-icons/ai";
 
 import { TbRobot } from "react-icons/tb";
 
@@ -30,7 +33,7 @@ const NavBar = styled.ul`
   }
 
   & a {
-    font-size: 20px;
+    font-size: 16px;
     font-family: 'Roboto';
     font-weight: 600;
     width: 100%;
@@ -44,7 +47,7 @@ const NavBar = styled.ul`
     border-color: #292929;
     color: #264fc0;
     border-left-radius: 33px;
-    border-top-left-radius: 41px 80px;
+    border-top-left-radius: 60px 80px;
     border-bottom-left-radius: 60px 80px;
 }
   }
@@ -62,6 +65,7 @@ const LinkName = styled.div`
 
 const LinkNameInner = styled.div`
   padding-left: 18px;
+  padding-top: 4px;
 `;
 const NavLinkWrapper = styled.div`
   width: 100%;
@@ -78,20 +82,20 @@ const NavLinks = () => {
           </li>
         </NavLinkWrapper>
       )}
-      {auth.isLoggedIn && (
+      {/* {auth.isLoggedIn && (
         <NavLinkWrapper>
           <li>
-            <NavLink to="/profilesearch">
+            <NavLink to="/search">
               <LinkName>
                 <div>
                   <BsSearch   style={{"height": "24px","width": "24px"}}/>
                 </div>
-                <LinkNameInner>Profile Search</LinkNameInner>
+                <LinkNameInner>Searches</LinkNameInner>
               </LinkName>
             </NavLink>
           </li>
         </NavLinkWrapper>
-      )}
+      )} */}
       {auth.isLoggedIn && (
         <NavLinkWrapper>
           <li>
@@ -101,6 +105,34 @@ const NavLinks = () => {
                   <MdOutlineDashboardCustomize  style={{"height": "24px","width": "24px"}} />
                 </div>
                 <LinkNameInner>Dashboard</LinkNameInner>
+              </LinkName>
+            </NavLink>
+          </li>
+        </NavLinkWrapper>
+      )}
+      {auth.isLoggedIn && (
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/profilesearch">
+              <LinkName>
+                <div>
+                  <MdPortrait   style={{"height": "24px","width": "24px"}}/>
+                </div>
+                <LinkNameInner>Profile Matches</LinkNameInner>
+              </LinkName>
+            </NavLink>
+          </li>
+        </NavLinkWrapper>
+      )}
+      {auth.isLoggedIn && (
+        <NavLinkWrapper>
+          <li>
+            <NavLink to="/profileviews">
+              <LinkName>
+                <div>
+                <MdPeopleAlt   style={{"height": "24px","width": "24px"}}/>
+                </div>
+                <LinkNameInner>Profile Views</LinkNameInner>
               </LinkName>
             </NavLink>
           </li>

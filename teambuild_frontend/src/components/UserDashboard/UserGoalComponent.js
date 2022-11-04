@@ -15,6 +15,7 @@ import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { BsPencilFill } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 
 const GoalsOutsideWrapper = styled.div`
   display: flex;
@@ -23,11 +24,11 @@ const GoalsOutsideWrapper = styled.div`
 `;
 
 const Table = styled.div`
-  border: 2px solid #bcbcbc;
+  // border: 2px solid #bcbcbc;
   //   width: 800px;
   //   height: 200px;
   // color: #9f9f9f;
-  border: 2px solid #bcbcbc;
+  // border: 2px solid #bcbcjbc;
   max-height: 100%;
   color: #000000;
   height: auto;
@@ -40,13 +41,10 @@ const Td = styled.td`
 `;
 
 const TableWrapper = styled.div`
-padding: 4px 8px;
-max-height: 72% !important;
-overflow-y: scroll;
-height: -webkit-fit-content;
-height: -moz-fit-content;
-/* height: fit-content; */
-min-height: 300px;
+  padding: 4px 8px;
+  height: 72% !important;
+  overflow-y: scroll;
+  border:1px solid black;
 `;
 const Header = styled.header`
   padding: 6px 8px;
@@ -62,10 +60,11 @@ const CardInnerBox = styled.div`
 `;
 
 const ButtonWrapper = styled.div`
-  margin-top: 30px;
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   margin-bottom: 12px;
+  width: 50%;
+  justify-content: flex-end;
 `;
 
 const ButtonInner = styled.div`
@@ -85,13 +84,13 @@ const GoalAdd = styled.p`
 `;
 
 const Button = styled.button`
-  width: 40%;
-  height: 30px;
-  background: #466de7f0;
-  border: none;
-  border-radius: 4px;
-  height: 3rem;
-  padding: 0;
+width: 50%;
+height: 30px;
+background: #466de7f0;
+border: none;
+border-radius: 4px;
+height: 54px;
+padding: 6px;
   & :hover {
     background: #34349f;
     cursor: pointer;
@@ -134,6 +133,8 @@ const TablebodyRow = styled.div`
   justify-content: flex-start;
   padding: 18px 12px;
   background: white;
+  border-radius: 4px;
+  box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
 `;
 
 const TableDropDownBodyRow = styled.div`
@@ -146,11 +147,13 @@ const TableDropDownBodyRow = styled.div`
   -ms-flex-pack: start;
   justify-content: space-around;
   padding: 2px 12px;
-  background: #e8f4ff;
+  background: #fff3f3;
   width: 100%;
 `;
 const TablebodyCell = styled.div`
   padding: 8px 6px;
+  width: 20%;
+  // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
 `;
 const TablebodyCellInner = styled.div`
   padding: 8px 6px;
@@ -160,23 +163,24 @@ const TablebodyCellInner = styled.div`
 `;
 const TablebodyCellWrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  // justify-content: space-around;
   flex-direction: row;
   width: 100%;
-  align-items: center;
+  // align-items: center;
+  // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
 `;
 
 const TablebodyCellDropRow = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  background: #e8f4ff;
+  // background: white;
 `;
 
 const ArrowWrapper = styled.div`
-background: aliceblue;
-border-radius: 100px;
-cursor: pointer;
+  background: aliceblue;
+  border-radius: 100px;
+  cursor: pointer;
 `;
 
 const TablebodyCellDrop = styled.div``;
@@ -242,8 +246,7 @@ const rows = [
       goalComponent: "Frontend",
       matchedWithUser: "John",
     },
-  ])
-  ,
+  ]),
   createData("Web startup", "3/3", [
     {
       goalComponent: "Frontend",
@@ -301,9 +304,9 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
     console.log(goalComponentList);
   }, [goalComponents]);
   return (
-    <div style={{ padding: "4px" }}>
+    <div style={{ padding: "4px" ,"marginTop": "22px"}}>
       <TablebodyRow {...otherProps}>
-        <TablebodyCell>
+        <TablebodyCell style={{"width": "5%"}}>
           <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
             {isExpanded ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
           </ArrowWrapper>
@@ -366,6 +369,7 @@ const UserGoalComponent = ({ data }) => {
   const classes = useStyles();
   const [totalGoals, setTotalGoals] = useState([]);
   console.log(data, "GOALSS");
+  const history = useNavigate()
   useEffect(() => {
     if (data) {
       const groupBy = (key) => (array) =>
@@ -380,8 +384,43 @@ const UserGoalComponent = ({ data }) => {
       let total = groupByGoal(data);
       console.log(total);
       if (Object.keys(total).length > 0) {
-        console.log("lengthhh");
-        setTotalGoals(total);
+        // console.log("lengthhh");
+        const currentUserGoals = []
+        Object.keys(total).forEach((key,idx) =>{
+            let temp = {}
+            // console.log(total[key])
+            let goalName = key
+
+            // let goalComponents = []
+            let goalComponents = total[key].map((val) =>{
+              // console.log(val,'sss')
+              return {"goalComponent":val['goalComponent'],"matchedUser":val['matchedUser']}
+            })
+            let currentGoalStatus = total[key].reduce((val,userGoal) =>{
+
+              console.log(val,userGoal,'asasassdsads  ')
+              let ifMatchedUser = 0
+              // userGoal['matchedUser'] = 'a'
+              console.log(userGoal['matchedUser'],'aaa')
+              if ('matchedUser' in userGoal && userGoal['matchedUser'].length > 0){
+                ifMatchedUser = 1
+                // console.log('nnnnnnnnnnnnnnnnnnnnnnnnnn')
+              }
+              return val + ifMatchedUser
+              // return val['matchedUser'].length
+            },0)
+            let totalGoalComponents = goalComponents.length
+            let status = `${currentGoalStatus} / ${totalGoalComponents}`
+            console.log(status,"required")
+            temp = {
+              'name':goalName,
+              'status':status,
+              'goalComponents':goalComponents
+            }
+            currentUserGoals.push(temp)
+        })
+        console.log(currentUserGoals,'current')
+        setTotalGoals(currentUserGoals);
       }
     }
   }, [data]);
@@ -422,24 +461,46 @@ const UserGoalComponent = ({ data }) => {
   //     </Card>
   //   </GoalsOutsideWrapper>
   // );
-  if (totalGoals) {
-    console.log(totalGoals);
-    // totalGoals.map((g,idx) =>{
-    //   console.log(g)
-    // })
-  }
+  const editGoalHandler = (id) =>{
 
+    history('/userchat',{
+      state:{
+        'editGoal':id
+      }
+    })
+    console.log(id)
+    
+  }
   const [isExpanded, setIsExpanded] = useState(false);
   // const listItems = numbers.map((number) => <li>{number}</li>);
   return (
     <GoalsOutsideWrapper>
       <Card style={{ "overflow-y": "scroll" }}>
         <CardInnerBox>
-          <Header>Goals</Header>
+          <Header>
+            <div style={{"display": "flex","width": "100%"}}>
+              <div   style={{"width": "50%"}}>Goals</div>
+
+              <ButtonWrapper>
+              <Link to={'/userchat'} state={{ 'addGoal':'True'}} style={{"width": "100%","display": "flex","justifyContent": "flex-end"}}>
+                <Button>
+                  <ButtonInner>
+                    
+                    <GoalAdd>Add New Goal</GoalAdd>
+                    <AiOutlinePlus
+                      style={{ color: "white", width: "24px", height: "24px" }}
+                    />
+                   
+                  </ButtonInner>
+                </Button>
+                </Link>
+              </ButtonWrapper>
+            </div>
+          </Header>
 
           {/* <ThemeProvider theme={theme}> */}
 
-          <TableWrapper>
+          { totalGoals &&(<TableWrapper>
             <Table
               aria-label="simple table"
               style={{ width: "100%" }}
@@ -451,23 +512,25 @@ const UserGoalComponent = ({ data }) => {
                   <TableHeaderCol>Status</TableHeaderCol>
                   <TableHeaderCol>Edit</TableHeaderCol>
                   <TableHeaderCol>Delete</TableHeaderCol>
-
                 </TableHeaderRow>
               </Tableheader>
               <Tablebody>
-                {rows.map((row, idx) => (
+  
+                {totalGoals.map((row, idx) => (
                   <ExpandableTableRow
                     key={idx}
                     goalComponents={row?.goalComponents}
                   >
                     <TablebodyCellWrapper>
-                      <TablebodyCell>{row.name}</TablebodyCell>
+                      <TablebodyCell style={{"width": "40%","marginLeft": "2%"}}>{row.name}</TablebodyCell>
                       <TablebodyCell>{row.status}</TablebodyCell>
-                      <TablebodyCell>
-                        <BsPencilFill />
+                      <TablebodyCell  style={{"marginLeft": "12px"}}>
+                        <BsPencilFill onClick={() => editGoalHandler(idx)}/>
                       </TablebodyCell>
                       <TablebodyCell>
-                        <MdDeleteOutline style={{ width: "24px", height: "24px" }} />
+                        <MdDeleteOutline
+                          style={{ width: "24px", height: "24px" }}
+                        />
                       </TablebodyCell>
                     </TablebodyCellWrapper>
                   </ExpandableTableRow>
@@ -475,16 +538,8 @@ const UserGoalComponent = ({ data }) => {
               </Tablebody>
             </Table>
           </TableWrapper>
-          <ButtonWrapper>
-            <Button>
-              <ButtonInner>
-                <AiOutlinePlus
-                  style={{ color: "white", width: "24px", height: "24px" }}
-                />
-                <GoalAdd>Add New Goal</GoalAdd>
-              </ButtonInner>
-            </Button>
-          </ButtonWrapper>
+          )}
+
           {/* </ThemeProvider> */}
         </CardInnerBox>
       </Card>

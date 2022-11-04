@@ -43,6 +43,7 @@ module.exports = {
             const firstName = req.body.firstName;
             const lastName = req.body.lastName;
             const role = req.body.role;
+            // const profilePicture=req.body.profile;
             // Store hash in your password DB.
             User.create({
               userName,
@@ -81,6 +82,7 @@ module.exports = {
               }).then(()=>{
                 res.status(200).json({
                   token: token,
+                  userId: userNew.userId
                 });
               });
               }
