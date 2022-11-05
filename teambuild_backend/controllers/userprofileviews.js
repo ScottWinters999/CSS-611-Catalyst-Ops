@@ -67,7 +67,7 @@ module.exports = {
       //   if (viewed) {
       //   }
       //console.log(userDetails);
-      res.status(200).json({ status: "success" });
+      res.status(200).json({ viewedData: viewedData });
     } else {
       res.status(400).json({ status: "wrong user" });
     }
