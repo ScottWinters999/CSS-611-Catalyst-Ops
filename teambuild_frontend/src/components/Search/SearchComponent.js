@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import MainContainer from "../layout/MainContainer";
+// import styled from "styled-components";
+// import MainContainer from "../layout/MainContainer";
 import UserInfoComponent from "./UserInfoComponent";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useHttpClient } from '../../hooks/http-hook'
@@ -10,143 +10,155 @@ import TextField from '@mui/material/TextField';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import classes from "./Search.module.css";
 
-const UserDashboardWrapper = styled.div`
-  height: 50vh;
-  width: 100%;
-  background-color: white;
-  border-radius: 20px;
-  padding: 18px 16px;
-  margin-left: 4px;
-  display: flex;
-  flex-direction: column;
+import * as React from 'react';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import MainContainer from '../layout/MainContainer';
+// import classes from "./ProfileViews.module.css";
+// import ProfileViewsCard from './ProfileViewsCard';
+import UserContext from '../../shared/context/user-context';
+
+
+// const UserDashboardWrapper = styled.div`
+//   height: 50vh;
+//   width: 100%;
+//   background-color: white;
+//   border-radius: 20px;
+//   padding: 18px 16px;
+//   margin-left: 4px;
+//   display: flex;
+//   flex-direction: column;
   
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 29px;
-  @media (max-width: 1200px) {
-    height: fit-content;
-  }
+//   font-family: 'Inter';
+//   font-style: normal;
+//   font-weight: 600;
+//   font-size: 16px;
+//   line-height: 29px;
+//   @media (max-width: 1200px) {
+//     height: fit-content;
+//   }
 
-  @media (max-height: 1100px) {
-    height: fit-content;
-  }
+//   @media (max-height: 1100px) {
+//     height: fit-content;
+//   }
   
-`;
-const SectionOne = styled.div`
-  height: 8%;
-  padding: 12px 8px;
-  display: flex;
-  justify-content: flex-end;
-  @media (max-height: 1200px) {
-    height: 60px;
-  }
-`;
-const SectionTwo = styled.div`
-  height: 80%;
-  padding: 12px 8px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin: 12px 0px;
-  width:100%
-  @media (max-width: 1200px) {
-    display: grid;
-    margin: 12px 0px;
-    // flex-direction: column;
+// `;
+// const SectionOne = styled.div`
+//   height: 8%;
+//   padding: 12px 8px;
+//   display: flex;
+//   justify-content: flex-end;
+//   @media (max-height: 1200px) {
+//     height: 60px;
+//   }
+// `;
+// const SectionTwo = styled.div`
+//   height: 80%;
+//   padding: 12px 8px;
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+//   margin: 12px 0px;
+//   width:100%
+//   @media (max-width: 1200px) {
+//     display: grid;
+//     margin: 12px 0px;
+//     // flex-direction: column;
 
-    flex-direction: column;
-    columns:2;
-    align-content: center;
-    align-items: center;
-  }
-`;
-const SectionThree = styled.div`
-  height: 40%;
-  padding: 12px 8px;
-  display: flex;
-  flex-direction: row;
+//     flex-direction: column;
+//     columns:2;
+//     align-content: center;
+//     align-items: center;
+//   }
+// `;
+// const SectionThree = styled.div`
+//   height: 40%;
+//   padding: 12px 8px;
+//   display: flex;
+//   flex-direction: row;
 
-  @media (max-width: 1200px) {
-    display: flex;
+//   @media (max-width: 1200px) {
+//     display: flex;
 
-    flex-direction: column;
-    align-items: center;
-  }
-`;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+// `;
 
-const SectionTwoInnerWrapper = styled.div`
-  display: flex;
-  //   justify-content: flex-end;
-  width: 100%;
-  justify-content: center;
-  padding: 26px 24px;
-  height: 80%;
-  @media (max-width: 1200px) {
-    width: 80%;
-  }
+// const SectionTwoInnerWrapper = styled.div`
+//   display: flex;
+//   //   justify-content: flex-end;
+//   width: 100%;
+//   justify-content: center;
+//   padding: 26px 24px;
+//   height: 80%;
+//   @media (max-width: 1200px) {
+//     width: 80%;
+//   }
 
-  @media (max-width: 760px) {
-    width: 100%;
-  }
-`;
+//   @media (max-width: 760px) {
+//     width: 100%;
+//   }
+// `;
 
-const SkillWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  //   width: 100%;
-  width: 60%;
-  @media (max-width: 1200px) {
-    width: 70%;
-  }
+// const SkillWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   //   width: 100%;
+//   width: 60%;
+//   @media (max-width: 1200px) {
+//     width: 70%;
+//   }
 
-  @media (max-width: 760px) {
-    width: 100%;
-  }
-`;
+//   @media (max-width: 760px) {
+//     width: 100%;
+//   }
+// `;
 
-const SectionThreeInnerWrapper = styled.div`
-  display: flex;
-  //   justify-content: flex-end;
-  width: 50%;
-  justify-content: center;
-  padding: 26px 24px;
-  @media (max-width: 1100px) {
-    width: 90%;
-  }
-`;
+// const SectionThreeInnerWrapper = styled.div`
+//   display: flex;
+//   //   justify-content: flex-end;
+//   width: 50%;
+//   justify-content: center;
+//   padding: 26px 24px;
+//   @media (max-width: 1100px) {
+//     width: 90%;
+//   }
+// `;
 
-const AddGoalButton = styled.button`
-  width: 100%;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
-  background: white;
-  border-radius: 6px;
-  border: none;
-  height: 70%;
-  cursor: pointer;
-  color: blue;
-  font-weight: 500;
-  font-family: "Roboto";
-  font-size: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover {
-    background: #fdf0f0;
-  }
-`;
+// const AddGoalButton = styled.button`
+//   width: 100%;
+//   box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+//   background: white;
+//   border-radius: 6px;
+//   border: none;
+//   height: 70%;
+//   cursor: pointer;
+//   color: blue;
+//   font-weight: 500;
+//   font-family: "Roboto";
+//   font-size: 16px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   &:hover {
+//     background: #fdf0f0;
+//   }
+// `;
 
-const AddGoalButtonWrapper = styled.div`
-  width: 26%;
-  height: 20%;
-  display: flex;
-  align-items: center;
-  @media (max-width: 1200px) {
-    width: 100%;
-    height: 70px;
-  }
-`;
+// const AddGoalButtonWrapper = styled.div`
+//   width: 26%;
+//   height: 20%;
+//   display: flex;
+//   align-items: center;
+//   @media (max-width: 1200px) {
+//     width: 100%;
+//     height: 70px;
+//   }
+// `;
 
 // const PremiumD = styled.div`
 // @media (max-width: 1200px) 
@@ -154,6 +166,15 @@ const AddGoalButtonWrapper = styled.div`
 //   height: 35px;
 
 // `
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 
 const UserSearchComponent = () => {
 
@@ -182,7 +203,7 @@ const UserSearchComponent = () => {
         return res.json()
         })
         .then((res) =>{
-            // console.log(res)
+            console.log(res)
 
             let reqData = []
             const  currentUserMatches = res.matchedData
@@ -214,7 +235,7 @@ const UserSearchComponent = () => {
   }, []);
 
   if(userMatches){
-    console.log(userMatches)
+    // console.log(userMatches)
 
     let c = 'Fr'
     userMatches.map((user,idx) =>{
@@ -266,37 +287,69 @@ const UserSearchComponent = () => {
 //   };
 //   console.log(userData);
 
-  return (
-      <div style={{"width":"80%"}}>
-          <ScrollToBottom style={{width:"160%"}}>
-    <UserDashboardWrapper>
+//   return (
+//       <div style={{"width":"80%"}}>
+//           <ScrollToBottom style={{width:"160%"}}>
+//     <UserDashboardWrapper>
       
-      <SectionOne>
-        {/* {userData.basicUserInfo.userType && ( */}
-          <div>
-            <IoDiamond style={{ height: "100%", width: "100%" ,color:"#264fc0"}} />
-            Hi {name} , Please find your potential matches
-          </div>
-        {/* )} */}
-      </SectionOne>
-      <SectionTwo>
-          { userMatches && (
-              userMatches.map((singleUser,idx) => (
-                <SectionTwoInnerWrapper key={idx}> 
-                    <Link to='/userdashboard'>
-                        <UserInfoComponent userData={singleUser} />
-                    </Link>
-                </SectionTwoInnerWrapper>
-              )))
-          }
+//       <SectionOne>
+//         {/* {userData.basicUserInfo.userType && ( */}
+//           <div>
+//             <IoDiamond style={{ height: "100%", width: "100%" ,color:"#264fc0"}} />
+//             Hi {name} , Please find your potential matches
+//           </div>
+//         {/* )} */}
+//       </SectionOne>
+//       <SectionTwo>
+//           { userMatches && (
+//               userMatches.map((singleUser,idx) => (
+//                 <SectionTwoInnerWrapper key={idx}> 
+//                     <Link to='/userdashboard'>
+//                         <UserInfoComponent userData={singleUser} />
+//                     </Link>
+//                 </SectionTwoInnerWrapper>
+//               )))
+//           }
         
-      </SectionTwo> 
+//       </SectionTwo> 
     
-    </UserDashboardWrapper>
-</ScrollToBottom>
-      </div>
+//     </UserDashboardWrapper>
+// </ScrollToBottom>
+//       </div>
     
-  );
+//   );
+if(userMatches){
+  console.log(userMatches)
+
+}
+return (
+  <React.Fragment>
+    <MainContainer>
+    <header className={classes.Header}>Hi {name},Find your potential matches</header>
+    <div className={classes.TableWrapper}>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid
+        container
+        spacing={{ xs: 2, md: 4 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+        {userMatches &&(userMatches.map((singleUser, index) => (
+          <Grid item xs={2} sm={4} md={4} key={index}>
+            <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} /></Item>
+          </Grid>
+        )))}
+      </Grid>
+    </Box>
+    
+    </div>
+   
+
+    </MainContainer>
+
+   
+  </React.Fragment>
+);
+
 };
 
 export default UserSearchComponent;
