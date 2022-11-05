@@ -7,27 +7,27 @@
 // });
 
 // module.exports=pool.promise();
-// require('dotenv').config();
-// module.exports={
+require('dotenv').config();
+module.exports={
     
 
-//     HOST: process.env.DB_HOST,
-//     USER: process.env.DB_USER,
-//     DATABASE: process.env.DB_NAME,
-//     PASSWORD: process.env.DB_PASSWORD,
-//     DIALECT:'mysql'
-// }
-
-
-module.exports={
-    HOST: 'localhost',
-    USER: 'root',
-    DATABASE: 'caty',
-    PASSWORD: 'Porsche@2024',
-    DIALECT:'mysql',
-    port:'3306',
-    timeout:'5000'
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    DATABASE: process.env.DB_NAME,
+    PASSWORD: process.env.DB_PASSWORD,
+    DIALECT:'mysql'
 }
+
+
+// module.exports={
+//     HOST: 'localhost',
+//     USER: 'root',
+//     DATABASE: 'caty',
+//     PASSWORD: 'Porsche@2024',
+//     DIALECT:'mysql',
+//     port:'3306',
+//     timeout:'5000'
+// }
 
 // const dotenv = require('dotenv');
 // dotenv.config();

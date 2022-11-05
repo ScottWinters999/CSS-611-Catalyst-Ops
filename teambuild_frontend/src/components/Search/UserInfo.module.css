@@ -1,0 +1,212 @@
+.CardWrapper {
+    height: 300px;
+    background: #ffffff;
+    box-shadow: -1px 8px 65px 0px rgb(167 167 181 / 57%);
+    border-radius: 34px;
+    cursor: pointer;
+  }
+  
+  .Intro {
+    height: 44%;
+    display: flex;
+    width: 100%;
+  }
+  
+  .CardInnerWrapper {
+    height: 100%;
+  
+    border-radius: 62px;
+  }
+  
+  .BasicInfoSection {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 2px;
+  }
+  
+  .PhotoSection {
+    width: 40%;
+  }
+  
+  .AvatarWrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .Avatar {
+    width: 30px;
+    height: 30px;
+    color: rgb(0, 0, 0);
+  }
+  
+  .NameWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+  
+  .NameWrapper p {
+    font-size: 32px;
+    font-family: Roboto;
+    margin: 2px 4px 2px 4px;
+    font-weight: 500;
+    color: black;
+  }
+  
+  .StatusWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+  
+  .StatusWrapper p {
+    font-size: 16px;
+    font-family: Roboto;
+    margin: 2px 4px 2px 4px;
+  }
+  
+  .LocationWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+  }
+  
+  .LocationWrapper p {
+    font-size: 16px;
+    font-family: Roboto;
+    margin: 2px 4px 2px 4px;
+  }
+  
+  .MainContent {
+    height: 50%;
+  }
+  
+  .LabelWrapper {
+    display: flex;
+  
+    padding: 0px 2px;
+  }
+  
+  .LabelWrapper p {
+    width: 22%;
+    font-family: "Roboto";
+    font-weight: 600;
+    /* margin: 0; */
+    margin: 6px 10px;
+  }
+  
+  .ContentWrapper {
+    margin: 6px 10px;
+    font-size: 18px;
+    font-family: "Roboto";
+    color: black;
+    font-weight: 500;
+  }
+  
+  .ProfilePic {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 30%;
+  }
+  
+  .ProfilePicInner {
+    height: 150px;
+    width: 150px;
+    background: gray;
+    border-radius: 50%;
+    position: absolute;
+    top: -69px;
+  }
+  
+  .ModalMainContent {
+    height: 100%;
+  }
+  
+  .ModalProfileName {
+    height: 15%;
+    justify-content: center;
+    display: flex;
+    font-size: 46px;
+    font-weight: 500;
+    font-family: serif;
+    color: black;
+  }
+  
+  .ModalCaption {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    color: grey;
+    font-size: 16px;
+  }
+  
+  .ModalMainInfo {
+    height: 15%;
+    display: flex;
+    /* color: grey; */
+    font-size: 16px;
+    align-items: center;
+    display: flex;
+  }
+  
+  .IconsClass {
+    height: 50%;
+    padding-left: 20%;
+  }
+  .UserContent {
+    padding-left: 10%;
+    font-family: "Roboto";
+    font-size: 18px;
+  
+    /* padding-left: 8%; */
+  }
+  
+  .IconsSvg {
+    height: 84%;
+    width: 84%;
+  }
+  
+  .ModalFooter {
+    width: 34%;
+    /* padding: 2px; */
+    height: 64%;
+    box-shadow: -1px 8px 65px 0px rgb(36 36 36 / 78%);
+  }
+  
+  .ModalFooter button {
+    width: 100%;
+    height: 100%;
+    background: #ababab;
+    border: none;
+    /* border-radius: 6px; */
+    color: black;
+    font-size: 14px;
+  }
+  
+  
+  .ModalHeader button {
+    width: 20%;
+    height: 100%;
+
+    border: none;
+    /* border-radius: 6px; */
+
+    font-size: 14px;
+  }
+  .ModalHeader button:hover{
+    background: #9b8d8d;
+    cursor: pointer;
+  }
+
+  .ModalFooter button:hover{
+    background: #9b8d8d;
+    cursor: pointer;
+  }
+  .footerbutton{
+   display: flex;
+  }
