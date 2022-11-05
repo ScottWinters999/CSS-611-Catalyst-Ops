@@ -23,16 +23,18 @@ module.exports={
                 console.log("16",userId)
                 const userExists = await UserProfile.findOne({ where: { userUserId: userId} });
                 const userSkill= await Skills.findAll({where: {userUserId: userId} });
+                //console.log(userSkill);
                 let skillset=[];
                 for(let i=0;i<userSkill.length;i++){
                         let temp= {
                                 "skillset": userSkill[i].dataValues.skillset,
-                                "experience": userSkill[i].dataValues.experience
+                                "experience": userSkill[i].dataValues.experience,
+                                "skillsetId":userSkill[i].dataValues.skillsetId
                         }
                         skillset.push(temp);
                 }
                 const userGoal = await Goal.findAll({where:{userUserId: userId}});
-
+                //console.log(userGoal);
                 let goalIds=[];
                 let mapGoal= new Map();
                 for(let i=0;i<userGoal.length;i++){
@@ -50,11 +52,13 @@ module.exports={
                         }
                         );
                 let goalComponent=[];
-                //console.log(userGoalComponent);
+                console.log(userGoalComponent);
                 for(let i=0;i<userGoalComponent.length;i++){
                         let temp={
                                 "goal": mapGoal[userGoalComponent[i].dataValues.goalGoalId],
+                                "goalId":userGoalComponent[i].dataValues.goalGoalId,
                                 "goalComponent":userGoalComponent[i].dataValues.goalComponent,
+                                "goalCompoentId":userGoalComponent[i].dataValues.goalCompoonentId,
                                 "matchedUser":''
                         }
 

@@ -18,6 +18,14 @@ module.exports=(sequelize,DataTypes)=>{
     matchedUserId:{
         type:DataTypes.INTEGER,
         allowNull:true
+    },
+    locationPreference:{
+        type: DataTypes.INTEGER,
+        allowNull:true
+    },
+    experienceRequired:{
+        type:DataTypes.INTEGER,
+        allowNull:true
     }
   },
   );

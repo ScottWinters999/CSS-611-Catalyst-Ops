@@ -33,6 +33,8 @@ db.model.Chat=require('./chat')(sequelize,Sequelize.DataTypes);
 
 
 db.model.GoalComponent=require('./goalcomponent')(sequelize,Sequelize.DataTypes);
+db.model.UserDiscard=require('./userdiscard')(sequelize,Sequelize.DataTypes);
+db.model.UserView=require('./userview')(sequelize,Sequelize.DataTypes);
 
 db.model.User.hasMany(db.model.Goal);
 db.model.User.hasMany(db.model.Skills);
@@ -40,6 +42,13 @@ db.model.User.hasOne(db.model.UserProfile);
 db.model.UserProfile.hasMany(db.model.Skills);
 db.model.UserProfile.hasMany(db.model.Goal);
 db.model.Goal.hasMany(db.model.GoalComponent);
+
+db.model.User.hasMany(db.model.UserDiscard);
+db.model.Goal.hasMany(db.model.UserDiscard);
+db.model.Skills.hasMany(db.model.UserDiscard);
+
+db.model.User.hasMany(db.model.UserView);
+
 
 // db.model.User.hasOne(db.model.Skills,{
 //   foreignKey:'userId'
