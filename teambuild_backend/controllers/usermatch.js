@@ -28,7 +28,7 @@ module.exports = {
     const userId = req.userData.userId;
     // const userId=req.body.userId;
     //const skillset= req.body.goal;
-    console.log("type of userId is ", typeof userId);
+    //console.log("type of userId is ", typeof userId);
 
     if (userId) {
       const locationFromUserProfile = await UserProfile.findOne({
@@ -50,7 +50,7 @@ module.exports = {
           },
         },
       });
-      // console.log(skillsets);
+      //console.log(skillsets);
       // if(skillsets){
       //     console.log(skillsets.length)
       // }
@@ -117,7 +117,7 @@ module.exports = {
       var ids = skills.join(",");
 
       let dict = {};
-      // console.log(userProfileIds);
+      //console.log(userProfileIds);
       for (let i = 0; i < userProfileIds.length; i++) {
         if (dict[userProfileIds[i].userprofileUserProfileId] == undefined) {
           dict[userProfileIds[i].userprofileUserProfileId] = [];
@@ -159,7 +159,7 @@ module.exports = {
           },
         },
       });
-
+      //console.log(matchedUser);
       //find the discarded skillsetId
 
       const userdiscards = await UserDiscard.findAll({
@@ -179,7 +179,7 @@ module.exports = {
         setOfDiscards.add(temp);
       }
 
-      // console.log(userdiscards);
+      //console.log(setOfDiscards);
       let matchedData = [];
       let discardedData = [];
       let user = "user";
