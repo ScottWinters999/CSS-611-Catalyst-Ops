@@ -17,13 +17,22 @@ module.exports = {
       const userUserId = req.body.userUserId; // the userId of the one who got viewed
       const matchedGoal = req.body.matchedGoal;
 
-      UserView.create({
-        viewedUserId,
-        userUserId,
-        matchedGoal,
-      }).then((response) => {
-        res.status(200).json({ status: "Userview table updated" });
+      const isAlreadyViewed = await UserView.findOne({
+        where: {
+          viewedUserId: viewedUserId,
+          userUserId: userUserId,
+        },
       });
+      if (isAlreadyViewed) res.status(200).json({ status: "already viewed" });
+      else {
+        UserView.create({
+          viewedUserId,
+          userUserId,
+          matchedGoal,
+        }).then((response) => {
+          res.status(200).json({ status: "Userview table updated" });
+        });
+      }
     } else {
       res.status(200).json({ status: "wrong userID" });
     }
