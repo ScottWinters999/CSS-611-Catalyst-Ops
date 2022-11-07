@@ -9,6 +9,7 @@ import React from "react";
 import classes from "./UserInfo.module.css";
 import { CgProfile } from "react-icons/cg";
 import { GrLocation } from "react-icons/gr";
+import { AuthContext } from "../../shared/context/auth-context";
 
 
 
@@ -138,20 +139,101 @@ const ItemModal = {
 const UserInfoComponent = (props) => {
   console.log(props)
   const basicInfo = props.userData;
+  const idx = props.idx
+  const deleteMatch=props.deleteSingleMatch
 //   const skillset = props.userData.skillSet;
   const [skillset,setSkillset] = useState([])
   const [isEdit,setIsEdit] = useState(false)
+  const token = JSON.parse(localStorage.getItem("userData"));
+
+  const authorization = "Bearer " + token.token;
 
 
   const [showModal, setShowModal] = useState(false);
 
   const openModalHandler = () => {
     setShowModal(true);
+    try {
+      const response = fetch("http://localhost:5000/api/userprofileviewcreate", {
+        method: "POST",
+        body: viewBody,
+        headers: {
+          "Content-Type": "application/json",
+          "authorization":authorization
+        },
+      });
+      const data =  response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const UserAccept = () => {
+    closeModalHandler();
+    console.log(acceptBody)
+    // deleteMatch(idx)
+    try {
+      const newresponse = fetch("http://localhost:5000/api/usergoalmatch", {
+        method: "POST",
+        body: acceptBody,
+        headers: {
+          "Content-Type": "application/json",
+          "authorization":authorization
+        },
+      });
+      const data =  newresponse.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+  const UserDiscard = () => {
+    closeModalHandler();
+    console.log(discardBody)
+    deleteMatch(idx)
+    try {
+      const response = fetch("http://localhost:5000/api/userdiscard", {
+        method: "POST",
+        body: discardBody,
+        headers: {
+          "Content-Type": "application/json",
+          "authorization":authorization
+        },
+      });
+      const data =  response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const closeModalHandler = () => {
     setShowModal(false);
   };
+
+
+  
+  
+  const viewBody = JSON.stringify({
+    userUserId: basicInfo.userid,
+    matchedGoal:basicInfo.goalMatched,
+    //skillSetId:basicInfo.skillsetid
+  });
+
+  const discardBody = JSON.stringify({
+    discardUserId: basicInfo.userid,
+    goalId:basicInfo.goalMatchedId,
+    skillSetId:basicInfo.skillsetId
+  });
+
+  const acceptBody = JSON.stringify({
+    matchedUserId: basicInfo.userid,
+    goalComponentId:basicInfo.goalcomponentid
+  });
+
 
   useEffect(() =>{
       if(props.userData){
@@ -200,15 +282,17 @@ const UserInfoComponent = (props) => {
       )} */}
       <div className={classes.ModalFooter}>
         {/* <button onClick={closeModalHandler}>Close</button> */}
-        <div className={classes.footerbutton}>
+        <div className={classes.footerdiscardbutton}>
         <div>
-        <button>Remove this person</button>
+        <button onClick={UserDiscard}>Remove this person</button>
         </div>
+        </div>
+        <div className={classes.footeracceptbutton}>
         <div>
-        <button>Accept this person</button>
+        <button onClick={UserAccept}>Accept this person</button>
         </div>
         </div>
-      </div>
+        </div>
     </React.Fragment>
   );
 
@@ -231,7 +315,7 @@ const UserInfoComponent = (props) => {
           </div>
           <div className={classes.ModalProfileName}>{basicInfo.firstname}</div>
           <div className={classes.ModalCaption}>
-            I love building and managing Software
+            {basicInfo.skillset}
           </div>
           <div className={classes.ModalMainInfo}>
             <div className={classes.IconsClass}>
@@ -376,25 +460,19 @@ const UserInfoComponent = (props) => {
               <div className={classes.LabelWrapper}>
                 <p>Goals Matched :</p>
                 <span className={classes.ContentWrapper}>
-                      {
-                      skillset &&(
-                          skillset.map((skill,idx) =>(
-                              <div key={idx}>{skill[1]}</div>
-                          ))
-                      )
-                  }
+                      {basicInfo.goalMatched}
                 </span>
               </div>
               <div className={classes.LabelWrapper}>
                 <p>Skillset :</p>
                 <span className={classes.ContentWrapper}>
-                           {
-                      skillset &&(
-                          skillset.map((skill,idx) =>(
-                              <div key={idx}>{skill[0]}</div>
-                          ))
-                      )
-                  }
+                        {basicInfo.skillset}
+                </span>
+              </div>
+              <div className={classes.LabelWrapper}>
+                <p>Experience years:</p>
+                <span className={classes.ContentWrapper}>
+                      {basicInfo.experience} 
                 </span>
               </div>
             </div>
