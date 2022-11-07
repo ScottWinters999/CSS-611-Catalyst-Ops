@@ -205,18 +205,37 @@ module.exports = {
         //console.log(mapSkill);
         if (!setOfDiscards.has(isDiscard)) {
           //console.log(mapSkill[1], " ", temp.skillset[2]["experience"]);
+
           if (
             mapSkill[1] != null &&
             mapSkill[1] == temp.skillset[2]["experience"]
           ) {
-            //console.log(mapSkill[0]," ", temp.user.location," ",locationFromUserProfile.location);
+            console.log(
+              mapSkill[0],
+              " ",
+              temp.user.location,
+              " ",
+              locationFromUserProfile.location
+            );
             //console.log(isDiscard, "isDicard");
             if (
               mapSkill[0] == 1 &&
               temp.user.location == locationFromUserProfile.location
             )
               matchedData.push(temp);
-          } else if (mapSkill[0] != null && mapSkill[0] != 1)
+            else if (mapSkill[0] == 0) matchedData.push(temp);
+          } else if (
+            mapSkill[1] == null &&
+            mapSkill[0] != null &&
+            mapSkill[0] != 1
+          ) {
+            //console.log(mapSkill[1], " ", mapSkill[0]);
+            matchedData.push(temp);
+          } else if (
+            mapSkill[1] == null &&
+            mapSkill[0] == 1 &&
+            temp.user.location == locationFromUserProfile.location
+          )
             matchedData.push(temp);
         } else {
           discardedData.push(temp);
