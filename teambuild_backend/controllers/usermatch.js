@@ -48,9 +48,12 @@ module.exports = {
                            
                     )`),
           },
+          matchedUserId: {
+            [Op.eq]: null,
+          },
         },
       });
-      //console.log(skillsets);
+      console.log(skillsets);
       // if(skillsets){
       //     console.log(skillsets.length)
       // }
