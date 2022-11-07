@@ -387,7 +387,7 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
                   {singleGoalComponent.goalComponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner>
-                  {singleGoalComponent.matchedWithUser}
+                  {singleGoalComponent.matchedUser}
                 </TablebodyCellInner>
               </TableDropDownBodyRow>
             ))}
