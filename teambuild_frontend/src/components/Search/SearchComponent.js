@@ -211,18 +211,25 @@ const UserSearchComponent = () => {
 
                 let temp = {}
                 temp ={
+                    "userid":i?.user?.userUserId,
                     "firstname":i?.user?.firstName,
                     "lastname":i?.user?.lastName,
                     "email":i?.user?.email,
                     "industry":i?.user?.industry,
                     "location":i?.user?.location,
-                    "skillset":i?.skillset
+                    "skillset":i?.skillset[0]["SkillMatched"],
+                    "goalMatched":i.skillset[1]["goalMatched"][0],
+                    "goalMatchedId":i.skillset[1]["goalMatched"][1],
+                    "experience":i.skillset[2]["experience"],
+                    "skillsetId":i.skillset[3]["SkillSetId"],
+                    "goalcomponentid":i.goalCompoonentId
                 }
-                // console.log(temp)
+                console.log(temp)
                 reqData.push(temp)
             })
 
             setUserMatches(reqData)
+            console.log(userMatches)
         })
         // responseData.t
         // responseData./
@@ -234,26 +241,44 @@ const UserSearchComponent = () => {
     // console.log(userMatches)
   }, []);
 
-  if(userMatches){
-    // console.log(userMatches)
 
-    let c = 'Fr'
-    userMatches.map((user,idx) =>{
-
-      console.log(user)
-      if ("skillset" in user){
-        console.log(user?.skillset[0],'skilaa')
-        
-        let k = user?.skillset[0].map((ss) =>{
-          
-          return ss.includes(c)
-        })
-        console.log(k)
-      }
+  const deleteMatchHandler = (idx)=>{
 
 
-    })
+    // const goalMatchedId
+    // = userMatches[idx].goalMatchedId
+    // const userId
+    // = userMatches[idx].userid
+    // let temp = userMatches
+    // temp.splice(idx,1)
+    // console.log(temp)
+    // setUserMatches()
+    setUserMatches(prev => prev.filter((el, i) => i !== idx))
+    
+    // console.log(userId)
+    // setUserMatches((prev) => prev.filter((match) => 
+        // match.goalMatchedId !== goalMatchedId && match.userId !== goalMatchedId))
   }
+  // if(userMatches){
+  //   // console.log(userMatches)
+
+  //   let c = 'Fr'
+  //   userMatches.map((user,idx) =>{
+
+  //     console.log(user)
+  //     if ("skillset" in user){
+  //       console.log(user?.skillset[0],'skilaa')
+        
+  //       let k = user?.skillset[0].map((ss) =>{
+          
+  //         return ss.includes(c)
+  //       })
+  //       console.log(k)
+  //     }
+
+
+  //   })
+  // }
 
 //   const userData = {
 //     basicUserInfo: {
@@ -335,7 +360,7 @@ return (
       >
         {userMatches &&(userMatches.map((singleUser, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} /></Item>
+            <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} idx={index} deleteSingleMatch={deleteMatchHandler} /></Item>
           </Grid>
         )))}
       </Grid>

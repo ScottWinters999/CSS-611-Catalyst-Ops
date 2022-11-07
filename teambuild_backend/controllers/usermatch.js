@@ -171,7 +171,7 @@ module.exports = {
           userUserId: userId,
         },
       });
-
+      console.log(userdiscards);
       const setOfDiscards = new Set();
       for (let i = 0; i < userdiscards.length; i++) {
         let temp =
@@ -183,7 +183,7 @@ module.exports = {
         setOfDiscards.add(temp);
       }
 
-      //console.log(setOfDiscards);
+      
       let matchedData = [];
       let discardedData = [];
       let user = "user";
@@ -207,7 +207,7 @@ module.exports = {
           temp.skillset[3]["SkillSetId"] +
           "" +
           temp.user.userUserId;
-        //console.log(mapSkill);
+        console.log(isDiscard);
         if (!setOfDiscards.has(isDiscard)) {
           //console.log(mapSkill[1], " ", temp.skillset[2]["experience"]);
 

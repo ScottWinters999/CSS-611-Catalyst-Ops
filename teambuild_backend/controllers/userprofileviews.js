@@ -10,8 +10,8 @@ const { Op } = require("sequelize");
 
 module.exports = {
   create: async (req, res) => {
-    //const userId=req.userData.userId;
-    const viewedUserId = req.body.userId;
+    const viewedUserId=req.userData.userId;
+    // const viewedUserId = req.body.userId;
     if (viewedUserId) {
       // const viewedUserId=userId;
       const userUserId = req.body.userUserId; // the userId of the one who got viewed
