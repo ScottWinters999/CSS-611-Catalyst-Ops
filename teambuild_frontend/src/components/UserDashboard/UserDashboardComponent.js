@@ -74,7 +74,7 @@ const SectionTwoRight = styled.div`
 const SectionTwoLeftInnerWrapper = styled.div`
   display: flex;
   //   justify-content: flex-end;
-  width: 100%;
+  width: 94%;
   justify-content: center;
   padding: 6px 24px;
   height: 80%;
@@ -191,13 +191,13 @@ const UserDashboardComponent = () => {
         userCtx.onSetUserName(loadedUserInfo.firstName);
       }
       if (loadedUserInfo.location.length > 0) {
-        userCtx.onSetLocation(loadedUserInfo.location)
+        userCtx.onSetLocation(loadedUserInfo.location);
       }
       if (loadedUserInfo.email.length > 0) {
-        userCtx.onSetEmail(loadedUserInfo.email)
+        userCtx.onSetEmail(loadedUserInfo.email);
       }
     }
-  }, [loadedUserInfo])
+  }, [loadedUserInfo]);
   // console.log(loadedUserInfo)
   if (loadedUserInfo) {
     localStorage.setItem("firstName", JSON.stringify(loadedUserInfo.firstName));
@@ -292,7 +292,8 @@ const UserDashboardComponent = () => {
 
   return (
     // <ScrollToBottom>
-    <UserDashboardWrapper>
+    // <UserDashboardWrapper>
+    <MainContainer>
       <SectionOne>
         {userData.basicUserInfo.userType && (
           <div>
@@ -323,7 +324,8 @@ const UserDashboardComponent = () => {
           </SectionTwoRightInnerWrapper>
         </SectionTwoRight>
       </SectionTwoOuter>
-    </UserDashboardWrapper>
+    </MainContainer>
+    // </UserDashboardWrapper>
   );
 };
 

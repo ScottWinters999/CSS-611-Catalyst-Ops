@@ -23,6 +23,19 @@ const GoalsOutsideWrapper = styled.div`
   width: 100%;
 `;
 
+const TablebodyCellEdit = styled.div`
+  // background: black;
+  width: 16%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background: #c8dbdb;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
 const Table = styled.div`
   // border: 2px solid #bcbcbc;
   //   width: 800px;
@@ -44,7 +57,7 @@ const TableWrapper = styled.div`
   padding: 4px 8px;
   height: 72% !important;
   overflow-y: scroll;
-  border:1px solid black;
+  border: 1px solid black;
 `;
 const Header = styled.header`
   padding: 6px 8px;
@@ -84,13 +97,13 @@ const GoalAdd = styled.p`
 `;
 
 const Button = styled.button`
-width: 50%;
-height: 30px;
-background: #466de7f0;
-border: none;
-border-radius: 4px;
-height: 54px;
-padding: 6px;
+  width: 50%;
+  height: 30px;
+  background: #466de7f0;
+  border: none;
+  border-radius: 4px;
+  height: 54px;
+  padding: 6px;
   & :hover {
     background: #34349f;
     cursor: pointer;
@@ -152,8 +165,22 @@ const TableDropDownBodyRow = styled.div`
 `;
 const TablebodyCell = styled.div`
   padding: 8px 6px;
-  width: 20%;
+  width: 16%;
   // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
+`;
+
+const TablebodyCellButtonDelete = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 8px 6px;
+  width: 20%;
+  background: #ffffff;
+  margin-left: 30px;
+  &:hover {
+    background: #ffa6a6;
+    border-radius: 4px;
+    cursor: pointer;
+  }
 `;
 const TablebodyCellInner = styled.div`
   padding: 8px 6px;
@@ -179,8 +206,16 @@ const TablebodyCellDropRow = styled.div`
 
 const ArrowWrapper = styled.div`
   background: aliceblue;
-  border-radius: 100px;
+  border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+
+  &:hover {
+    background: #a7b3bd;
+  }
 `;
 
 const TablebodyCellDrop = styled.div``;
@@ -304,9 +339,9 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
     console.log(goalComponentList);
   }, [goalComponents]);
   return (
-    <div style={{ padding: "4px" ,"marginTop": "22px"}}>
+    <div style={{ padding: "4px", marginTop: "22px" }}>
       <TablebodyRow {...otherProps}>
-        <TablebodyCell style={{"width": "5%"}}>
+        <TablebodyCell style={{ width: "8%" }}>
           <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
             {isExpanded ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
           </ArrowWrapper>
@@ -369,7 +404,7 @@ const UserGoalComponent = ({ data }) => {
   const classes = useStyles();
   const [totalGoals, setTotalGoals] = useState([]);
   console.log(data, "GOALSS");
-  const history = useNavigate()
+  const history = useNavigate();
   useEffect(() => {
     if (data) {
       const groupBy = (key) => (array) =>
@@ -385,45 +420,82 @@ const UserGoalComponent = ({ data }) => {
       console.log(total);
       if (Object.keys(total).length > 0) {
         // console.log("lengthhh");
-        const currentUserGoals = []
-        Object.keys(total).forEach((key,idx) =>{
-            let temp = {}
-            // console.log(total[key])
-            let goalName = key
+        const currentUserGoals = [];
+        Object.keys(total).forEach((key, idx) => {
+          let temp = {};
+          // console.log(total[key])
+          let goalName = key;
 
-            // let goalComponents = []
-            let goalComponents = total[key].map((val) =>{
-              // console.log(val,'sss')
-              return {"goalComponent":val['goalComponent'],"matchedUser":val['matchedUser']}
-            })
-            let currentGoalStatus = total[key].reduce((val,userGoal) =>{
-
-              console.log(val,userGoal,'asasassdsads  ')
-              let ifMatchedUser = 0
-              // userGoal['matchedUser'] = 'a'
-              console.log(userGoal['matchedUser'],'aaa')
-              if ('matchedUser' in userGoal && userGoal['matchedUser'].length > 0){
-                ifMatchedUser = 1
-                // console.log('nnnnnnnnnnnnnnnnnnnnnnnnnn')
-              }
-              return val + ifMatchedUser
-              // return val['matchedUser'].length
-            },0)
-            let totalGoalComponents = goalComponents.length
-            let status = `${currentGoalStatus} / ${totalGoalComponents}`
-            console.log(status,"required")
-            temp = {
-              'name':goalName,
-              'status':status,
-              'goalComponents':goalComponents
+          // let goalComponents = []
+          let goalComponents = total[key].map((val) => {
+            // console.log(val,'sss')
+            return {
+              goalComponent: val["goalComponent"],
+              matchedUser: val["matchedUser"],
+              goalComponentId: val["goalComponentId"],
+            };
+          });
+          let currentGoalStatus = total[key].reduce((val, userGoal) => {
+            console.log(val, userGoal, "asasassdsads  ");
+            let ifMatchedUser = 0;
+            // userGoal['matchedUser'] = 'a'
+            console.log(userGoal["matchedUser"], "aaa");
+            if (
+              "matchedUser" in userGoal &&
+              userGoal["matchedUser"].length > 0
+            ) {
+              ifMatchedUser = 1;
+              // console.log('nnnnnnnnnnnnnnnnnnnnnnnnnn')
             }
-            currentUserGoals.push(temp)
-        })
-        console.log(currentUserGoals,'current')
+            return val + ifMatchedUser;
+            // return val['matchedUser'].length
+          }, 0);
+          let totalGoalComponents = goalComponents.length;
+          let status = `${currentGoalStatus} / ${totalGoalComponents}`;
+          console.log(status, "required");
+          temp = {
+            name: goalName,
+            status: status,
+            goalComponents: goalComponents,
+            goalId: total[key][0]["goalId"],
+          };
+          currentUserGoals.push(temp);
+        });
+        console.log(currentUserGoals, "current");
         setTotalGoals(currentUserGoals);
       }
     }
   }, [data]);
+
+  const deleteButtonHandler = async (idx) => {
+    console.log(totalGoals[idx]);
+    const goalId = totalGoals[idx]["goalId"];
+    console.log(goalId);
+    const body = {
+      goalId: goalId,
+    };
+    try {
+      const response = await fetch("http://localhost:5000/api/usergoaldelete", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data) {
+        setTotalGoals((prev) => prev.filter((goal) => goal.goalId !== goalId));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // const index = array.indexOf(idx);
+    // if (index > -1) { // only splice array when item is found
+    //   array.splice(index, 1); // 2nd parameter means remove one item only
+    // }
+  };
 
   // const groupBy = key => array =>
   // array.reduce((objectsByKeyValue, obj) => {
@@ -461,16 +533,14 @@ const UserGoalComponent = ({ data }) => {
   //     </Card>
   //   </GoalsOutsideWrapper>
   // );
-  const editGoalHandler = (id) =>{
-
-    history('/userchat',{
-      state:{
-        'editGoal':id
-      }
-    })
-    console.log(id)
-    
-  }
+  const editGoalHandler = (id) => {
+    history("/userchat", {
+      state: {
+        editGoal: id,
+      },
+    });
+    console.log(id);
+  };
   const [isExpanded, setIsExpanded] = useState(false);
   // const listItems = numbers.map((number) => <li>{number}</li>);
   return (
@@ -478,21 +548,31 @@ const UserGoalComponent = ({ data }) => {
       <Card style={{ "overflow-y": "scroll" }}>
         <CardInnerBox>
           <Header>
-            <div style={{"display": "flex","width": "100%"}}>
-              <div   style={{"width": "50%"}}>Goals</div>
+            <div style={{ display: "flex", width: "100%" }}>
+              <div style={{ width: "50%" }}>Goals</div>
 
               <ButtonWrapper>
-              <Link to={'/userchat'} state={{ 'addGoal':'True'}} style={{"width": "100%","display": "flex","justifyContent": "flex-end"}}>
-                <Button>
-                  <ButtonInner>
-                    
-                    <GoalAdd>Add New Goal</GoalAdd>
-                    <AiOutlinePlus
-                      style={{ color: "white", width: "24px", height: "24px" }}
-                    />
-                   
-                  </ButtonInner>
-                </Button>
+                <Link
+                  to={"/userchat"}
+                  state={{ addGoal: "True" }}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button>
+                    <ButtonInner>
+                      <GoalAdd>Add New Goal</GoalAdd>
+                      <AiOutlinePlus
+                        style={{
+                          color: "white",
+                          width: "24px",
+                          height: "24px",
+                        }}
+                      />
+                    </ButtonInner>
+                  </Button>
                 </Link>
               </ButtonWrapper>
             </div>
@@ -500,44 +580,50 @@ const UserGoalComponent = ({ data }) => {
 
           {/* <ThemeProvider theme={theme}> */}
 
-          { totalGoals &&(<TableWrapper>
-            <Table
-              aria-label="simple table"
-              style={{ width: "100%" }}
-              align="right"
-            >
-              <Tableheader>
-                <TableHeaderRow>
-                  <TableHeaderCol>Goal Name</TableHeaderCol>
-                  <TableHeaderCol>Status</TableHeaderCol>
-                  <TableHeaderCol>Edit</TableHeaderCol>
-                  <TableHeaderCol>Delete</TableHeaderCol>
-                </TableHeaderRow>
-              </Tableheader>
-              <Tablebody>
-  
-                {totalGoals.map((row, idx) => (
-                  <ExpandableTableRow
-                    key={idx}
-                    goalComponents={row?.goalComponents}
-                  >
-                    <TablebodyCellWrapper>
-                      <TablebodyCell style={{"width": "40%","marginLeft": "2%"}}>{row.name}</TablebodyCell>
-                      <TablebodyCell>{row.status}</TablebodyCell>
-                      <TablebodyCell  style={{"marginLeft": "12px"}}>
-                        <BsPencilFill onClick={() => editGoalHandler(idx)}/>
-                      </TablebodyCell>
-                      <TablebodyCell>
-                        <MdDeleteOutline
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                      </TablebodyCell>
-                    </TablebodyCellWrapper>
-                  </ExpandableTableRow>
-                ))}
-              </Tablebody>
-            </Table>
-          </TableWrapper>
+          {totalGoals && (
+            <TableWrapper>
+              <Table
+                aria-label="simple table"
+                style={{ width: "100%" }}
+                align="right"
+              >
+                <Tableheader>
+                  <TableHeaderRow>
+                    <TableHeaderCol>Goal Name</TableHeaderCol>
+                    <TableHeaderCol>Status</TableHeaderCol>
+                    <TableHeaderCol>Edit</TableHeaderCol>
+                    <TableHeaderCol>Delete</TableHeaderCol>
+                  </TableHeaderRow>
+                </Tableheader>
+                <Tablebody>
+                  {totalGoals.map((row, idx) => (
+                    <ExpandableTableRow
+                      key={idx}
+                      goalComponents={row?.goalComponents}
+                    >
+                      <TablebodyCellWrapper>
+                        <TablebodyCell
+                          style={{ width: "36%", marginLeft: "2%" }}
+                        >
+                          {row.name}
+                        </TablebodyCell>
+                        <TablebodyCell>{row.status}</TablebodyCell>
+                        <TablebodyCellEdit>
+                          <BsPencilFill onClick={() => editGoalHandler(idx)} />
+                        </TablebodyCellEdit>
+                        <TablebodyCellButtonDelete
+                          onClick={() => deleteButtonHandler(idx)}
+                        >
+                          <MdDeleteOutline
+                            style={{ width: "24px", height: "24px" }}
+                          />
+                        </TablebodyCellButtonDelete>
+                      </TablebodyCellWrapper>
+                    </ExpandableTableRow>
+                  ))}
+                </Tablebody>
+              </Table>
+            </TableWrapper>
           )}
 
           {/* </ThemeProvider> */}

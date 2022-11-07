@@ -96,11 +96,13 @@
   font-family: "Roboto";
   font-weight: 600;
   /* margin: 0; */
-  margin: 6px 10px;
+  margin: 6px 30px;
+  justify-content: flex-end;
+  display: flex;
 }
 
 .ContentWrapper {
-  margin: 6px 10px;
+  margin: 4px 10px;
   font-size: 18px;
   font-family: "Roboto";
   color: black;
@@ -188,8 +190,7 @@
   font-size: 14px;
 }
 
-
-.ModalFooter button:hover{
+.ModalFooter button:hover {
   background: #9b8d8d;
   cursor: pointer;
 }
