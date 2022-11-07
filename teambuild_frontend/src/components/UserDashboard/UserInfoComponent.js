@@ -11,15 +11,20 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 const UserInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: fit-content;
+  height: 86%;
   padding: 20px 24px;
+  // padding: 29px;
+  margin: 32px 50px;
+  border-radius:4px;
+  // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
+}
   @media (max-width: 1200px) {
     padding: 20px 16px;
   }
 `;
 const UserNameContainer = styled.div`
   display: flex;
-  height: 20%;
+  height: 36%;
   flex-direction: row;
 `;
 
@@ -36,7 +41,7 @@ const UserProfileNameOutsideWrapper = styled.div`
 const UserProfileNameInsideWrapper = styled.div`
   color: blue;
   font-weight: 700;
-  font-family:'PT Serif',serif;
+  font-family: "PT Serif", serif;
   font-size: 36px;
 `;
 
@@ -64,7 +69,7 @@ const UserProfileInfoBulletinWrapper = styled.div`
   display: flex;
   flex-direction: row;
   font-size: 18px;
-  font-family: 'PT Serif',serif;
+  font-family: "PT Serif", serif;
   font-weight: 400;
   flex-grow: 1;
   padding: 4px 0px;
@@ -134,11 +139,11 @@ const UserInfoComponent = ({ userData }) => {
   // const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
   const basicInfo = userData;
-  const token = JSON.parse(localStorage.getItem('userData'))
+  const token = JSON.parse(localStorage.getItem("userData"));
   const headers = {
-    authorization: 'Bearer ' + token.token,
-    "Content-Type": "application/json"
-}; 
+    authorization: "Bearer " + token.token,
+    "Content-Type": "application/json",
+  };
   // if (props){
   //   setName(basicInfo.userName)
   //   console.log(name,basicInfo.userName,basicInfo)
@@ -152,7 +157,7 @@ const UserInfoComponent = ({ userData }) => {
   const [industry, setIndustry] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [photoUrl,setPhotoUrl] = useState("")
+  const [photoUrl, setPhotoUrl] = useState("");
   useEffect(() => {
     if (userData) {
       // console.log("140");
@@ -176,12 +181,12 @@ const UserInfoComponent = ({ userData }) => {
           })
           .then((res) => {
             // console.log(res);
-            if (res.image){
-              const imgUrl = "http://localhost:5000/upload/images/" + res.image
+            if (res.image) {
+              const imgUrl = "http://localhost:5000/upload/images/" + res.image;
               // console.log(imgUrl)
-              setPhotoUrl(imgUrl)
+              setPhotoUrl(imgUrl);
             }
-            
+
             // setLoadedUserInfo(res.userData);
           });
         // responseData.t
@@ -218,7 +223,7 @@ const UserInfoComponent = ({ userData }) => {
     setLocation(event.target.value);
   };
 
-  const submitHandler = async(event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
     // console.log("hi");
     if (isnameInvalid) {
@@ -235,15 +240,18 @@ const UserInfoComponent = ({ userData }) => {
     };
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_BACKEND_SERVER}userupdate`, {
-        method: "PATCH",
-        body: JSON.stringify(body),
-        headers: headers,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}userupdate`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(body),
+          headers: headers,
+        }
+      );
       const data = await response.json();
       // console.log(data);
-      if(data){
-        console.log(data)
+      if (data) {
+        console.log(data);
       }
     } catch (err) {
       console.log(err);

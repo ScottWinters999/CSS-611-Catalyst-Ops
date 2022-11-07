@@ -39,8 +39,8 @@ module.exports = {
   },
 
   getprofileviews: async (req, res) => {
-    //const userId=req.userData.userId;
-    const userId = req.body.userId;
+    const userId = req.userData.userId;
+    // const userId = req.body.userId;
     if (userId) {
       const viewed = await UserView.findAll({
         where: { userUserId: userId },

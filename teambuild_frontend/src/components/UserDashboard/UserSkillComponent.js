@@ -80,22 +80,34 @@ const SingleSkill = styled.div`
   justify-content: space-around;
 `;
 
+const SingleSkillEdit = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 20%;
+  margin-left: 36px;
+  align-items: center;
+  height: 36px;
+  &:hover {
+    background: #c8dbdb;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+`;
+
 const UserSkillComponent = ({ title, data }) => {
   // if(data){
   //   console.log(data,'asadasdasdsad')
   // }
   const [skill, setSkill] = useState([]);
   const history = useNavigate();
-  const editSkillHandler = (id) =>{
-
-    history('/userchat',{
-      state:{
-        'editSkill':id
-      }
-    })
-    console.log(id)
-    
-  }
+  const editSkillHandler = (id) => {
+    history("/userchat", {
+      state: {
+        editSkill: id,
+      },
+    });
+    console.log(id);
+  };
   // const skill = data;
   useEffect(() => {
     if (data) {
@@ -129,9 +141,9 @@ const UserSkillComponent = ({ title, data }) => {
                     <SingleSkill style={{ width: "40%" }}>
                       {val.experience}
                     </SingleSkill>
-                    <SingleSkill style={{ width: "20%",display:"flex",justifyContent:"space-around" ,'paddingLeft':"26px"}}>
-                      <BsPencilFill onClick={() => editSkillHandler(key)}/>
-                    </SingleSkill>
+                    <SingleSkillEdit>
+                      <BsPencilFill onClick={() => editSkillHandler(key)} />
+                    </SingleSkillEdit>
                   </SkillSetWrap>
                 ))}
               </Tablebody>

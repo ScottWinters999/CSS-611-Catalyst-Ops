@@ -22,8 +22,7 @@ const ItemActions = {
 const ModalHeader = {
   height: "20%",
   // "font-family": "Montserrat",
-  background:"#264ECA",
-  
+  background: "#264ECA",
 };
 
 const ItemModal = {
@@ -31,7 +30,16 @@ const ItemModal = {
   height: "100%",
 };
 
-const ProfileViewsCard = (props) => {
+const ProfileViewsCard = ({
+  name,
+  industry,
+  currentPosition,
+  goalMapped,
+  phone,
+  email,
+  location,
+}) => {
+  console.log(email);
   const [showModal, setShowModal] = useState(false);
 
   const openModalHandler = () => {
@@ -73,19 +81,21 @@ const ProfileViewsCard = (props) => {
           <div className={classes.ProfilePic}>
             <div className={classes.ProfilePicInner}> </div>
           </div>
-          <div className={classes.ModalProfileName}>John</div>
-          <div className={classes.ModalCaption}>
+          <div className={classes.ModalProfileName}>{name}</div>
+          {/* <div className={classes.ModalCaption}>
             I love building and managing Software
-          </div>
+          </div> */}
           <div className={classes.ModalMainInfo}>
             <div className={classes.IconsClass}>
               <GrMail className={classes.IconsSvg} />
             </div>
-            <div className={classes.UserContent}>John@gmail.com</div>
+            <div className={classes.UserContent}>{email}</div>
           </div>
           <div className={classes.ModalMainInfo}>
-            <div className={classes.IconsClass}><BsFillTelephoneFill className={classes.IconsSvg} /></div>
-            <div className={classes.UserContent}>5754754546</div>
+            <div className={classes.IconsClass}>
+              <BsFillTelephoneFill className={classes.IconsSvg} />
+            </div>
+            <div className={classes.UserContent}>{phone}</div>
           </div>
         </div>
         {/* {!isValid && <p>'error'</p>} */}
@@ -106,13 +116,13 @@ const ProfileViewsCard = (props) => {
             </div>
             <div className={classes.BasicInfoSection}>
               <div className={classes.NameWrapper}>
-                <p>John</p>
+                <p>{name}</p>
               </div>
-              <div className={classes.StatusWrapper}>
+              {/* <div className={classes.StatusWrapper}>
                 <p>Open to Work</p>
-              </div>
+              </div> */}
               <div className={classes.LocationWrapper}>
-                <p>London,UK</p>
+                <p>{location}</p>
               </div>
             </div>
           </div>
@@ -120,19 +130,18 @@ const ProfileViewsCard = (props) => {
             <div>
               <div className={classes.LabelWrapper}>
                 <p>I'm a :</p>
-                <span className={classes.ContentWrapper}>BackendDeveloper</span>
+                <span className={classes.ContentWrapper}>
+                  {currentPosition}
+                </span>
               </div>
               <div className={classes.LabelWrapper}>
                 <p>Industry :</p>
-                <span className={classes.ContentWrapper}>Software</span>
+                <span className={classes.ContentWrapper}>{industry}</span>
               </div>
+
               <div className={classes.LabelWrapper}>
-                <p>Function :</p>
-                <span className={classes.ContentWrapper}>Developer</span>
-              </div>
-              <div className={classes.LabelWrapper}>
-                <p>Skillset :</p>
-                <span className={classes.ContentWrapper}>Coder</span>
+                <p>Goal Matched :</p>
+                <span className={classes.ContentWrapper}>{goalMapped}</span>
               </div>
             </div>
           </section>

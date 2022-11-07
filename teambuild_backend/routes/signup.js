@@ -42,7 +42,12 @@ router.post("/usergoaldelete", bodyParser, UserGoal.truncate);
 
 router.post("/userprofileviewcreate", bodyParser, UserProfileView.create);
 
-router.get("/userprofileview", bodyParser, UserProfileView.getprofileviews);
+router.get(
+  "/userprofileview",
+  auth,
+  bodyParser,
+  UserProfileView.getprofileviews
+);
 
 router.post("/usergoalmatch", bodyParser, UserGoal.goalcomponentmatch);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
