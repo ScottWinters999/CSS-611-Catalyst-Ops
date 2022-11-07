@@ -6,15 +6,15 @@
 //     password: 'Porsche@2024'
 // });
 
-module.exports = pool.promise();
-require("dotenv").config();
-module.exports = {
-  HOST: process.env.DB_HOST,
-  USER: process.env.DB_USER,
-  DATABASE: process.env.DB_NAME,
-  PASSWORD: process.env.DB_PASSWORD,
-  DIALECT: "mysql",
-};
+// module.exports = pool.promise();
+// require("dotenv").config();
+// module.exports = {
+//   HOST: process.env.DB_HOST,
+//   USER: process.env.DB_USER,
+//   DATABASE: process.env.DB_NAME,
+//   PASSWORD: process.env.DB_PASSWORD,
+//   DIALECT: "mysql",
+// };
 
 // module.exports = {
 //   HOST: "localhost",
@@ -26,19 +26,19 @@ module.exports = {
 //   timeout: "5000",
 // };
 
-// const dotenv = require('dotenv');
-// dotenv.config();
-// //console.log(DB_HOST);
-// module.exports={
+const dotenv = require('dotenv');
+dotenv.config();
+//console.log(DB_HOST);
+module.exports={
 
-//     HOST: process.env.DB_HOST,
-//     USER: process.env.DB_USER,
-//     DATABASE: process.env.DB_NAME,
-//     PASSWORD: process.env.DB_PASSWORD,
-//     DIALECT:'mysql',
-//     port:process.env.DB_PORT,
-//     timeout:'5000'
-// }
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    DATABASE: process.env.DB_NAME,
+    PASSWORD: process.env.DB_PASSWORD,
+    DIALECT:'mysql',
+    port:process.env.DB_PORT,
+    timeout:'5000'
+}
 
 // module.exports={
 //     HOST: 'ec2-3-83-135-245.compute-1.amazonaws.com',
