@@ -93,7 +93,8 @@ module.exports = {
         // temp.push(skillsets[i].experienceRequired);
         goalComponentCondition[skillsets[i].goalComponent].push(
           skillsets[i].locationPreference,
-          skillsets[i].experienceRequired
+          skillsets[i].experienceRequired,
+          skillsets[i].goalCompoonentId
         );
       }
 
@@ -197,6 +198,7 @@ module.exports = {
         let skill = temp.skillset[0]["SkillMatched"];
         //console.log(skill);
         let mapSkill = goalComponentCondition[skill];
+        temp["goalCompoonentId"] = mapSkill[2];
 
         //console.log(temp.skillset[1]['goalMatched'][1]);
         let isDiscard =
