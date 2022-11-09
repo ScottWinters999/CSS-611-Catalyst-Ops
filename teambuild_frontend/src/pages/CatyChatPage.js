@@ -17,16 +17,16 @@ const Outsidewrapper = styled.div`
 `;
 
 const ChatUiWrapper = styled.div`
-  width: 80%;
+  width: 84%;
 `;
 
 const CatyChatPage = () => {
   return (
     <Outsidewrapper>
       <SidebarNavigation />
-      <ChatUiWrapper>
+      {/* <ChatUiWrapper> */}
         <ChatUi />
-      </ChatUiWrapper>
+      {/* </ChatUiWrapper> */}
     </Outsidewrapper>
   );
 };

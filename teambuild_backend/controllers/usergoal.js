@@ -36,8 +36,8 @@ module.exports = {
   },
 
   goalcomponentmatch: async (req, res) => {
-    // const userId = req.userData.userId;
-    const userId = req.body.userId;
+    const userId = req.userData.userId;
+    // const userId = req.body.userId;
     if (userId) {
       const matchedUserId = req.body.matchedUserId;
       const goalComponentId = req.body.goalComponentId;
