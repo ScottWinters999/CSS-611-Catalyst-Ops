@@ -104,8 +104,11 @@ module.exports = {
 
       let goalMapComponent = new Map();
       for (let i = 0; i < skillsets.length; i++) {
-        goalMapComponent[skillsets[i].goalComponent] =
-          goalMap[skillsets[i].dataValues.goalGoalId];
+        if (goalMapComponent[skillsets[i].goalComponent] == undefined)
+          goalMapComponent[skillsets[i].goalComponent] = [];
+        goalMapComponent[skillsets[i].goalComponent].push(
+          goalMap[skillsets[i].dataValues.goalGoalId]
+        );
       }
 
       // console.log(goalMapComponent);
@@ -152,7 +155,9 @@ module.exports = {
         );
       }
 
+
       console.log(dict, "155");
+
       const validuserIds = [];
       for (let i = 0; i < userProfileIds.length; i++) {
         validuserIds[i] = userProfileIds[i].userprofileUserProfileId;
@@ -205,6 +210,7 @@ module.exports = {
           let temp = [];
           temp = {
             user: matchedUser[i].dataValues,
+
             skillset: dict[matchedUser[i].dataValues.userProfileId][index],
           };
 

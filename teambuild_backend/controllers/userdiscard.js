@@ -12,14 +12,17 @@ module.exports = {
     //userId= req.body.userId;
     if (userId) {
       const userUserId = userId;
+      const userprofileUserProfileId = userId;
       const goalGoalId = req.body.goalId;
-      const skillSkillsetId = req.body.skillSetId;
+      //   const skillSkillsetId = req.body.skillSetId;
+      const userpositionPositionId = req.body.positionId;
       const discardUserId = req.body.discardUserId;
 
       UserDiscard.create({
         userUserId,
+        userprofileUserProfileId,
         goalGoalId,
-        skillSkillsetId,
+        userpositionPositionId,
         discardUserId,
       }).then((response) => {
         res.status(200).json({

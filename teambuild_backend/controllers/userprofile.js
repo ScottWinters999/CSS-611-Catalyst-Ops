@@ -9,6 +9,14 @@ const {
 const {
   model: { Goal },
 } = require("../models");
+
+const {
+  model: { UserPosition },
+} = require("../models");
+
+const {
+  model: { GoalComponentSkill },
+} = require("../models");
 const {
   model: { GoalComponent },
 } = require("../models");
@@ -31,19 +39,137 @@ module.exports = {
       const userExists = await UserProfile.findOne({
         where: { userUserId: userId },
       });
-      const userSkill = await Skills.findAll({ where: { userUserId: userId } });
-      //console.log(userSkill);
-      let skillset = [];
+
+      const userSkill = await UserPosition.findAll({
+        include: {
+          model: Skills,
+          //   required: true,
+        },
+        where: {
+          userUserId: userId,
+        },
+      });
+      console.log(userSkill);
+      let positionSkill = [];
       for (let i = 0; i < userSkill.length; i++) {
         let temp = {
-          skillset: userSkill[i].dataValues.skillset,
-          experience: userSkill[i].dataValues.experience,
-          skillsetId: userSkill[i].dataValues.skillsetId,
+          position: userSkill[i].dataValues.positionName,
+          positionExperience: userSkill[i].dataValues.positionExperience,
+          skillset: "",
         };
-        skillset.push(temp);
+
+        // positionSkill.push(temp);
+        let skilltemp = [];
+        let skilllist = [];
+        for (let j = 0; j < userSkill[i].dataValues.skills.length; j++) {
+          //   skilltemp["skillset"] =
+          //     userSkill[i].dataValues.skills[j].dataValues.skillset;
+          //   skilltemp["experience"] =
+          //     userSkill[i].dataValues.skills[j].dataValues.experience;
+          //   skilllist.push(skilltemp);
+          skilltemp.push(userSkill[i].dataValues.skills[j].dataValues);
+        }
+        //console.log("68", skilltemp);
+        temp["skillset"] = [...skilltemp];
+
+        positionSkill.push({ ...temp });
       }
-      const userGoal = await Goal.findAll({ where: { userUserId: userId } });
-      //console.log(userGoal);
+
+      //       console.log("66", positionSkill);
+      //       let skillset = [];
+      //       for (let i = 0; i < userSkill.length; i++) {
+      //         let temp = {
+      //           skillset: userSkill[i].dataValues.skillset,
+      //           experience: userSkill[i].dataValues.experience,
+      //           skillsetId: userSkill[i].dataValues.skillsetId,
+      //         };
+      //         skillset.push(temp);
+      //       }
+
+      //taking the goal details of the user, Goal --> goalcomponent --> goal componentSkill
+
+      const userGoal = await Goal.findAll({
+        include: {
+          model: GoalComponent,
+          //   required: true,
+          include: {
+            model: GoalComponentSkill,
+          },
+        },
+
+        where: {
+          userUserId: userId,
+        },
+      });
+
+      console.log(
+        "105",
+        userGoal[0].dataValues.goalcomponents[0].dataValues
+          .goalcomponentskills[0].dataValues
+      );
+      let goals = {};
+      let finalgoalList = [];
+      for (let i = 0; i < userGoal.length; i++) {
+        goals["goalName"] = userGoal[i].dataValues.goal;
+        goals["goalId"] = userGoal[i].dataValues.goalId;
+        let goalcomp = {};
+        let goalcompList = [];
+        for (let j = 0; j < userGoal[i].dataValues.goalcomponents.length; j++) {
+          goalcomp["goalcomponent"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponent;
+          goalcomp["goalcomponentId"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponentId;
+          goalcomp["country"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.country;
+          goalcomp["state"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.state;
+          goalcomp["city"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.city;
+          goalcomp["experience"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.experience;
+          goalcomp["matcheduserId"] =
+            userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
+          // need to include matched data as well
+          let goalcompskill = {};
+          let goalcompskillList = [];
+          for (
+            let k = 0;
+            k <
+            userGoal[i].dataValues.goalcomponents[j].dataValues
+              .goalcomponentskills.length;
+            k++
+          ) {
+            goalcompskill["skill"] =
+              userGoal[i].dataValues.goalcomponents[
+                j
+              ].dataValues.goalcomponentskills[k].dataValues.skill;
+            goalcompskill["experience"] =
+              userGoal[i].dataValues.goalcomponents[
+                j
+              ].dataValues.goalcomponentskills[k].dataValues.experience;
+            goalcompskill["goalcomponentskillId"] =
+              userGoal[i].dataValues.goalcomponents[
+                j
+              ].dataValues.goalcomponentskills[
+                k
+              ].dataValues.goalComponentSkillId;
+
+            goalcompskillList.push({ ...goalcompskill });
+            //console.log("157", goalcompskill);
+          }
+
+          goalcomp["skills"] = [...goalcompskillList];
+          goalcompList.push(goalcomp);
+        } // end of J loop --> goal component
+
+        goals["goalcomponent"] = [...goalcompList];
+        finalgoalList.push({ ...goals });
+      } // end of goals
+
+      //console.log("107", finalgoalList);
+
+      /*
+      
       let goalIds = [];
       let mapGoal = new Map();
       for (let i = 0; i < userGoal.length; i++) {
@@ -82,6 +208,7 @@ module.exports = {
 
         goalComponent.push(temp);
       }
+      */
       //console.log(goalComponent);
       let userObject;
       if (userExists) {
@@ -105,8 +232,8 @@ module.exports = {
           isPremiumUser: userExists.dataValues.isPremiumUser
             ? userExists.dataValues.isPremiumUser
             : "",
-          skillset: skillset,
-          goal: goalComponent,
+          position: positionSkill,
+          goal: finalgoalList,
         };
 
         res.status(200).json({ userData: userObject });
@@ -137,7 +264,10 @@ module.exports = {
       const industry = req.body.industry;
       const phone = req.body.phoneNumber;
       const email = req.body.email;
-      const location = req.body.location;
+      //const location = req.body.location;
+      const country = req.body.country;
+      const state = req.body.state;
+      const city = req.body.city;
       const userprofile = await UserProfile.findOne({
         where: { userUserId: req["userData"]["userId"] },
       });
@@ -149,7 +279,10 @@ module.exports = {
           industry: industry,
           phoneNumber: phone,
           email: email,
-          location: location,
+          //   location: location,
+          country: country,
+          state: state,
+          city: city,
         },
         {
           where: {
@@ -161,6 +294,62 @@ module.exports = {
       });
     } else {
       res.status(400).json({ Status: "wrong userID" });
+    }
+  },
+
+  upload: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId = req.userData.userId;
+    console.log("246", userId);
+    if (!req.file) {
+      console.log("No file upload");
+    } else {
+      console.log(req.file.filename);
+      // var imgsrc = '/upload/images/' + req.file.filename
+      var imgsrc = req.file.filename;
+
+      console.log(imgsrc);
+      if (userId != null && imgsrc != null) {
+        console.log("252 entered", userId);
+
+        UserProfile.update(
+          {
+            profilePicture: imgsrc,
+          },
+          {
+            where: {
+              userProfileId: userId,
+            },
+          }
+        ).then(() => {
+          res.status(200).json({ status: "Photo Updated successfully" });
+        });
+      } else {
+        res.status(400).json({ status: "Wrong user or image" });
+      }
+
+      // var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
+      // db.query(insertData, [imgsrc], (err, result) => {
+      //     if (err) throw err
+      //     console.log("file uploaded")
+      // })
+    }
+  },
+
+  getPic: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId = req.userData.userId;
+
+    if (userId) {
+      const userDetails = await UserProfile.findOne({
+        where: { userId: userId },
+      });
+      console.log(userDetails.dataValues);
+      res.status(200).json({ image: userDetails.dataValues.profilePicture });
     }
   },
 };

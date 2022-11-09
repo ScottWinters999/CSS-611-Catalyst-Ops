@@ -9,20 +9,20 @@ module.exports = {
   truncate: async (req, res) => {
     const goalId = req.body.goalId;
     if (goalId) {
-      GoalComponent.destroy({
+      Goal.destroy({
         where: {
-          goalGoalId: goalId,
+          goalId: goalId,
         },
       })
-        .then(() => {
-          Goal.destroy({
-            where: {
-              goalId: goalId,
-            },
-          }).then((response) => {
-            return response;
-          });
-        })
+        // .then(() => {
+        //   Goal.destroy({
+        //     where: {
+        //       goalId: goalId,
+        //     },
+        //   }).then((response) => {
+        //     return response;
+        //   });
+        // })
         .then(() => {
           res.status(200).json({
             status: "goal deleted",
@@ -40,14 +40,14 @@ module.exports = {
     // const userId = req.body.userId;
     if (userId) {
       const matchedUserId = req.body.matchedUserId;
-      const goalCompoonentId = req.body.goalComponentId;
+      const goalComponentId = req.body.goalComponentId;
       GoalComponent.update(
         {
           matchedUserId,
         },
         {
           where: {
-            goalCompoonentId: goalCompoonentId,
+            goalComponentId: goalCompoonentId,
           },
         }
       ).then((response) => {

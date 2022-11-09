@@ -23,11 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     // },
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
-    location: { type: DataTypes.STRING, allowNull: true },
+    country: { type: DataTypes.STRING, allowNull: true },
+    state: { type: DataTypes.STRING, allowNull: true },
+    city: { type: DataTypes.STRING, allowNull: true },
     currentPosition: { type: DataTypes.STRING, allowNull: true },
     phoneNumber: { type: DataTypes.STRING, allowNull: true },
     industry: { type: DataTypes.STRING, allowNull: true },
     isPremiumUser: { type: DataTypes.BOOLEAN, allowNull: true },
+    profilePicture: { type: DataTypes.STRING, allowNull: true },
+    isNewUser: { type: DataTypes.STRING, allowNull: true },
+
     email: {
       type: DataTypes.STRING,
     },
