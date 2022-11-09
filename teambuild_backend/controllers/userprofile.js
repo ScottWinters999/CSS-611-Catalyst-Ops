@@ -50,8 +50,10 @@ module.exports = {
         },
       });
       console.log(userSkill);
+
       let positionSkill = [];
       if (userSkill) {
+        console.log("new update");
         for (let i = 0; i < userSkill.length; i++) {
           let temp = {
             position: userSkill[i].dataValues.positionName,
@@ -105,11 +107,11 @@ module.exports = {
       });
       let finalgoalList = [];
       if (userGoal) {
-        console.log(
-          "105",
-          userGoal[0].dataValues.goalcomponents[0].dataValues
-            .goalcomponentskills[0].dataValues
-        );
+        // console.log(
+        //   "105",
+        //   userGoal[0].dataValues.goalcomponents[0].dataValues
+        //     .goalcomponentskills[0].dataValues
+        // );
         let goals = {};
 
         for (let i = 0; i < userGoal.length; i++) {
