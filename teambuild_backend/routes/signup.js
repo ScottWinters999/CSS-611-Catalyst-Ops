@@ -26,14 +26,14 @@ router.get("/userprofile", auth, bodyParser, UserProfile.userprofile);
 router.patch("/userupdate", auth, bodyParser, UserProfile.userProfileUpdate);
 
 router.get("/usermatch", auth, bodyParser, UserMatch.userMatch);
-router.get("/getpicture", auth, bodyParser, User.getPic);
+router.get("/getpicture", auth, bodyParser, UserProfile.getPic);
 
 router.post(
   "/upload",
   auth,
   fileUpload.single("image"),
   bodyParser,
-  User.upload
+  UserProfile.upload
 );
 
 router.post("/userdiscard", auth, bodyParser, UserDiscard.create);

@@ -1,7 +1,9 @@
 const {
   model: { User },
 } = require("../models");
-const {model: { UserProfile } }=require('../models');
+const {
+  model: { UserProfile },
+} = require("../models");
 
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
@@ -51,54 +53,50 @@ module.exports = {
               email,
               firstName,
               lastName,
-              role
-            }).then(
-              (response) => {
-               // console.log("60", response);
-                const token = jwt.sign(
-                  { userId: response.userId,email: email, role: role },
-                  "secret_this_should_be_longer",
-                  { expiresIn: "1h" }
-                );
-                return token;
-                // res.status(200).json({
-                //   token: token,
-                // });
-              }
-            
-             // res.status(200).json({Status: "Inserted"})
-            ).  then(async(token)=>{
-              const userNew = await User.findOne({
-                where: { email: email }
-              });
-              if(userNew){
-                  const userUserId=userNew.userId;
-                  
-                  UserProfile.create({
-                  userUserId,
-                  firstName,
-                  lastName,
-                  email
-              }).then(()=>{
-                res.status(200).json({
-                  token: token,
-                  userId: userNew.userId
+              role,
+            })
+              .then(
+                (response) => {
+                  // console.log("60", response);
+                  const token = jwt.sign(
+                    { userId: response.userId, email: email, role: role },
+                    "secret_this_should_be_longer",
+                    { expiresIn: "1h" }
+                  );
+                  return token;
+                  // res.status(200).json({
+                  //   token: token,
+                  // });
+                }
+
+                // res.status(200).json({Status: "Inserted"})
+              )
+              .then(async (token) => {
+                const userNew = await User.findOne({
+                  where: { email: email },
                 });
+                if (userNew) {
+                  const userUserId = userNew.userId;
+
+                  UserProfile.create({
+                    userUserId,
+                    firstName,
+                    lastName,
+                    email,
+                  }).then(() => {
+                    res.status(200).json({
+                      token: token,
+                      userId: userNew.userId,
+                    });
+                  });
+                }
+                //   console.log("printing usewNEw ",userNew);
+                // else
+                //   console.log("not printing userNew");
+                // res.status(200).json({
+                //       token: token,
+                //     });
               });
-              }
-              //   console.log("printing usewNEw ",userNew);
-              // else
-              //   console.log("not printing userNew");
-              // res.status(200).json({
-              //       token: token,
-              //     });
-              
-
-            });
-            
-            
-
-
           });
         // const {username,email,newpassword}=req.body;
       } else {
@@ -135,7 +133,7 @@ module.exports = {
 
             res.status(200).json({
               token: token,
-              userId:userExists.userId
+              userId: userExists.userId,
             });
           } else {
             // response is OutgoingMessage object that server response http request
@@ -148,17 +146,16 @@ module.exports = {
   },
   forgetpassword: async (req, response) => {
     // console.log('API',backend)
-    const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+    const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
     let transporter = nodemailer.createTransport(
       sendgridTransport({
         auth: {
-          api_key:SENDGRID_API_KEY,
+          api_key: SENDGRID_API_KEY,
         },
       })
     );
 
-    
-    console.log(SENDGRID_API_KEY,'apii');
+    console.log(SENDGRID_API_KEY, "apii");
     const userExists = await User.findOne({ where: { email: req.body.email } });
     console.log(120, userExists);
     if (!userExists) {
@@ -188,21 +185,20 @@ module.exports = {
                     <p>You requested a password reset</p>
                     <p>Click this <a href="http://localhost:3000/resetpassword/${token}">link</a> to set a new password</p>
                     `,
-        }).then(() =>{
-            response.status(200).json({ status: "Link send" })
-        })
-        .catch(() =>{
-          response.status(400).json({ status: "Wrong credentials" })
-
-        })
-        ;
+          })
+          .then(() => {
+            response.status(200).json({ status: "Link send" });
+          })
+          .catch(() => {
+            response.status(400).json({ status: "Wrong credentials" });
+          });
       });
       console.log(userExists);
     }
   },
 
-  resetpassword: async (req, res) =>{
-    console.log(req.body)
+  resetpassword: async (req, res) => {
+    console.log(req.body);
 
     const password = req.body.password;
     const newToken = req.body.token;
@@ -245,72 +241,5 @@ module.exports = {
     } else {
       console.log("ccc");
     }
-        
   },
-
-  upload: async (req, res) => {
-    console.log(req.file);
-    // constants.log(req.keys()
-    //const image = req.file.buffer.toString('base64');
-    const userId=req.userData.userId;
-    console.log("246",userId);
-    if (!req.file) {
-      console.log("No file upload");
-  } else {
-      console.log(req.file.filename)
-      // var imgsrc = '/upload/images/' + req.file.filename
-      var imgsrc = req.file.filename
-
-      console.log(imgsrc);
-      if(userId!=null && imgsrc!=null){
-        console.log("252 entered", userId);
-
-        User.update(
-          {
-            
-            profilePicture: imgsrc
-          },
-          {
-            where: {
-                   userId:userId,
-                  }
-
-          },
-          
-        ).then(()=>{
-
-          res.status(200).json({status:"Photo Updated successfully"})
-        })
-      }else{
-        res.status(400).json({status:"Wrong user or image"});
-      }
-  
-      // var insertData = "INSERT INTO users_file(file_src)VALUES(?)"
-      // db.query(insertData, [imgsrc], (err, result) => {
-      //     if (err) throw err
-      //     console.log("file uploaded")
-      // })
-  }
-
-    
-  },
-
-  getPic: async (req, res) => {
-    console.log(req.file);
-    // constants.log(req.keys()
-    //const image = req.file.buffer.toString('base64');
-    const userId=req.userData.userId;
-   
-     if (userId) {
-      
-      const userDetails = await User.findOne({where:{userId:userId}});
-      console.log(userDetails.dataValues);
-      res.status(200).json({"image":userDetails.dataValues.profilePicture});
-    }
-
-    
-  }
-
-  
-
 };

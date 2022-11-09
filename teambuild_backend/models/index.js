@@ -41,18 +41,37 @@ db.model.GoalComponent = require("./goalcomponent")(
 db.model.UserDiscard = require("./userdiscard")(sequelize, Sequelize.DataTypes);
 db.model.UserView = require("./userview")(sequelize, Sequelize.DataTypes);
 
+db.model.UserPosition = require("./userposition")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
+db.model.GoalComponentSkill = require("./goalcomponentskill")(
+  sequelize,
+  Sequelize.DataTypes
+);
+
 db.model.User.hasMany(db.model.Goal);
-db.model.User.hasMany(db.model.Skills);
+//db.model.User.hasMany(db.model.Skills);
 db.model.User.hasOne(db.model.UserProfile);
-db.model.UserProfile.hasMany(db.model.Skills);
+// db.model.UserProfile.hasMany(db.model.Skills);
 db.model.UserProfile.hasMany(db.model.Goal);
-db.model.Goal.hasMany(db.model.GoalComponent);
+db.model.Goal.hasMany(db.model.GoalComponent, { onDelete: "CASCADE" });
 
 db.model.User.hasMany(db.model.UserDiscard);
+db.model.UserProfile.hasMany(db.model.UserDiscard);
 db.model.Goal.hasMany(db.model.UserDiscard);
-db.model.Skills.hasMany(db.model.UserDiscard);
+db.model.UserPosition.hasMany(db.model.UserDiscard);
 
 db.model.User.hasMany(db.model.UserView);
+db.model.UserProfile.hasMany(db.model.UserView);
+
+db.model.User.hasMany(db.model.UserPosition);
+db.model.UserPosition.hasMany(db.model.Skills);
+db.model.GoalComponent.hasMany(db.model.GoalComponentSkill, {
+  onDelete: "CASCADE",
+});
+db.model.UserProfile.hasMany(db.model.UserPosition);
 
 // db.model.User.hasOne(db.model.Skills,{
 //   foreignKey:'userId'

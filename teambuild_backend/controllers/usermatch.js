@@ -88,22 +88,27 @@ module.exports = {
         if (goalComponentCondition[skillsets[i].goalComponent] == undefined) {
           goalComponentCondition[skillsets[i].goalComponent] = [];
         }
-        // let temp=[];
-        // temp.push(skillsets[i].locationPreference);
-        // temp.push(skillsets[i].experienceRequired);
+        let temp = [];
+        temp.push(skillsets[i].locationPreference);
+        temp.push(skillsets[i].experienceRequired);
+        temp.push(skillsets[i].goalCompoonentId);
         goalComponentCondition[skillsets[i].goalComponent].push(
-          skillsets[i].locationPreference,
-          skillsets[i].experienceRequired,
-          skillsets[i].goalCompoonentId
+          // skillsets[i].locationPreference,
+          // skillsets[i].experienceRequired,
+          // skillsets[i].goalCompoonentId
+          temp
         );
       }
 
-      //console.log(goalComponentCondition);
+      //console.log(goalComponentCondition, "103");
 
       let goalMapComponent = new Map();
       for (let i = 0; i < skillsets.length; i++) {
-        goalMapComponent[skillsets[i].goalComponent] =
-          goalMap[skillsets[i].dataValues.goalGoalId];
+        if (goalMapComponent[skillsets[i].goalComponent] == undefined)
+          goalMapComponent[skillsets[i].goalComponent] = [];
+        goalMapComponent[skillsets[i].goalComponent].push(
+          goalMap[skillsets[i].dataValues.goalGoalId]
+        );
       }
 
       // console.log(goalMapComponent);
@@ -134,15 +139,23 @@ module.exports = {
         };
         let experience = { experience: userProfileIds[i].experience };
         let skillSetId = { SkillSetId: userProfileIds[i].skillsetId };
-        list.push(goalMapComponent[userProfileIds[i].skillset]);
-        list.push(userProfileIds[i].experience);
+        // list.push(goalMapComponent[userProfileIds[i].skillset]);
+        // list.push(userProfileIds[i].experience);
+
+        list.push(skill);
+        list.push(goalMatched);
+        list.push(experience);
+        list.push(skillSetId);
         dict[userProfileIds[i].userprofileUserProfileId].push(
-          skill,
-          goalMatched,
-          experience,
-          skillSetId
+          //   skill,
+          //   goalMatched,
+          //   experience,
+          //   skillSetId
+          list
         );
       }
+
+      // console.log(dict, "155");
       const validuserIds = [];
       for (let i = 0; i < userProfileIds.length; i++) {
         validuserIds[i] = userProfileIds[i].userprofileUserProfileId;
@@ -163,7 +176,7 @@ module.exports = {
           },
         },
       });
-      //console.log(matchedUser);
+      // console.log(matchedUser);
       //find the discarded skillsetId
 
       const userdiscards = await UserDiscard.findAll({
@@ -171,7 +184,7 @@ module.exports = {
           userUserId: userId,
         },
       });
-
+      //console.log(userdiscards);
       const setOfDiscards = new Set();
       for (let i = 0; i < userdiscards.length; i++) {
         let temp =
@@ -183,67 +196,113 @@ module.exports = {
         setOfDiscards.add(temp);
       }
 
-      //console.log(setOfDiscards);
       let matchedData = [];
       let discardedData = [];
       let user = "user";
       for (let i = 0; i < matchedUser.length; i++) {
-        let temp = [];
-        temp = {
-          user: matchedUser[i].dataValues,
-          skillset: dict[matchedUser[i].dataValues.userProfileId],
-        };
+        for (
+          let index = 0;
+          index < dict[matchedUser[i].dataValues.userProfileId].length;
+          index++
+        ) {
+          let temp = [];
+          temp = {
+            user: matchedUser[i].dataValues,
+            // skillset: dict[matchedUser[i].dataValues.userProfileId][index],
+          };
 
-        //console.log(temp.user);
-        let skill = temp.skillset[0]["SkillMatched"];
-        //console.log(skill);
-        let mapSkill = goalComponentCondition[skill];
-        temp["goalCompoonentId"] = mapSkill[2];
+          let new_temp = temp["user"];
+          let size =
+            dict[matchedUser[i].dataValues.userProfileId][index][1][
+              "goalMatched"
+            ].length;
+          console.log(size, "217");
+          for (let goalmatch = 0; goalmatch < size; goalmatch++) {
+            //console.log(temp.user);
+            temp = { user: new_temp };
+            let new_List = [];
+            let first_skill =
+              dict[matchedUser[i].dataValues.userProfileId][index][0];
+            let second_goal = {
+              goalMatched:
+                dict[matchedUser[i].dataValues.userProfileId][index][1][
+                  "goalMatched"
+                ][goalmatch],
+            };
+            console.log(second_goal, "227");
+            let third_exp =
+              dict[matchedUser[i].dataValues.userProfileId][index][2];
+            let four_skillset =
+              dict[matchedUser[i].dataValues.userProfileId][index][3];
 
-        //console.log(temp.skillset[1]['goalMatched'][1]);
-        let isDiscard =
-          temp.skillset[1]["goalMatched"][1] +
-          "" +
-          temp.skillset[3]["SkillSetId"] +
-          "" +
-          temp.user.userUserId;
-        //console.log(mapSkill);
-        if (!setOfDiscards.has(isDiscard)) {
-          //console.log(mapSkill[1], " ", temp.skillset[2]["experience"]);
+            new_List.push(first_skill);
+            new_List.push(second_goal);
+            new_List.push(third_exp);
+            new_List.push(four_skillset);
 
-          if (
-            mapSkill[1] != null &&
-            mapSkill[1] == temp.skillset[2]["experience"]
-          ) {
-            console.log(
-              mapSkill[0],
-              " ",
-              temp.user.location,
-              " ",
-              locationFromUserProfile.location
-            );
-            //console.log(isDiscard, "isDicard");
-            if (
-              mapSkill[0] == 1 &&
-              temp.user.location == locationFromUserProfile.location
-            )
-              matchedData.push(temp);
-            else if (mapSkill[0] == 0) matchedData.push(temp);
-          } else if (
-            mapSkill[1] == null &&
-            mapSkill[0] != null &&
-            mapSkill[0] != 1
-          ) {
-            //console.log(mapSkill[1], " ", mapSkill[0]);
-            matchedData.push(temp);
-          } else if (
-            mapSkill[1] == null &&
-            mapSkill[0] == 1 &&
-            temp.user.location == locationFromUserProfile.location
-          )
-            matchedData.push(temp);
-        } else {
-          discardedData.push(temp);
+            temp["skillset"] = new_List;
+            console.log(temp.skillset, "238");
+            let skill = temp.skillset[0]["SkillMatched"];
+            //console.log(skill);
+            let mapSkill = goalComponentCondition[skill];
+
+            // console.log(temp.user.firstName, " ", mapSkill, "201");
+            // temp["goalCompoonentId"] = mapSkill[2];
+
+            //console.log(temp.skillset[1]['goalMatched'][1]);
+            let isDiscard =
+              temp.skillset[1]["goalMatched"][1] +
+              "" +
+              temp.skillset[3]["SkillSetId"] +
+              "" +
+              temp.user.userUserId;
+            //console.log(isDiscard);
+            if (!setOfDiscards.has(isDiscard)) {
+              //console.log(mapSkill[1], " ", temp.skillset[2]["experience"]);
+              for (let ij = 0; ij < mapSkill.length; ij++) {
+                temp["goalCompoonentId"] = mapSkill[ij][2];
+                if (
+                  mapSkill[ij][1] != null &&
+                  mapSkill[ij][1] == temp.skillset[2]["experience"]
+                ) {
+                  //console.log(isDiscard, "isDicard");
+                  if (
+                    mapSkill[ij][0] == 1 &&
+                    temp.user.location == locationFromUserProfile.location
+                  ) {
+                    console.log(
+                      temp,
+                      " ",
+                      temp.skillset[1]["goalMatched"],
+                      " ",
+                      temp.user.firstName,
+                      "242"
+                    );
+                    matchedData.push(temp);
+                  } else if (mapSkill[ij][0] == 0) {
+                    console.log(temp.user.firstName, "246");
+                    matchedData.push(temp);
+                  }
+                } else if (
+                  mapSkill[ij][1] == null &&
+                  mapSkill[ij][0] != null &&
+                  mapSkill[ij][0] != 1
+                ) {
+                  console.log(temp.user.firstName, "254");
+                  matchedData.push(temp);
+                } else if (
+                  mapSkill[ij][1] == null &&
+                  mapSkill[ij][0] == 1 &&
+                  temp.user.location == locationFromUserProfile.location
+                ) {
+                  console.log(temp.user.firstName, "262");
+                  matchedData.push(temp);
+                }
+              }
+            } else {
+              discardedData.push(temp);
+            }
+          }
         }
       }
 
