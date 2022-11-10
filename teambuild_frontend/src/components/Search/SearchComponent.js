@@ -9,6 +9,9 @@ import ScrollToBottom from "react-scroll-to-bottom";
 import TextField from '@mui/material/TextField';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { DataGrid } from '@mui/x-data-grid';
+import TablePagination from '@mui/material/TablePagination';
+
 
 import classes from "./Search.module.css";
 
@@ -180,6 +183,14 @@ const UserSearchComponent = () => {
 
   const { isLoading, error, sendRequest ,clearError} = useHttpClient();
   const [userMatches, setUserMatches] = useState();
+
+  const [userMatchesToRender, setUserMatchesToRender] = useState();
+  
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const [rowLength, setRowLength] = React.useState();
+
   const token = JSON.parse(localStorage.getItem('userData'))
   const name = JSON.parse(localStorage.getItem('firstName'))
   console.log(token)
@@ -189,6 +200,32 @@ const UserSearchComponent = () => {
   const headers = {
     authorization: 'Bearer ' + token.token
 }; 
+
+
+const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(+event.target.value);
+  setPage(0);
+};
+
+useEffect(() => {
+  let temp=[]
+  if (userMatches){
+    const perPage = rowsPerPage
+    let currLength = userMatches.length
+    let pages = Math.ceil(currLength/perPage)
+    let left=page*perPage
+    let right=(page*perPage)+rowsPerPage
+    temp=userMatches.slice(left,right);
+  }
+  console.log(temp)
+  setUserMatchesToRender(temp);
+}
+,[userMatches, rowsPerPage, page])
+
   useEffect(() => {
 
     const userInfo = async () => {
@@ -218,11 +255,11 @@ const UserSearchComponent = () => {
                     "industry":i?.user?.industry,
                     "location":i?.user?.location,
                     "skillset":i?.skillset[0]["SkillMatched"],
-                    "goalMatched":i.skillset[1]["goalMatched"][0],
-                    "goalMatchedId":i.skillset[1]["goalMatched"][1],
-                    "experience":i.skillset[2]["experience"],
-                    "skillsetId":i.skillset[3]["SkillSetId"],
-                    "goalcomponentid":i.goalCompoonentId
+                    "goalMatched":i?.skillset[1]["goalMatched"][0],
+                    "goalMatchedId":i?.skillset[1]["goalMatched"][1],
+                    "experience":i?.skillset[2]["experience"],
+                    "skillsetId":i?.skillset[3]["SkillSetId"],
+                    "goalcomponentid":i?.goalCompoonentId
                 }
                 console.log(temp)
                 reqData.push(temp)
@@ -353,17 +390,37 @@ return (
     <header className={classes.Header}>Hi {name},Find your potential matches</header>
     <div className={classes.TableWrapper}>
     <Box sx={{ flexGrow: 1 }}>
-      <Grid
+      <Grid     
         container
         spacing={{ xs: 2, md: 4 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {userMatches &&(userMatches.map((singleUser, index) => (
+        {userMatchesToRender &&(userMatchesToRender.map((singleUser, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} idx={index} deleteSingleMatch={deleteMatchHandler} /></Item>
           </Grid>
         )))}
       </Grid>
+
+      {/* <DataGrid
+        rows={userMatches}
+        // columns={columns}
+        pageSize={5}
+        rowsPerPageOptions={[5]} */}
+      {/* /> */}
+
+      {userMatches && userMatches.length && (
+            <TablePagination
+            rowsPerPageOptions={[5, 10]}
+            component="div"
+            count={userMatches.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+      )}
+      
     </Box>
     
     </div>

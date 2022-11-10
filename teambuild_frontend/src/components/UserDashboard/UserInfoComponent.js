@@ -83,7 +83,7 @@ const Pencil = styled.div`
   padding: 0px;
   margin-left: 12px;
   margin-right: 12px;
-  height: 20px;
+  height: 0px;
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
@@ -152,7 +152,9 @@ const UserInfoComponent = ({ userData }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [isnameInvalid, setIsnameInvalid] = useState(false);
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
   const [currentPosition, setCurrentPosition] = useState("");
   const [industry, setIndustry] = useState("");
   const [phone, setPhone] = useState("");
@@ -163,7 +165,9 @@ const UserInfoComponent = ({ userData }) => {
       // console.log("140");
       setFirstName(userData.firstName);
       setLastName(userData.lastName);
-      setLocation(userData.location);
+      setCity(userData.city);
+      setState(userData.state);
+      setCountry(userData.country);
       setCurrentPosition(userData.currentPosition);
       setIndustry(userData.industry);
       setPhone(userData.phone);
@@ -218,9 +222,17 @@ const UserInfoComponent = ({ userData }) => {
     setFirstName(event.target.value);
   };
 
-  const onLocationChangeHandler = (event) => {
+  const onCityChangeHandler = (event) => {
     // console.log(event.target);
-    setLocation(event.target.value);
+    setCity(event.target.value);
+  };
+  const onStateChangeHandler = (event) => {
+    // console.log(event.target);
+    setState(event.target.value);
+  };
+  const onCountryChangeHandler = (event) => {
+    // console.log(event.target);
+    setCountry(event.target.value);
   };
 
   const submitHandler = async (event) => {
@@ -236,8 +248,11 @@ const UserInfoComponent = ({ userData }) => {
       currentPosition: currentPosition,
       industry: industry,
       phoneNumber: phone,
-      location: location,
+      city: city,
+      state:  state,
+      country: country
     };
+    console.log(body)
 
     try {
       const response = await fetch(
@@ -322,14 +337,42 @@ const UserInfoComponent = ({ userData }) => {
               {isEdit && (
                 <TextField
                   id="standard-basic"
-                  label="Location"
+                  label="City"
                   variant="standard"
                   size="small"
-                  value={location}
-                  onChange={onLocationChangeHandler}
+                  value={city}
+                  onChange={onCityChangeHandler}
                 />
               )}
-              {!isEdit && <React.Fragment>{location}</React.Fragment>}
+              {!isEdit && <React.Fragment>{city}</React.Fragment>}
+            </UserProfileLocationWrapper>
+            <UserProfileLocationWrapper>
+              {!isEdit && <React.Fragment>{city}</React.Fragment>}
+              {isEdit && (
+                <TextField
+                  id="standard-basic"
+                  label="State"
+                  variant="standard"
+                  size="small"
+                  value={state}
+                  onChange={onStateChangeHandler}
+                />
+              )}
+
+              {!isEdit && <React.Fragment>{state}</React.Fragment>}
+            </UserProfileLocationWrapper>
+            <UserProfileLocationWrapper>
+              {isEdit && (
+                <TextField
+                  id="standard-basic"
+                  label="Country"
+                  variant="standard"
+                  size="small"
+                  value={country}
+                  onChange={onCountryChangeHandler}
+                />
+              )}
+              {!isEdit && <React.Fragment>{country}</React.Fragment>}
             </UserProfileLocationWrapper>
           </UserProfileNameOutsideWrapper>
         </UserNameContainer>
