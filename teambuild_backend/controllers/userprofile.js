@@ -358,7 +358,7 @@ module.exports = {
 
     if (userId) {
       const userDetails = await UserProfile.findOne({
-        where: { userId: userId },
+        where: { userUserId: userId },
       });
       console.log(userDetails.dataValues);
       res.status(200).json({ image: userDetails.dataValues.profilePicture });
