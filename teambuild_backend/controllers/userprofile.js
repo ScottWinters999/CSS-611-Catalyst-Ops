@@ -229,9 +229,12 @@ module.exports = {
           firstName: userExists.dataValues.firstName,
           lastName: userExists.dataValues.lastName,
           email: userExists.dataValues.email,
-          location: userExists.dataValues.location
-            ? userExists.dataValues.location
+          country: userExists.dataValues.country
+            ? userExists.dataValues.country
             : "",
+          state: userExists.dataValues.state ? userExists.dataValues.state : "",
+          city: userExists.dataValues.city ? userExists.dataValues.city : "",
+
           phone: userExists.dataValues.phoneNumber
             ? userExists.dataValues.phoneNumber
             : "",
