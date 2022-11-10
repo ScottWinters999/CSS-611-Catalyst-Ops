@@ -50,29 +50,33 @@ module.exports = {
         },
       });
       console.log(userSkill);
+
       let positionSkill = [];
-      for (let i = 0; i < userSkill.length; i++) {
-        let temp = {
-          position: userSkill[i].dataValues.positionName,
-          positionExperience: userSkill[i].dataValues.positionExperience,
-          skillset: "",
-        };
+      if (userSkill) {
+        console.log("new update");
+        for (let i = 0; i < userSkill.length; i++) {
+          let temp = {
+            position: userSkill[i].dataValues.positionName,
+            positionExperience: userSkill[i].dataValues.positionExperience,
+            skillset: "",
+          };
 
-        // positionSkill.push(temp);
-        let skilltemp = [];
-        let skilllist = [];
-        for (let j = 0; j < userSkill[i].dataValues.skills.length; j++) {
-          //   skilltemp["skillset"] =
-          //     userSkill[i].dataValues.skills[j].dataValues.skillset;
-          //   skilltemp["experience"] =
-          //     userSkill[i].dataValues.skills[j].dataValues.experience;
-          //   skilllist.push(skilltemp);
-          skilltemp.push(userSkill[i].dataValues.skills[j].dataValues);
+          // positionSkill.push(temp);
+          let skilltemp = [];
+          let skilllist = [];
+          for (let j = 0; j < userSkill[i].dataValues.skills.length; j++) {
+            //   skilltemp["skillset"] =
+            //     userSkill[i].dataValues.skills[j].dataValues.skillset;
+            //   skilltemp["experience"] =
+            //     userSkill[i].dataValues.skills[j].dataValues.experience;
+            //   skilllist.push(skilltemp);
+            skilltemp.push(userSkill[i].dataValues.skills[j].dataValues);
+          }
+          //console.log("68", skilltemp);
+          temp["skillset"] = [...skilltemp];
+
+          positionSkill.push({ ...temp });
         }
-        //console.log("68", skilltemp);
-        temp["skillset"] = [...skilltemp];
-
-        positionSkill.push({ ...temp });
       }
 
       //       console.log("66", positionSkill);
@@ -101,70 +105,78 @@ module.exports = {
           userUserId: userId,
         },
       });
-
-      console.log(
-        "105",
-        userGoal[0].dataValues.goalcomponents[0].dataValues
-          .goalcomponentskills[0].dataValues
-      );
-      let goals = {};
       let finalgoalList = [];
-      for (let i = 0; i < userGoal.length; i++) {
-        goals["goalName"] = userGoal[i].dataValues.goal;
-        goals["goalId"] = userGoal[i].dataValues.goalId;
-        let goalcomp = {};
-        let goalcompList = [];
-        for (let j = 0; j < userGoal[i].dataValues.goalcomponents.length; j++) {
-          goalcomp["goalcomponent"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponent;
-          goalcomp["goalcomponentId"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponentId;
-          goalcomp["country"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.country;
-          goalcomp["state"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.state;
-          goalcomp["city"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.city;
-          goalcomp["experience"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.experience;
-          goalcomp["matcheduserId"] =
-            userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
-          // need to include matched data as well
-          let goalcompskill = {};
-          let goalcompskillList = [];
+      if (userGoal) {
+        // console.log(
+        //   "105",
+        //   userGoal[0].dataValues.goalcomponents[0].dataValues
+        //     .goalcomponentskills[0].dataValues
+        // );
+        let goals = {};
+
+        for (let i = 0; i < userGoal.length; i++) {
+          goals["goalName"] = userGoal[i].dataValues.goal;
+          goals["goalId"] = userGoal[i].dataValues.goalId;
+          let goalcomp = {};
+          let goalcompList = [];
           for (
-            let k = 0;
-            k <
-            userGoal[i].dataValues.goalcomponents[j].dataValues
-              .goalcomponentskills.length;
-            k++
+            let j = 0;
+            j < userGoal[i].dataValues.goalcomponents.length;
+            j++
           ) {
-            goalcompskill["skill"] =
+            goalcomp["goalcomponent"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponent;
+            goalcomp["goalcomponentId"] =
               userGoal[i].dataValues.goalcomponents[
                 j
-              ].dataValues.goalcomponentskills[k].dataValues.skill;
-            goalcompskill["experience"] =
-              userGoal[i].dataValues.goalcomponents[
-                j
-              ].dataValues.goalcomponentskills[k].dataValues.experience;
-            goalcompskill["goalcomponentskillId"] =
-              userGoal[i].dataValues.goalcomponents[
-                j
-              ].dataValues.goalcomponentskills[
-                k
-              ].dataValues.goalComponentSkillId;
+              ].dataValues.goalComponentId;
+            goalcomp["country"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.country;
+            goalcomp["state"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.state;
+            goalcomp["city"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.city;
+            goalcomp["experience"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.experience;
+            goalcomp["matcheduserId"] =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
+            // need to include matched data as well
+            let goalcompskill = {};
+            let goalcompskillList = [];
+            for (
+              let k = 0;
+              k <
+              userGoal[i].dataValues.goalcomponents[j].dataValues
+                .goalcomponentskills.length;
+              k++
+            ) {
+              goalcompskill["skill"] =
+                userGoal[i].dataValues.goalcomponents[
+                  j
+                ].dataValues.goalcomponentskills[k].dataValues.skill;
+              goalcompskill["experience"] =
+                userGoal[i].dataValues.goalcomponents[
+                  j
+                ].dataValues.goalcomponentskills[k].dataValues.experience;
+              goalcompskill["goalcomponentskillId"] =
+                userGoal[i].dataValues.goalcomponents[
+                  j
+                ].dataValues.goalcomponentskills[
+                  k
+                ].dataValues.goalComponentSkillId;
 
-            goalcompskillList.push({ ...goalcompskill });
-            //console.log("157", goalcompskill);
-          }
+              goalcompskillList.push({ ...goalcompskill });
+              //console.log("157", goalcompskill);
+            }
 
-          goalcomp["skills"] = [...goalcompskillList];
-          goalcompList.push(goalcomp);
-        } // end of J loop --> goal component
+            goalcomp["skills"] = [...goalcompskillList];
+            goalcompList.push(goalcomp);
+          } // end of J loop --> goal component
 
-        goals["goalcomponent"] = [...goalcompList];
-        finalgoalList.push({ ...goals });
-      } // end of goals
+          goals["goalcomponent"] = [...goalcompList];
+          finalgoalList.push({ ...goals });
+        } // end of goals
+      }
 
       //console.log("107", finalgoalList);
 
@@ -232,8 +244,8 @@ module.exports = {
           isPremiumUser: userExists.dataValues.isPremiumUser
             ? userExists.dataValues.isPremiumUser
             : "",
-          position: positionSkill,
-          goal: finalgoalList,
+          position: positionSkill ? positionSkill : "",
+          goal: finalgoalList ? finalgoalList : "",
         };
 
         res.status(200).json({ userData: userObject });
@@ -346,7 +358,7 @@ module.exports = {
 
     if (userId) {
       const userDetails = await UserProfile.findOne({
-        where: { userId: userId },
+        where: { userUserId: userId },
       });
       console.log(userDetails.dataValues);
       res.status(200).json({ image: userDetails.dataValues.profilePicture });
