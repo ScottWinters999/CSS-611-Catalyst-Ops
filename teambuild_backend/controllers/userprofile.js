@@ -138,9 +138,21 @@ module.exports = {
               userGoal[i].dataValues.goalcomponents[j].dataValues.city;
             goalcomp["experience"] =
               userGoal[i].dataValues.goalcomponents[j].dataValues.experience;
-            goalcomp["matcheduserId"] =
-              userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
+
             // need to include matched data as well
+            const matchedId =
+              userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
+            if (matchedId != null) {
+              const matchedDetails = await UserProfile.findOne({
+                where: {
+                  userUserId: matchedId,
+                },
+              });
+              if (matchedDetails) goalcomp["matcheduserId"] = matchedDetails;
+              else goalcomp["matcheduserId"] = null;
+            }
+            //     console.log(matchedDetails["firstName"]);
+
             let goalcompskill = {};
             let goalcompskillList = [];
             for (
@@ -170,7 +182,7 @@ module.exports = {
             }
 
             goalcomp["skills"] = [...goalcompskillList];
-            goalcompList.push(goalcomp);
+            goalcompList.push({ ...goalcomp });
           } // end of J loop --> goal component
 
           goals["goalcomponent"] = [...goalcompList];
@@ -275,7 +287,7 @@ module.exports = {
       console.log("Updating");
       const firstName = req.body.firstName;
       const lastName = req.body.lastName;
-      const currentPosition = req.body.currentPosition;
+      //const currentPosition = req.body.currentPosition;
       const industry = req.body.industry;
       const phone = req.body.phoneNumber;
       const email = req.body.email;
@@ -290,7 +302,7 @@ module.exports = {
         {
           firstName: firstName,
           lastName: lastName,
-          currentPosition: currentPosition,
+          //currentPosition: currentPosition,
           industry: industry,
           phoneNumber: phone,
           email: email,

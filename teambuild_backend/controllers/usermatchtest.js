@@ -37,8 +37,6 @@ module.exports = {
       //     },
       //   });
 
-      console.log("matchUpdated");
-
       const userGoal = await Goal.findAll({
         include: {
           model: GoalComponent,
