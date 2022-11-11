@@ -62,6 +62,7 @@ db.model.User.hasMany(db.model.UserDiscard);
 db.model.UserProfile.hasMany(db.model.UserDiscard);
 db.model.Goal.hasMany(db.model.UserDiscard);
 db.model.UserPosition.hasMany(db.model.UserDiscard);
+db.model.GoalComponent.hasMany(db.model.UserDiscard);
 
 db.model.User.hasMany(db.model.UserView);
 db.model.UserProfile.hasMany(db.model.UserView);
