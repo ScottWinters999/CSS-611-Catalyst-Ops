@@ -177,11 +177,12 @@ const UserDashboardComponent = () => {
             return res.json();
           })
           .then((res) => {
-            console.log(res);
+            console.log(res.userData);
             setLoadedUserInfo(res.userData);
           });
       } catch (err) {}
     };
+    console.log(loadedUserInfo)
     userInfo();
   }, [sendRequest, authorization]);
 
@@ -190,9 +191,9 @@ const UserDashboardComponent = () => {
       if (loadedUserInfo.firstName.length > 0) {
         userCtx.onSetUserName(loadedUserInfo.firstName);
       }
-      if (loadedUserInfo.location.length > 0) {
-        userCtx.onSetLocation(loadedUserInfo.location);
-      }
+      // if (loadedUserInfo.location.length > 0) {
+      //   userCtx.onSetLocation(loadedUserInfo.location);
+      // }
       if (loadedUserInfo.email.length > 0) {
         userCtx.onSetEmail(loadedUserInfo.email);
       }
@@ -208,7 +209,9 @@ const UserDashboardComponent = () => {
     basicUserInfo: {
       firstName: loadedUserInfo ? loadedUserInfo.firstName : "",
       lastName: loadedUserInfo ? loadedUserInfo.lastName : "",
-      location: loadedUserInfo ? loadedUserInfo.location : "",
+      city : loadedUserInfo ? loadedUserInfo.city : "",
+      state : loadedUserInfo ? loadedUserInfo.state : "",
+      country : loadedUserInfo ? loadedUserInfo.country : "",
       currentPosition: loadedUserInfo ? loadedUserInfo.currentPosition : "",
       phone: loadedUserInfo ? loadedUserInfo.phone : "",
       email: loadedUserInfo ? loadedUserInfo.email : "",
@@ -288,7 +291,8 @@ const UserDashboardComponent = () => {
     //   },
     // ],
   };
-  console.log(loadedUserInfo, "ll");
+  console.log(loadedUserInfo?.goal, "ll");
+  
 
   return (
     // <ScrollToBottom>
@@ -312,7 +316,7 @@ const UserDashboardComponent = () => {
             {/* <SkillWrapper> */}
             <UserSkillComponent
               title="Skillset"
-              data={loadedUserInfo?.skillset}
+              data={loadedUserInfo?.position}
             />
             {/* <UserSkillComponent data={userData.experience} /> */}
             {/* </SkillWrapper> */}

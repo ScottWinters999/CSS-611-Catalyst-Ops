@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../UI/Card";
 import { BsPencilFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
 const SkillInfoOuterWrapper = styled.div`
@@ -13,6 +14,20 @@ const SkillInfoOuterWrapper = styled.div`
 
   @media (max-width: 760) {
     align-items: center;
+  }
+`;
+
+const ArrowWrapper = styled.div`
+  background: aliceblue;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  align-items: center;
+
+  &:hover {
+    background: #a7b3bd;
   }
 `;
 
@@ -94,12 +109,107 @@ const SingleSkillEdit = styled.div`
   }
 `;
 
+
+const TablebodyRow = styled.div`
+  display: flex;
+  align-content: space-around;
+  justify-content: flex-start;
+  padding: 18px 12px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
+`;
+
+const TableDropDownBodyRow = styled.div`
+  display: flex;
+  -webkit-align-content: space-around;
+  -ms-flex-line-pack: space-around;
+  align-content: space-around;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: space-around;
+  padding: 2px 12px;
+  background: #fff3f3;
+  width: 100%;
+`;
+const TablebodyCell = styled.div`
+  padding: 8px 6px;
+  width: 16%;
+  // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
+`;
+const TablebodyCellDropRow = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  // background: white;
+`;
+const TableBodyInner = styled.div``;
+
+const TablebodyCellInner = styled.div`
+  padding: 8px 6px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+`;
+
+const Tableheader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TableHeaderRow = styled.div`
+  display: flex;
+  color: inherit;
+  display: table-row;
+  outline: 0;
+  vertical-align: middle;
+  background: white;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  height: 2rem;
+  padding-left: 18px;
+`;
+const TableHeaderCol = styled.div`
+  font-family: "Roboto";
+  font-weight: 500;
+  background: white;
+  padding: 6px 16px;
+  font-size: 20px;
+`;
+
+
+const ExpandableTableRow = ({goalComponents}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [goalComponentList, setGoalComponentList] = useState([]);
+  // const classes = useStyles();
+
+  useEffect(() => {
+    if (goalComponents) {
+      setGoalComponentList(goalComponents);
+    }
+
+    console.log(goalComponentList);
+  }, [goalComponents]);
+
+};
+
+
+
+
+
+
 const UserSkillComponent = ({ title, data }) => {
   // if(data){
   //   console.log(data,'asadasdasdsad')
   // }
   const [skill, setSkill] = useState([]);
   const history = useNavigate();
+  const [isExpanded, setIsExpanded] = useState(false);
+  console.log(data)
   const editSkillHandler = (id) => {
     history("/userchat", {
       state: {
@@ -108,6 +218,8 @@ const UserSkillComponent = ({ title, data }) => {
     });
     console.log(id);
   };
+
+
   // const skill = data;
   useEffect(() => {
     if (data) {
@@ -133,17 +245,26 @@ const UserSkillComponent = ({ title, data }) => {
                 </Tablerow>
               </Tablehead>
               <Tablebody>
-                {skill.map((val, key) => (
-                  <SkillSetWrap key={key}>
+
+                {skill.map((val, idx) => (  
+                                 
+                  <SkillSetWrap key={idx}>
+                              <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
+          </ArrowWrapper>
                     <SingleSkill style={{ width: "36%" }}>
-                      {val.skillset}
+                      {val.position}
                     </SingleSkill>
                     <SingleSkill style={{ width: "40%" }}>
-                      {val.experience}
+                      {val.positionExperience}
                     </SingleSkill>
                     <SingleSkillEdit>
-                      <BsPencilFill onClick={() => editSkillHandler(key)} />
+                      <BsPencilFill onClick={() => editSkillHandler(idx)} />
                     </SingleSkillEdit>
+                    <ExpandableTableRow
+                      key={idx}
+                      goalComponents={val?.skillset}
+                    ></ExpandableTableRow>
                   </SkillSetWrap>
                 ))}
               </Tablebody>
@@ -163,5 +284,8 @@ const UserSkillComponent = ({ title, data }) => {
     );
   }
 };
+
+
+
 
 export default UserSkillComponent;
