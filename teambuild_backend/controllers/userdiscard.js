@@ -17,13 +17,14 @@ module.exports = {
       //   const skillSkillsetId = req.body.skillSetId;
       const userpositionPositionId = req.body.positionId;
       const discardUserId = req.body.discardUserId;
-
+      const goalcomponentGoalComponentId= req.body.goalcompId;
       UserDiscard.create({
         userUserId,
         userprofileUserProfileId,
         goalGoalId,
         userpositionPositionId,
         discardUserId,
+        goalcomponentGoalComponentId
       }).then((response) => {
         res.status(200).json({
           status: "discard table updated",

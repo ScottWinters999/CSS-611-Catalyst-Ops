@@ -86,7 +86,38 @@ import { AuthContext } from "../../shared/context/auth-context";
 
 //   color: #0C0B0B;
 // `;
-
+const TablebodyCellDropRow = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  // background: white;
+`;
+const Tableheader = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const TablebodyCellInner = styled.div`
+  padding: 8px 6px;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+`;
+const TableBodyInner = styled.div``;
+const TableDropDownBodyRow = styled.div`
+  display: flex;
+  -webkit-align-content: space-around;
+  -ms-flex-line-pack: space-around;
+  align-content: space-around;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: space-around;
+  padding: 2px 12px;
+  background: #ffffff;
+  width: 100%;
+`;
 // const UserProfileInfoBulletinInnerWrapper = styled.div`
 //   font-weight: 600;
 
@@ -110,20 +141,20 @@ import { AuthContext } from "../../shared/context/auth-context";
 
 
 const ModalWrapper = {
-  height: "60%",
+  height: "78%",
   width: "30rem",
   left: "calc(50% - 15rem)",
   borderRadius: "10px",
 };
 const ItemActions = {
-  padding: "2px",
+  padding: "30px",
   // "text-align": "center",
   // "border-top": "1px solid #ccc",
   height: "14%",
 };
 
 const ModalHeader = {
-  height: "20%",
+  height: "10%",
   // "font-family": "Montserrat",
   background:"#264ECA",
   
@@ -171,6 +202,7 @@ const UserInfoComponent = (props) => {
 
   const UserAccept = () => {
     closeModalHandler();
+    window.location.reload(false);
     console.log(acceptBody)
     // deleteMatch(idx)
     try {
@@ -184,6 +216,7 @@ const UserInfoComponent = (props) => {
       });
       const data =  newresponse.json();
       console.log(data);
+      window.location.reload(false);
     } catch (err) {
       console.log(err);
     }
@@ -226,8 +259,10 @@ const UserInfoComponent = (props) => {
   const discardBody = JSON.stringify({
     discardUserId: basicInfo.userid,
     goalId:basicInfo.goalMatchedId,
-    skillSetId:basicInfo.skillsetId
+    positionId:basicInfo.positionid,
+    goalcompId:basicInfo.goalcomponentid
   });
+  console.log(discardBody,"discard")
 
   const acceptBody = JSON.stringify({
     matchedUserId: basicInfo.userid,
@@ -241,6 +276,7 @@ const UserInfoComponent = (props) => {
 
       }
   })
+  console.log(skillset)
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -314,9 +350,53 @@ const UserInfoComponent = (props) => {
             <div className={classes.ProfilePicInner}></div>
           </div>
           <div className={classes.ModalProfileName}>{basicInfo.firstname}</div>
-          <div className={classes.ModalCaption}>
+          {/* <div className={classes.ModalCaption}>
             {basicInfo.skillset}
-          </div>
+          </div> */}
+          <TablebodyCellDropRow>
+          {/* <TableCell /> */}
+          {/* <TablebodyCellDrop> */}
+          {/* <Table> */}
+          <Tableheader>
+            <TableDropDownBodyRow>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Skill
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Experience in skill
+              </TablebodyCellInner>
+              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
+            </TableDropDownBodyRow>
+          </Tableheader>
+          <TableBodyInner>
+            {basicInfo.skillset.map((skills, idx) => (
+              <TableDropDownBodyRow key={idx}>
+                <TablebodyCellInner>
+                  {skills?.skill}
+                </TablebodyCellInner>
+                <TablebodyCellInner>
+                  {skills?.experience}
+                </TablebodyCellInner>
+              </TableDropDownBodyRow>
+            ))}
+          </TableBodyInner>
+          {/* </Table> */}
+          {/* </TablebodyCellDrop> */}
+        </TablebodyCellDropRow>
           <div className={classes.ModalMainInfo}>
             <div className={classes.IconsClass}>
               <GrMail className={classes.IconsSvg} />
@@ -325,7 +405,7 @@ const UserInfoComponent = (props) => {
           </div>
           <div className={classes.ModalMainInfo}>
             <div className={classes.IconsClass}><GrLocation className={classes.IconsSvg} /></div>
-            <div className={classes.UserContent}>{basicInfo.location}</div>
+            <div className={classes.UserContent}><p>{basicInfo.city + ","}{basicInfo.state + ","}{basicInfo.country}</p></div>
           </div>
         </div>
         {/* {!isValid && <p>'error'</p>} */}
@@ -447,7 +527,9 @@ const UserInfoComponent = (props) => {
                 <p>Open to Work</p>
               </div>
               <div className={classes.LocationWrapper}>
-                <p>{basicInfo.location}</p>
+                <p>{basicInfo.city}</p>
+                <p>{basicInfo.state}</p>
+                <p>{basicInfo.country}</p>
               </div>
             </div>
           </div>
@@ -458,21 +540,27 @@ const UserInfoComponent = (props) => {
                 <span className={classes.ContentWrapper}>{basicInfo.industry}</span>
               </div>
               <div className={classes.LabelWrapper}>
-                <p>Goals Matched :</p>
+                <p>Goal Matched :</p>
                 <span className={classes.ContentWrapper}>
-                      {basicInfo.goalMatched}
+                      {basicInfo.parentgoal}
                 </span>
               </div>
               <div className={classes.LabelWrapper}>
+                <p>Role Matched :</p>
+                <span className={classes.ContentWrapper}>
+                      {basicInfo.goalComponent}
+                </span>
+              </div>
+              {/* <div className={classes.LabelWrapper}>
                 <p>Skillset :</p>
                 <span className={classes.ContentWrapper}>
                         {basicInfo.skillset}
                 </span>
-              </div>
+              </div> */}
               <div className={classes.LabelWrapper}>
                 <p>Experience years:</p>
                 <span className={classes.ContentWrapper}>
-                      {basicInfo.experience} 
+                      {basicInfo.goalExperience} 
                 </span>
               </div>
             </div>

@@ -12,7 +12,7 @@ const UserInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 86%;
-  padding: 20px 24px;
+  padding: 20px 8px;
   // padding: 29px;
   margin: 32px 50px;
   border-radius:4px;
@@ -53,6 +53,7 @@ const Hr = styled.hr`
 
 const UserProfileLocationWrapper = styled.div`
   color: #c8c3c3;
+  font-size: 12px;
 `;
 
 const UserProfileInfoWrapper = styled.div`
@@ -68,7 +69,7 @@ const UserProfileInfoWrapper = styled.div`
 const UserProfileInfoBulletinWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  font-size: 18px;
+  font-size: 13px;
   font-family: "PT Serif", serif;
   font-weight: 400;
   flex-grow: 1;
@@ -322,6 +323,7 @@ const UserInfoComponent = ({ userData }) => {
                 // className={classes.textfield}
                 variant="standard"
                 size="small"
+
                 value={firstName}
                 helperText={isnameInvalid ? "Enter a valid name" : ""}
                 onChange={onNameChangeHandler}
@@ -340,25 +342,23 @@ const UserInfoComponent = ({ userData }) => {
                   label="City"
                   variant="standard"
                   size="small"
+                  height="4px"
                   value={city}
                   onChange={onCityChangeHandler}
                 />
               )}
-              {!isEdit && <React.Fragment>{city}</React.Fragment>}
-            </UserProfileLocationWrapper>
-            <UserProfileLocationWrapper>
-              {!isEdit && <React.Fragment>{city}</React.Fragment>}
               {isEdit && (
                 <TextField
                   id="standard-basic"
                   label="State"
                   variant="standard"
                   size="small"
+                  height="4px"
                   value={state}
                   onChange={onStateChangeHandler}
                 />
               )}
-
+              {!isEdit && <React.Fragment>{city}</React.Fragment>}
               {!isEdit && <React.Fragment>{state}</React.Fragment>}
             </UserProfileLocationWrapper>
             <UserProfileLocationWrapper>

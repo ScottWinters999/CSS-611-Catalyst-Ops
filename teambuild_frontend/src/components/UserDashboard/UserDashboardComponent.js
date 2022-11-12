@@ -81,6 +81,9 @@ const SectionTwoLeftInnerWrapper = styled.div`
   @media (max-width: 1200px) {
     width: 80%;
   }
+  @media (max-height: 1200px) {
+    height: 50%;
+  }
 
   @media (max-width: 760px) {
     width: 100%;

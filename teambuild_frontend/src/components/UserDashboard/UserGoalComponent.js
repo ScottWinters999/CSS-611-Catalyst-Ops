@@ -7,7 +7,12 @@ import {
 } from "@material-ui/core";
 import styled from "styled-components";
 import Card from "../UI/Card";
+import Modal from "../UI/Modal";
+import React from "react";
+import { GrLocation } from "react-icons/gr";
+import { GrMail } from "react-icons/gr";
 
+import classes from "./UserInfo.module.css";
 import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { makeStyles } from "@material-ui/core/styles";
@@ -326,18 +331,116 @@ const rows = [
   ]),
 ];
 
+
+
+
+
+const ModalWrapper = {
+  height: "78%",
+  width: "30rem",
+  left: "calc(50% - 15rem)",
+  borderRadius: "10px",
+};
+
+const ModalWrapper2 = {
+  height: "20%",
+  width: "30rem",
+  left: "calc(50% - 15rem)",
+  borderRadius: "10px",
+};
+const ItemActions = {
+  padding: "30px",
+  // "text-align": "center",
+  // "border-top": "1px solid #ccc",
+  height: "14%",
+};
+
+const ModalHeader = {
+  height: "10%",
+  // "font-family": "Montserrat",
+  background:"#264ECA",
+  
+};
+
+const ItemModal = {
+  padding: "0",
+  height: "100%",
+};
+const ItemModal2 = {
+  padding: "0",
+  height: "30%",
+};
+
+
+
+
 const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
-  const classes = useStyles();
 
   useEffect(() => {
     if (goalComponents) {
       setGoalComponentList(goalComponents);
     }
 
-    console.log(goalComponentList);
   }, [goalComponents]);
+
+  if(goalComponentList){
+    console.log(goalComponentList);
+
+  }
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModalHandler = () => {
+    setShowModal(true);
+  };
+  const closeModalHandler = () => {
+    setShowModal(false);
+  };
+
+  const header = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalHeader}>
+        <button onClick={closeModalHandler}> X </button>
+      </div>
+    </React.Fragment>
+  );
+  const modalFooter = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalFooter}>
+        {/* <button onClick={closeModalHandler}>Close</button> */}
+        <div className={classes.footerdiscardbutton}>
+        <div>
+        <button>Remove this person</button>
+        </div>
+        </div>
+        <div className={classes.footeracceptbutton}>
+        <div>
+        <button>Accept this person</button>
+        </div>
+        </div>
+        </div>
+    </React.Fragment>
+  );
+
+
+
+
+
+  
   return (
     <div style={{ padding: "4px", marginTop: "22px" }}>
       <TablebodyRow {...otherProps}>
@@ -384,13 +487,91 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
             {goalComponentList.map((singleGoalComponent, idx) => (
               <TableDropDownBodyRow key={idx}>
                 <TablebodyCellInner>
-                  {singleGoalComponent.goalComponent}
+                  {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner>
-                  {singleGoalComponent.matchedUser}
+                  <button onClick={openModalHandler}>{singleGoalComponent?.matcheduserId?.firstName}</button>
+                </TablebodyCellInner>
+                <Modal
+      show={showModal}
+      modalWrapper={ModalWrapper}
+      onCancel={closeModalHandler}
+      modalHeader={ModalHeader}
+      contentClass={ItemModal}
+      header={header}
+      footerClass={ItemActions}
+      footer={modalFooter}
+    >
+      <div className="form-control">
+        <div className={classes.ModalMainContent}>
+          <div className={classes.ProfilePic}>
+            <div className={classes.ProfilePicInner}></div>
+          </div>
+          <div className={classes.ModalProfileName}>{singleGoalComponent?.matcheduserId?.firstname}</div>
+          {/* <div className={classes.ModalCaption}>
+            {basicInfo.skillset}
+          </div> */}
+          <TablebodyCellDropRow>
+          {/* <TableCell /> */}
+          {/* <TablebodyCellDrop> */}
+          {/* <Table> */}
+          <Tableheader>
+            <TableDropDownBodyRow>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Skill
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Experience in skill
+              </TablebodyCellInner>
+              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
+            </TableDropDownBodyRow>
+          </Tableheader>
+          <TableBodyInner>
+            {singleGoalComponent?.skills?.map((skill, idx) => (
+              <TableDropDownBodyRow key={idx}>
+                <TablebodyCellInner>
+                  {skill?.skill}
+                </TablebodyCellInner>
+                <TablebodyCellInner>
+                  {skill?.experience}
                 </TablebodyCellInner>
               </TableDropDownBodyRow>
             ))}
+          </TableBodyInner>
+          {/* </Table> */}
+          {/* </TablebodyCellDrop> */}
+        </TablebodyCellDropRow>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.IconsClass}>
+              <GrMail className={classes.IconsSvg} />
+            </div>
+            <div className={classes.UserContent}>{singleGoalComponent?.matcheduserId?.email}</div>
+          </div>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.IconsClass}><GrLocation className={classes.IconsSvg} /></div>
+            <div className={classes.UserContent}><p>{singleGoalComponent?.matcheduserId?.city + ","}{singleGoalComponent?.matcheduserId?.state + ","}{singleGoalComponent?.matcheduserId?.country}</p></div>
+          </div>
+        </div>
+        {/* {!isValid && <p>'error'</p>} */}
+      </div>
+    </Modal>
+              </TableDropDownBodyRow>
+            ))}
+           
           </TableBodyInner>
           {/* </Table> */}
           {/* </TablebodyCellDrop> */}
@@ -406,66 +587,113 @@ const UserGoalComponent = ({ data }) => {
   console.log(data, "GOALSS");
   const history = useNavigate();
   useEffect(() => {
-    if (data) {
-      const groupBy = (key) => (array) =>
-        array.reduce((objectsByKeyValue, obj) => {
-          const value = obj[key];
-          objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(
-            obj
-          );
-          return objectsByKeyValue;
-        }, {});
-      const groupByGoal = groupBy("goal");
-      let total = groupByGoal(data);
-      console.log(total);
-      if (Object.keys(total).length > 0) {
-        // console.log("lengthhh");
-        const currentUserGoals = [];
-        Object.keys(total).forEach((key, idx) => {
-          let temp = {};
-          // console.log(total[key])
-          let goalName = key;
+    // if (data) {
+    //   const groupBy = (key) => (array) =>
+    //     array.reduce((objectsByKeyValue, obj) => {
+    //       const value = obj[key];
+    //       objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(
+    //         obj
+    //       );
+    //       return objectsByKeyValue;
+    //     }, {});
+    //   const groupByGoal = groupBy("goal");
+    //   let total = groupByGoal(data);
+    //   console.log(total);
+    //   if (Object.keys(total).length > 0) {
+    //     // console.log("lengthhh");
+    //     const currentUserGoals = [];
+    //     Object.keys(total).forEach((key, idx) => {
+    //       let temp = {};
+    //       // console.log(total[key])
+    //       let goalName = key;
 
-          // let goalComponents = []
-          let goalComponents = total[key].map((val) => {
-            // console.log(val,'sss')
-            return {
-              goalComponent: val["goalComponent"],
-              matchedUser: val["matchedUser"],
-              goalComponentId: val["goalComponentId"],
-            };
-          });
-          let currentGoalStatus = total[key].reduce((val, userGoal) => {
-            console.log(val, userGoal, "asasassdsads  ");
-            let ifMatchedUser = 0;
-            // userGoal['matchedUser'] = 'a'
-            console.log(userGoal["matchedUser"], "aaa");
-            if (
-              "matchedUser" in userGoal &&
-              userGoal["matchedUser"].length > 0
-            ) {
-              ifMatchedUser = 1;
-              // console.log('nnnnnnnnnnnnnnnnnnnnnnnnnn')
-            }
-            return val + ifMatchedUser;
-            // return val['matchedUser'].length
-          }, 0);
-          let totalGoalComponents = goalComponents.length;
-          let status = `${currentGoalStatus} / ${totalGoalComponents}`;
-          console.log(status, "required");
-          temp = {
-            name: goalName,
-            status: status,
-            goalComponents: goalComponents,
-            goalId: total[key][0]["goalId"],
-          };
-          currentUserGoals.push(temp);
-        });
-        console.log(currentUserGoals, "current");
-        setTotalGoals(currentUserGoals);
-      }
+    //       // let goalComponents = []
+    //       let goalComponents = total[key].map((val) => {
+    //         // console.log(val,'sss')
+    //         return {
+    //           goalComponent: val["goalComponent"],
+    //           matchedUser: val["matchedUser"],
+    //           goalComponentId: val["goalComponentId"],
+    //         };
+    //       });
+    //       let currentGoalStatus = total[key].reduce((val, userGoal) => {
+    //         console.log(val, userGoal, "asasassdsads  ");
+    //         let ifMatchedUser = 0;
+    //         // userGoal['matchedUser'] = 'a'
+    //         console.log(userGoal["matchedUser"], "aaa");
+    //         if (
+    //           "matchedUser" in userGoal &&
+    //           userGoal["matchedUser"].length > 0
+    //         ) {
+    //           ifMatchedUser = 1;
+    //           // console.log('nnnnnnnnnnnnnnnnnnnnnnnnnn')
+    //         }
+    //         return val + ifMatchedUser;
+    //         // return val['matchedUser'].length
+    //       }, 0);
+    //       let totalGoalComponents = goalComponents.length;
+    //       let status = `${currentGoalStatus} / ${totalGoalComponents}`;
+    //       console.log(status, "required");
+    //       temp = {
+    //         name: goalName,
+    //         status: status,
+    //         goalComponents: goalComponents,
+    //         goalId: total[key][0]["goalId"],
+    //       };
+    //       currentUserGoals.push(temp);
+    //     });
+    //     console.log(currentUserGoals, "current");
+    //     setTotalGoals(currentUserGoals);
+    //   }
+    // }
+    if(data){
+      console.log(data,'469')
+
+      setTotalGoals(data);
     }
   }, [data]);
+
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModalHandler = () => {
+    setShowModal(true);
+  };
+  const closeModalHandler = () => {
+    setShowModal(false);
+  };
+
+  const header = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalHeader}>
+        <button onClick={closeModalHandler}> X </button>
+      </div>
+    </React.Fragment>
+  );
+  const modalFooter = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalFooter}>
+        {/* <button onClick={closeModalHandler}>Close</button> */}
+        <div className={classes.footerdiscardbutton} style={{padding:"3px"}}>
+        <button>YES</button>
+        <button>NO</button>
+        </div>
+        </div>
+    </React.Fragment>
+  );
+
 
   const deleteButtonHandler = async (idx) => {
     console.log(totalGoals[idx]);
@@ -541,6 +769,8 @@ const UserGoalComponent = ({ data }) => {
     });
     console.log(id);
   };
+
+
   const [isExpanded, setIsExpanded] = useState(false);
   // const listItems = numbers.map((number) => <li>{number}</li>);
   return (
@@ -599,28 +829,46 @@ const UserGoalComponent = ({ data }) => {
                   {totalGoals.map((row, idx) => (
                     <ExpandableTableRow
                       key={idx}
-                      goalComponents={row?.goalComponents}
+                      goalComponents={row?.goalcomponent}
                     >
                       <TablebodyCellWrapper>
                         <TablebodyCell
                           style={{ width: "36%", marginLeft: "2%" }}
                         >
-                          {row.name}
+                          {row.goalName}
                         </TablebodyCell>
                         <TablebodyCell>{row.status}</TablebodyCell>
                         <TablebodyCellEdit>
                           <BsPencilFill onClick={() => editGoalHandler(idx)} />
                         </TablebodyCellEdit>
                         <TablebodyCellButtonDelete
-                          onClick={() => deleteButtonHandler(idx)}
+                          onClick={() => openModalHandler(true)}
                         >
                           <MdDeleteOutline
                             style={{ width: "24px", height: "24px" }}
                           />
                         </TablebodyCellButtonDelete>
                       </TablebodyCellWrapper>
+
                     </ExpandableTableRow>
                   ))}
+                                        <Modal
+      show={showModal}
+      modalWrapper={ModalWrapper2}
+      onCancel={closeModalHandler}
+      modalHeader={ModalHeader}
+      contentClass={ItemModal2}
+      header={header}
+      footerClass={ItemActions}
+      footer={modalFooter}
+    >
+        <div className={classes.ModalMainContent}>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.UserContent}><div align="center"> Are You Sure You Want to Delete </div></div>
+          </div>
+        {/* {!isValid && <p>'error'</p>} */}
+      </div>
+    </Modal>
                 </Tablebody>
               </Table>
             </TableWrapper>
