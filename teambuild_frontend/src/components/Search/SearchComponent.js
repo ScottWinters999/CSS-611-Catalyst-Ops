@@ -240,7 +240,7 @@ useEffect(() => {
         return res.json()
         })
         .then((res) =>{
-            console.log(res)
+            console.log(res,"single full")
 
             let reqData = []
             const  currentUserMatches = res.matchedData
@@ -248,25 +248,29 @@ useEffect(() => {
 
                 let temp = {}
                 temp ={
-                    "userid":i?.user?.userUserId,
-                    "firstname":i?.user?.firstName,
-                    "lastname":i?.user?.lastName,
-                    "email":i?.user?.email,
-                    "industry":i?.user?.industry,
-                    "location":i?.user?.location,
-                    "skillset":i?.skillset[0]["SkillMatched"],
-                    "goalMatched":i?.skillset[1]["goalMatched"][0],
-                    "goalMatchedId":i?.skillset[1]["goalMatched"][1],
-                    "experience":i?.skillset[2]["experience"],
-                    "skillsetId":i?.skillset[3]["SkillSetId"],
-                    "goalcomponentid":i?.goalCompoonentId
+                    "userid":i?.goalData[2]?.userUserId,                    
+                    "firstname":i?.goalData[2]?.firstName,
+                    "lastname":i?.goalData[2]?.lastName,                    
+                    "email":i?.goalData[2]?.email,
+                    "industry":i?.goalData[2]?.industry,
+                    "city":i?.goalData[0]?.city,
+                    "state":i?.goalData[0]?.state,
+                    "country":i?.goalData[0]?.country,
+                    "positionid":i?.goalData[1]?.positionId,
+                    "skillset":i?.goalData[0]?.skills,
+                    "goalComponent":i?.goalData[0]?.goalcomponent,
+                    "parentgoal":i?.goalData[0]?.parentgoalName,
+                    "goalMatchedId":i?.goalData[0]?.parentgoalId,
+                    "goalExperience":i?.goalData[0]?.experience,
+                    // "skillsetId":i?.skillset[3]["SkillSetId"],
+                    "goalcomponentid":i?.goalData[0]?.goalcomponentId
                 }
-                console.log(temp)
+                console.log(temp,"single")
                 reqData.push(temp)
             })
 
             setUserMatches(reqData)
-            console.log(userMatches)
+            console.log(reqData,"single user matches")
         })
         // responseData.t
         // responseData./
@@ -275,6 +279,7 @@ useEffect(() => {
       } catch (err) {}
     };
     userInfo();
+    
     // console.log(userMatches)
   }, []);
 

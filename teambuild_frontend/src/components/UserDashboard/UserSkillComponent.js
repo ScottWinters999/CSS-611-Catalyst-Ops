@@ -5,6 +5,11 @@ import { BsPencilFill } from "react-icons/bs";
 import { useEffect, useState } from "react";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import { width } from "@mui/system";
+
+
+
 
 const SkillInfoOuterWrapper = styled.div`
   display: flex;
@@ -80,11 +85,12 @@ const Tablecell = styled.div``;
 
 const Tablebody = styled.div`
 padding: 14px 4px;
+width:100%;
 }
 `;
 const SkillSetWrap = styled.div`
   display: flex;
-  box-shadow: -1px 8px 65px 0px rgb(115 115 129 / 58%);
+  // box-shadow: -1px 8px 65px 0px rgb(115 115 129 / 58%);
   margin: 4px 14px;
   padding: 10px 18px;
   border-radius: 4px;
@@ -182,10 +188,52 @@ const TableHeaderCol = styled.div`
 `;
 
 
-const ExpandableTableRow = ({goalComponents}) => {
+// const ExpandableTableRow = ({goalComponents}) => {
+//   const [isExpanded, setIsExpanded] = useState(false);
+//   const [goalComponentList, setGoalComponentList] = useState([]);
+//   // const classes = useStyles();
+// console.log(goalComponents,"passed")
+//   useEffect(() => {
+//     if (goalComponents) {
+//       setGoalComponentList(goalComponents);
+//       console.log(goalComponentList,"skillset")
+//     }
+//   }, [goalComponents]);
+//   console.log(goalComponentList,"skillset")
+
+
+//   return(
+//     <div>
+//         <div>
+//           <div>Skillset</div>
+//           <div>Experience</div>
+//         </div>
+//         {goalComponentList.map((skill,idx)=>(
+//           <div>
+//           <div>{skill.skillset}</div>
+//           <div>{skill["experience"]}</div>
+//         </div>
+//         ))}
+//     </div>
+//   );
+// };
+const useStyles = makeStyles({
+  tc: {
+    padding: "4px",
+    "font-family": "Roboto",
+    "font-size": "18px",
+  },
+  tc2: {
+    padding: "4px",
+    "font-size": "12px",
+    "font-family": "Roboto",
+  },
+});
+
+const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
-  // const classes = useStyles();
+  const classes = useStyles();
 
   useEffect(() => {
     if (goalComponents) {
@@ -194,10 +242,70 @@ const ExpandableTableRow = ({goalComponents}) => {
 
     console.log(goalComponentList);
   }, [goalComponents]);
-
+  return (
+    <div style={{ padding: "4px", marginTop: "22px" ,width:"100%"}}>
+      <TablebodyRow {...otherProps}>
+        <TablebodyCell style={{ width: "8%" }}>
+          <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <AiOutlineArrowUp style={{
+    height: "1em",
+    width: "1em"
+}}/> : <AiOutlineArrowDown />}
+          </ArrowWrapper>
+        </TablebodyCell>
+        {children}
+      </TablebodyRow>
+      {/* <TableRow>adsd</TableRow> */}
+      {isExpanded && (
+        // <div>ssds</div>
+        <TablebodyCellDropRow>
+          {/* <TableCell /> */}
+          {/* <TablebodyCellDrop> */}
+          {/* <Table> */}
+          <Tableheader>
+            <TableDropDownBodyRow>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Goal Component
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Experience in Years
+              </TablebodyCellInner>
+              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
+            </TableDropDownBodyRow>
+          </Tableheader>
+          <TableBodyInner>
+            {goalComponentList.map((skill, idx) => (
+              <TableDropDownBodyRow key={idx}>
+                <TablebodyCellInner>
+                  {skill.skillset}
+                </TablebodyCellInner>
+                <TablebodyCellInner>
+                  {skill.experience}
+                </TablebodyCellInner>
+              </TableDropDownBodyRow>
+            ))}
+          </TableBodyInner>
+          {/* </Table> */}
+          {/* </TablebodyCellDrop> */}
+        </TablebodyCellDropRow>
+      )}
+    </div>
+  );
 };
-
-
 
 
 
@@ -209,7 +317,7 @@ const UserSkillComponent = ({ title, data }) => {
   const [skill, setSkill] = useState([]);
   const history = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
-  console.log(data)
+  console.log(data,"skills")
   const editSkillHandler = (id) => {
     history("/userchat", {
       state: {
@@ -249,9 +357,10 @@ const UserSkillComponent = ({ title, data }) => {
                 {skill.map((val, idx) => (  
                                  
                   <SkillSetWrap key={idx}>
-                              <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
-            {isExpanded ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
-          </ArrowWrapper>
+                    <ExpandableTableRow
+                      key={idx}
+                      goalComponents={val.skillset}
+                    >
                     <SingleSkill style={{ width: "36%" }}>
                       {val.position}
                     </SingleSkill>
@@ -261,10 +370,7 @@ const UserSkillComponent = ({ title, data }) => {
                     <SingleSkillEdit>
                       <BsPencilFill onClick={() => editSkillHandler(idx)} />
                     </SingleSkillEdit>
-                    <ExpandableTableRow
-                      key={idx}
-                      goalComponents={val?.skillset}
-                    ></ExpandableTableRow>
+                    </ExpandableTableRow>
                   </SkillSetWrap>
                 ))}
               </Tablebody>

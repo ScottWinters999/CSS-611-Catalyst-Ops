@@ -6,6 +6,12 @@
     cursor: pointer;
   }
   
+
+  .paragraph-text{
+  padding-left: 20%;
+  padding-top: 5%;
+  font-size: 20px;
+ }
   .Intro {
     height: 44%;
     display: flex;

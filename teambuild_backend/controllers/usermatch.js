@@ -290,9 +290,12 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
                   userUserId: posskill.userId,
                 },
               });
+              let positionDetails= {};
+              positionDetails['positionId']= posskill.positionId;
               matchData["goalData"] = [
                 { ...goalcomp[g] },
                 // { ...posskill },
+                {...positionDetails},
                 userData.dataValues,
               ];
               //   matchData["posskill"] = [{ ...posskill }];
@@ -316,8 +319,10 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
     //console.log(finalList[i]);
     // for(let k=0;k<finalList[i].goal[i].length;k++)
     const goalcompId = finalList[i].goalData[0].goalcomponentId;
-    const positionId = finalList[i].goalData[1].positionId;
-    const matchUserId = finalList[i].goalData[1].userId;
+    // console.log(322,finalList[i].goalData[1]['positionId']);
+    const positionId = finalList[i].goalData[1]['positionId'];
+    //console.log(324,finalList[i].goalData[2].userUserId);
+    const matchUserId = finalList[i].goalData[2].userUserId;
     const matchGoalId = finalList[i].goalData[0].parentgoalId;
     for (let j = 0; j < discardList.length; j++) {
       const discardUserId = discardList[j].dataValues.discardUserId;
@@ -333,12 +338,12 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
           discardGoalCompId == goalcompId
         )
       ) {
-        console.log(discardUserId, " ", matchUserId);
-        console.log(discardGoalId, " ", matchGoalId);
-        console.log(positionId, " ", discardPos);
-        console.log(discardGoalCompId, " ", goalcompId);
+        // console.log(discardUserId, " ", matchUserId);
+        // console.log(discardGoalId, " ", matchGoalId);
+        // console.log(positionId, " ", discardPos);
+        // console.log(discardGoalCompId, " ", goalcompId);
         finalMatch.push(finalList[i]);
-        console.log("305");
+        //console.log("305");
       } else {
         console.log("307");
       }

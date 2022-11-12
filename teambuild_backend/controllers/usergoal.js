@@ -47,7 +47,7 @@ module.exports = {
         },
         {
           where: {
-            goalComponentId: goalCompoonentId,
+            goalComponentId: goalComponentId,
           },
         }
       ).then((response) => {
