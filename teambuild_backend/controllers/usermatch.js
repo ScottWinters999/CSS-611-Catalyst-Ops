@@ -290,12 +290,12 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
                   userUserId: posskill.userId,
                 },
               });
-              let positionDetails= {};
-              positionDetails['positionId']= posskill.positionId;
+              let positionDetails = {};
+              positionDetails["positionId"] = posskill.positionId;
               matchData["goalData"] = [
                 { ...goalcomp[g] },
                 // { ...posskill },
-                {...positionDetails},
+                { ...positionDetails },
                 userData.dataValues,
               ];
               //   matchData["posskill"] = [{ ...posskill }];
@@ -320,7 +320,7 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
     // for(let k=0;k<finalList[i].goal[i].length;k++)
     const goalcompId = finalList[i].goalData[0].goalcomponentId;
     // console.log(322,finalList[i].goalData[1]['positionId']);
-    const positionId = finalList[i].goalData[1]['positionId'];
+    const positionId = finalList[i].goalData[1]["positionId"];
     //console.log(324,finalList[i].goalData[2].userUserId);
     const matchUserId = finalList[i].goalData[2].userUserId;
     const matchGoalId = finalList[i].goalData[0].parentgoalId;
