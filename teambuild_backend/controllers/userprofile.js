@@ -156,11 +156,11 @@ module.exports = {
                   userUserId: matchedId,
                 },
               });
+
+              //console.log(160, matchedDetails.userpositions);
               if (matchedDetails) goalcomp["matcheduserId"] = matchedDetails;
-              
-            }
-            else goalcomp["matcheduserId"] = null;
-               // console.log(154,matchedDetails);
+            } else goalcomp["matcheduserId"] = null;
+            // console.log(154,matchedDetails);
 
             let goalcompskill = {};
             let goalcompskillList = [];
@@ -199,7 +199,7 @@ module.exports = {
         } // end of goals
       }
 
-     // console.log("107", finalgoalList[1].goalcomponent[1].matcheduserId.dataValues);
+      // console.log("107", finalgoalList[1].goalcomponent[1].matcheduserId.dataValues);
 
       /*
       

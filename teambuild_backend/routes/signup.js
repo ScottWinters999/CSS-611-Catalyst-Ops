@@ -15,6 +15,7 @@ const { UserProfile } = require("../controllers");
 const { UserDiscard } = require("../controllers");
 const { UserGoal } = require("../controllers");
 const { UserProfileView } = require("../controllers");
+const { Rasa } = require("../controllers");
 const { USER } = require("../util/database");
 const fileUpload = require("../middleware/file-upload");
 router.post("/signup", bodyParser, User.create);
@@ -55,6 +56,25 @@ router.post(
   auth,
   bodyParser,
   UserGoal.goalcomponentmatchremoval
+);
+
+router.post("/goalcreate", auth, bodyParser, Rasa.creategoal);
+router.post("/goalupdate", auth, bodyParser, Rasa.updategoal);
+
+router.post("/goalcomponentcreate", auth, bodyParser, Rasa.creategoalcomponent);
+router.post("/goalcomponentupdate", auth, bodyParser, Rasa.updategoalcomponent);
+
+router.post(
+  "/goalcomponentskillcreate",
+  auth,
+  bodyParser,
+  Rasa.creategoalcomponentskill
+);
+router.post(
+  "/goalcomponentskillupdate",
+  auth,
+  bodyParser,
+  Rasa.updategoalcomponentskill
 );
 
 // router.get('/skill',auth,bodyParser,UserProfile.skill);

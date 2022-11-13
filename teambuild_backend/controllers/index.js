@@ -5,4 +5,5 @@ controllers.UserMatch = require("./usermatch");
 controllers.UserDiscard = require("./userdiscard");
 controllers.UserGoal = require("./usergoal");
 controllers.UserProfileView = require("./userprofileviews");
+controllers.Rasa = require("./rasagoal");
 module.exports = controllers;
