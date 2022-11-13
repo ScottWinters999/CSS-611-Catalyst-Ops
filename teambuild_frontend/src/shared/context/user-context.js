@@ -20,6 +20,7 @@ export const UserContextProvider = (props) => {
   const [isPremiumUser, setIsPremiumUser] = useState("");
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
+  const [goalId, setGoalId] = useState("");
 
 
   const setUserNameHandler = (name) => {
@@ -38,6 +39,9 @@ export const UserContextProvider = (props) => {
   const setPhoneHandler = (phone) => {
     setPhone(phone);
   };
+  const setGoalIdHandler = (goal) => {
+    setGoalId(goal);
+  };
 
 
 //   useEffect
@@ -51,6 +55,7 @@ export const UserContextProvider = (props) => {
         onSetLocation:setLocationHandler,
         onSetPremiumUser:setPremiumUserHandler,
         onSetUserName: setUserNameHandler,
+        onSetGoalId: setGoalIdHandler
       }}
     >
       {props.children}

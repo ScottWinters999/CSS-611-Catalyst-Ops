@@ -146,6 +146,15 @@
     font-family: serif;
     color: black;
   }
+  .ModalProfileNamenew {
+    height: 15%;
+    justify-content: center;
+    display: flex;
+    font-size: 26px;
+    font-weight: 300;
+    font-family: serif;
+    color: black;
+  }
   
   .ModalCaption {
     height: 15%;
@@ -186,6 +195,8 @@
     /* padding: 2px; */
     height: 75%;
     /* box-shadow: -1px 8px 65px 0px rgb(36 36 36 / 78%); */
+    margin-top: 15%;
+    margin-left: 35%;
   }
   
   .ModalFooter button {
@@ -218,7 +229,7 @@
   }
   .footerdiscardbutton{
    display: flex;
-   float: right;
+   float: center;
   }
   .footeracceptbutton{
     display: flex;

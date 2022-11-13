@@ -144,14 +144,23 @@ module.exports = {
               userGoal[i].dataValues.goalcomponents[j].dataValues.matchedUserId;
             if (matchedId != null) {
               const matchedDetails = await UserProfile.findOne({
+                include: {
+                  model: UserPosition,
+                  where: {
+                    positionName:
+                      userGoal[i].dataValues.goalcomponents[j].dataValues
+                        .goalComponent,
+                  },
+                },
                 where: {
                   userUserId: matchedId,
                 },
               });
               if (matchedDetails) goalcomp["matcheduserId"] = matchedDetails;
-              else goalcomp["matcheduserId"] = null;
+              
             }
-            //     console.log(matchedDetails["firstName"]);
+            else goalcomp["matcheduserId"] = null;
+               // console.log(154,matchedDetails);
 
             let goalcompskill = {};
             let goalcompskillList = [];
@@ -190,7 +199,7 @@ module.exports = {
         } // end of goals
       }
 
-      //console.log("107", finalgoalList);
+     // console.log("107", finalgoalList[1].goalcomponent[1].matcheduserId.dataValues);
 
       /*
       
