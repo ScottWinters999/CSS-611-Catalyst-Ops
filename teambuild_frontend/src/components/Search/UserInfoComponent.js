@@ -252,7 +252,7 @@ const UserInfoComponent = (props) => {
   
   const viewBody = JSON.stringify({
     userUserId: basicInfo.userid,
-    matchedGoal:basicInfo.goalMatched,
+    matchedGoal:basicInfo.parentgoal,
     //skillSetId:basicInfo.skillsetid
   });
 

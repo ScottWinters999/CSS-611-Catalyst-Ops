@@ -154,6 +154,15 @@ const TablebodyRow = styled.div`
   border-radius: 4px;
   box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
 `;
+const TablebodyRownew = styled.div`
+  display: flex;
+  align-content: space-around;
+  justify-content: flex-start;
+  padding: 0px 0px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
+`;
 
 const TableDropDownBodyRow = styled.div`
   display: flex;
@@ -165,7 +174,7 @@ const TableDropDownBodyRow = styled.div`
   -ms-flex-pack: start;
   justify-content: space-around;
   padding: 2px 12px;
-  background: #fff3f3;
+  background: #ffffff;
   width: 100%;
 `;
 const TablebodyCell = styled.div`
@@ -373,6 +382,90 @@ const ItemModal2 = {
 
 
 
+const ExpandableSkillRow = ({ children, goalComponents, ...otherProps }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [goalComponentList, setGoalComponentList] = useState([]);
+
+  useEffect(() => {
+    if (goalComponents) {
+      setGoalComponentList(goalComponents);
+    }
+
+  }, [goalComponents]);
+
+  if(goalComponentList){
+    console.log(goalComponentList,"newSkills");
+
+  }
+
+  
+  return (
+    <div style={{ padding: "0px", marginTop: "0px" }}>
+      <TablebodyRownew {...otherProps}>
+        <TablebodyCell style={{ width: "8%" }}>
+          <ArrowWrapper onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
+          </ArrowWrapper>
+        </TablebodyCell>
+        {children}
+      </TablebodyRownew>
+      {/* <TableRow>adsd</TableRow> */}
+      {isExpanded && (
+        // <div>ssds</div>
+        <TablebodyCellDropRow>
+          {/* <TableCell /> */}
+          {/* <TablebodyCellDrop> */}
+          {/* <Table> */}
+          <Tableheader>
+            <TableDropDownBodyRow>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "12px",
+                  fontWeight: "300",
+                }}
+              >
+                Skill Component
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "12px",
+                  fontWeight: "300",
+                }}
+              >
+                Experience Required
+              </TablebodyCellInner>
+              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
+            </TableDropDownBodyRow>
+          </Tableheader>
+          <TableBodyInner>
+            {goalComponentList.map((singleGoalComponent, idx) => (
+              <TableDropDownBodyRow key={idx}>
+                <TablebodyCellInner>
+                  {singleGoalComponent?.skill}
+                </TablebodyCellInner>
+                <TablebodyCellInner>
+                  {singleGoalComponent?.experience}
+                </TablebodyCellInner>
+          
+              </TableDropDownBodyRow>
+            ))}
+           
+          </TableBodyInner>
+          {/* </Table> */}
+          {/* </TablebodyCellDrop> */}
+        </TablebodyCellDropRow>
+      )}
+    </div>
+  );
+};
+
+
+
+
 
 const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -386,7 +479,7 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   }, [goalComponents]);
 
   if(goalComponentList){
-    console.log(goalComponentList);
+    console.log(goalComponentList,"passed goals");
 
   }
 
@@ -425,11 +518,6 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
         <div className={classes.footerdiscardbutton}>
         <div>
         <button>Remove this person</button>
-        </div>
-        </div>
-        <div className={classes.footeracceptbutton}>
-        <div>
-        <button>Accept this person</button>
         </div>
         </div>
         </div>
@@ -485,6 +573,10 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
           </Tableheader>
           <TableBodyInner>
             {goalComponentList.map((singleGoalComponent, idx) => (
+              <ExpandableSkillRow
+              key={idx}
+              goalComponents={singleGoalComponent?.skills}
+            >
               <TableDropDownBodyRow key={idx}>
                 <TablebodyCellInner>
                   {singleGoalComponent.goalcomponent}
@@ -551,6 +643,7 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
                 </TablebodyCellInner>
               </TableDropDownBodyRow>
             ))}
+
           </TableBodyInner>
           {/* </Table> */}
           {/* </TablebodyCellDrop> */}
@@ -570,6 +663,7 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
       </div>
     </Modal>
               </TableDropDownBodyRow>
+              </ExpandableSkillRow>
             ))}
            
           </TableBodyInner>
@@ -585,6 +679,7 @@ const UserGoalComponent = ({ data }) => {
   const classes = useStyles();
   const [totalGoals, setTotalGoals] = useState([]);
   console.log(data, "GOALSS");
+  const [idValue,setIdValue] = useState();
   const history = useNavigate();
   useEffect(() => {
     // if (data) {
@@ -656,12 +751,67 @@ const UserGoalComponent = ({ data }) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const openModalHandler = () => {
-    setShowModal(true);
+  const openModalHandler = (val,id) => {
+    setShowModal(val);
+    setIdValue(id)
   };
   const closeModalHandler = () => {
     setShowModal(false);
   };
+  const deleteHandler = () => {
+    console.log(idValue,"deleter id")
+    closeModalHandler();
+    window.location.reload(false);
+    const body = {
+      goalId: idValue,
+    };
+    try {
+      const response =  fetch("http://localhost:5000/api/usergoaldelete", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  const deleteButtonHandler = async(idx) => {
+    console.log(totalGoals[idx]);
+    const goalId = totalGoals[idx]["goalId"];
+    console.log(goalId);
+    const body = {
+      goalId: idx,
+    };
+    try {
+      const response = await fetch("http://localhost:5000/api/usergoaldelete", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      if (data) {
+        setTotalGoals((prev) => prev.filter((goal) => goal.goalId !== idx));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // const index = array.indexOf(idx);
+    // if (index > -1) { // only splice array when item is found
+    //   array.splice(index, 1); // 2nd parameter means remove one item only
+    // }
+  };
+
+
+
+ 
 
   const header = (
     <React.Fragment>
@@ -687,7 +837,7 @@ const UserGoalComponent = ({ data }) => {
       <div className={classes.ModalFooter}>
         {/* <button onClick={closeModalHandler}>Close</button> */}
         <div className={classes.footerdiscardbutton} style={{padding:"3px"}}>
-        <button>YES</button>
+        <button onClick={deleteHandler}>YES</button>
         <button>NO</button>
         </div>
         </div>
@@ -695,35 +845,6 @@ const UserGoalComponent = ({ data }) => {
   );
 
 
-  const deleteButtonHandler = async (idx) => {
-    console.log(totalGoals[idx]);
-    const goalId = totalGoals[idx]["goalId"];
-    console.log(goalId);
-    const body = {
-      goalId: goalId,
-    };
-    try {
-      const response = await fetch("http://localhost:5000/api/usergoaldelete", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      if (data) {
-        setTotalGoals((prev) => prev.filter((goal) => goal.goalId !== goalId));
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    // const index = array.indexOf(idx);
-    // if (index > -1) { // only splice array when item is found
-    //   array.splice(index, 1); // 2nd parameter means remove one item only
-    // }
-  };
 
   // const groupBy = key => array =>
   // array.reduce((objectsByKeyValue, obj) => {
@@ -842,17 +963,19 @@ const UserGoalComponent = ({ data }) => {
                           <BsPencilFill onClick={() => editGoalHandler(idx)} />
                         </TablebodyCellEdit>
                         <TablebodyCellButtonDelete
-                          onClick={() => openModalHandler(true)}
-                        >
+                          onClick={() => openModalHandler(true,row?.goalId)}
+                      >
                           <MdDeleteOutline
                             style={{ width: "24px", height: "24px" }}
                           />
                         </TablebodyCellButtonDelete>
                       </TablebodyCellWrapper>
-
                     </ExpandableTableRow>
+                    
+                    
+                    
                   ))}
-                                        <Modal
+                      <Modal
       show={showModal}
       modalWrapper={ModalWrapper2}
       onCancel={closeModalHandler}
@@ -868,7 +991,7 @@ const UserGoalComponent = ({ data }) => {
           </div>
         {/* {!isValid && <p>'error'</p>} */}
       </div>
-    </Modal>
+    </Modal>                
                 </Tablebody>
               </Table>
             </TableWrapper>
