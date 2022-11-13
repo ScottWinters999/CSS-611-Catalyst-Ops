@@ -476,6 +476,56 @@ return (
         {userMatchesToRender &&(userMatchesToRender.map((singleUser, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} idx={index} deleteSingleMatch={deleteMatchHandler} /></Item>
+            <div className="wrapper">
+                  <ul className="card-grid">
+                      {items.map((item) => (
+                          <li>
+                              <article className="card" key={item.callingCodes}>
+                                  <div className="card-image">
+                                      <img src={item.flag} alt={item.name} />
+                                  </div>
+                                  <div className="card-content">
+                                      <h2 className="card-name">{item.name}</h2>
+                                      <ol className="card-list">
+                                          <li>
+                                            /* <button type="button">Industry</button> */
+                                              Industry: <span>{item.industry}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">City</button> */
+                                              City: <span>{item.city}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">State</button> */
+                                              State: <span>{item.state}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Country</button> */
+                                              Country: <span>{item.country}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Skills</button> */
+                                              Goal Component: <span>{item.goalComponent}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Experience</button> */
+                                              Goal Experience: <span>{item.goalExperience}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Skills</button> */
+                                              Goal: <span>{item.parentgoal}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Experience</button> */
+                                              Goal Mapped: <span>{item.goalMapped}</span>
+                                          </li>
+                                      </ol>
+                                  </div>
+                              </article>
+                          </li>
+                      ))}
+                  </ul>
+              </div>
           </Grid>
         )))}
       </Grid>
