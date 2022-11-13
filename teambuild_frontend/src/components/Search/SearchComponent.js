@@ -183,6 +183,10 @@ const UserSearchComponent = () => {
 
   const { isLoading, error, sendRequest ,clearError} = useHttpClient();
   const [userMatches, setUserMatches] = useState();
+  const [userMatchesFilter, setUserMatchesFilter] = useState([]);
+  const [usersviewed, setUsersviewed] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+
 
   const [userMatchesToRender, setUserMatchesToRender] = useState();
   
@@ -193,6 +197,7 @@ const UserSearchComponent = () => {
 
   const token = JSON.parse(localStorage.getItem('userData'))
   const name = JSON.parse(localStorage.getItem('firstName'))
+  const [radiovalue, setRadiovalue] = useState();
   console.log(token)
   const authorization = "Bearer "+token.token
   console.log(authorization)
@@ -213,18 +218,27 @@ const handleChangeRowsPerPage = (event) => {
 
 useEffect(() => {
   let temp=[]
-  if (userMatches){
+  if (inputValue.length!==1){
+    console.log("inputfrom1")
     const perPage = rowsPerPage
-    let currLength = userMatches.length
+    let currLength = usersviewed.length
     let pages = Math.ceil(currLength/perPage)
     let left=page*perPage
     let right=(page*perPage)+rowsPerPage
-    temp=userMatches.slice(left,right);
+    temp=usersviewed.slice(left,right);
+  }
+  else{
+    const perPage = rowsPerPage
+    let currLength = userMatchesFilter.length
+    let pages = Math.ceil(currLength/perPage)
+    let left=page*perPage
+    let right=(page*perPage)+rowsPerPage
+    temp=userMatchesFilter.slice(left,right);
   }
   console.log(temp)
   setUserMatchesToRender(temp);
 }
-,[userMatches, rowsPerPage, page])
+,[userMatches,usersviewed, rowsPerPage, page])
 
   useEffect(() => {
 
@@ -270,6 +284,7 @@ useEffect(() => {
             })
 
             setUserMatches(reqData)
+            setUserMatchesFilter(reqData)
             console.log(reqData,"single user matches")
         })
         // responseData.t
@@ -389,11 +404,69 @@ if(userMatches){
   console.log(userMatches)
 
 }
+console.log(userMatchesFilter)
+const searchFilterInputHandler = (event) => {
+  console.log(event.target.value);
+  const lowercasedValue = event.target.value.toLowerCase().trim();
+  setInputValue(lowercasedValue)
+  if (lowercasedValue === "") {
+    setInputValue('')
+    console.log(inputValue.length,"inputvalue");
+  } else {
+    const excludeColumns = [
+      "lastname",
+      "email",
+      "positionid",
+      "skillset",
+      "userid",
+      "goalMatchedId",
+      "goalcomponentid"
+    ];
+
+    const includeColumns = [
+      "firstname",
+      "parentgoal",
+      "goalMapped",
+      "industry",
+      "city",
+      "state",
+      "country",
+      "goalComponent",
+      "goalExperience"
+    ];
+
+    const filteredData = userMatchesFilter.filter((item) => {
+      console.log(Object.keys(item));
+      return Object.keys(item).some((key) => {
+        console.log(key, "keyaasdsadsad");
+        console.log(excludeColumns, "key");
+
+        return excludeColumns.includes(key)
+          ? false
+          : item[key]?.toString().toLowerCase().includes(lowercasedValue);
+      });
+    });
+    console.log(filteredData,"filetred");
+    setUsersviewed(filteredData);
+    
+  }
+  console.log(usersviewed)
+  console.log(inputValue.length,"inputvaluenew");
+};
 return (
   <React.Fragment>
     <MainContainer>
     <header className={classes.Header}>Hi {name},Find your potential matches</header>
     <div className={classes.TableWrapper}>
+    <div className={classes.SearchBarWrapper}>
+          <div className={classes.SearchBarWrapperInner}>
+            <input
+              value={inputValue}
+              onChange={searchFilterInputHandler}
+              placeholder="Type to search..."
+            />
+          </div>
+        </div>
     <Box sx={{ flexGrow: 1 }}>
       <Grid     
         container

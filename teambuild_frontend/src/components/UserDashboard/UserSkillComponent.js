@@ -334,6 +334,7 @@ const UserSkillComponent = ({ title, data }) => {
       setSkill(data);
     }
   }, [data]);
+  console.log(data,"fix")
   if (data) {
     return (
       <Card>
@@ -368,7 +369,7 @@ const UserSkillComponent = ({ title, data }) => {
                       {val.positionExperience}
                     </SingleSkill>
                     <SingleSkillEdit>
-                      <BsPencilFill onClick={() => editSkillHandler(idx)} />
+                      <BsPencilFill onClick={() => editSkillHandler(val?.skillsetId)} />
                     </SingleSkillEdit>
                     </ExpandableTableRow>
                   </SkillSetWrap>
