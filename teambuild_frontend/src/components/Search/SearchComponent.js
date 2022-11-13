@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import { DataGrid } from '@mui/x-data-grid';
 import TablePagination from '@mui/material/TablePagination';
 
-
 import classes from "./Search.module.css";
 
 import * as React from 'react';
@@ -23,8 +22,8 @@ import Grid from '@mui/material/Grid';
 import MainContainer from '../layout/MainContainer';
 // import classes from "./ProfileViews.module.css";
 // import ProfileViewsCard from './ProfileViewsCard';
+import ProfileViews from './ProfileViews';
 import UserContext from '../../shared/context/user-context';
-
 
 // const UserDashboardWrapper = styled.div`
 //   height: 50vh;
@@ -178,7 +177,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-
 const UserSearchComponent = () => {
 
   const { isLoading, error, sendRequest ,clearError} = useHttpClient();
@@ -200,7 +198,6 @@ const UserSearchComponent = () => {
   const headers = {
     authorization: 'Bearer ' + token.token
 }; 
-
 
 const handleChangePage = (event, newPage) => {
   setPage(newPage);
@@ -283,9 +280,7 @@ useEffect(() => {
     // console.log(userMatches)
   }, []);
 
-
   const deleteMatchHandler = (idx)=>{
-
 
     // const goalMatchedId
     // = userMatches[idx].goalMatchedId
@@ -317,7 +312,6 @@ useEffect(() => {
   //       })
   //       console.log(k)
   //     }
-
 
   //   })
   // }
@@ -389,6 +383,33 @@ if(userMatches){
   console.log(userMatches)
 
 }
+
+const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState(ProfileViews.userContents);
+ 
+  const filterColumns = ["industry", "city", "state", "country", "skills", "experience"];
+ 
+  // handle change event of search input
+  const handleChange = value => {
+    setSearchText(value);
+    filterData(value);
+  };
+ 
+  // filter records by search text
+  const filterData = (value) => {
+    const lowercasedValue = value.toLowerCase().trim();
+    if (lowercasedValue === "") setData(dataList);
+    else {
+      const filteredData = dataList.filter(item => {
+        return Object.keys(item).some(key =>
+          filterColumns.includes(key) ? false : item[key].toString().toLowerCase().includes(lowercasedValue)
+        );
+      });
+      setData(filteredData);
+    }
+  }
+  
+
 return (
   <React.Fragment>
     <MainContainer>
@@ -400,6 +421,53 @@ return (
         spacing={{ xs: 2, md: 4 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
+        {userMatches &&(userMatches.map((singleUser, index) => (
+          <Grid item xs={2} sm={4} md={4} key={index}>
+            <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} /></Item>
+            <div className="wrapper">
+                  <ul className="card-grid">
+                      {items.map((item) => (
+                          <li>
+                              <article className="card" key={item.callingCodes}>
+                                  <div className="card-image">
+                                      <img src={item.flag} alt={item.name} />
+                                  </div>
+                                  <div className="card-content">
+                                      <h2 className="card-name">{item.name}</h2>
+                                      <ol className="card-list">
+                                          <li>
+                                            /* <button type="button">Industry</button> */
+                                              Industry: <span>{item.industry}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">City</button> */
+                                              City: <span>{item.city}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">State</button> */
+                                              State: <span>{item.state}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Country</button> */
+                                              Country: <span>{item.country}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Skills</button> */
+                                              Skills: <span>{item.skills}</span>
+                                          </li>
+                                          <li>
+                                          /* <button type="button">Experience</button> */
+                                              Experience: <span>{item.experience}</span>
+                                          </li>
+                                      </ol>
+                                  </div>
+                              </article>
+                          </li>
+                      ))}
+                  </ul>
+              </div>
+          </Grid>
+        )))}
         {userMatchesToRender &&(userMatchesToRender.map((singleUser, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} idx={index} deleteSingleMatch={deleteMatchHandler} /></Item>
