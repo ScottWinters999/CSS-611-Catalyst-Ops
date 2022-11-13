@@ -57,4 +57,27 @@ module.exports = {
       res.status(400).json({ status: "Wrong userId" });
     }
   },
+
+  goalcomponentmatchremoval: async (req, res) => {
+    const userId = req.userData.userId;
+    // const userId = req.body.userId;
+    if (userId) {
+      //   const matchedUserId = req.body.matchedUserId;
+      const goalComponentId = req.body.goalComponentId;
+      GoalComponent.update(
+        {
+          matchedUserId: null,
+        },
+        {
+          where: {
+            goalComponentId: goalComponentId,
+          },
+        }
+      ).then((response) => {
+        res.status(200).json({ status: "Goal Matched removed" });
+      });
+    } else {
+      res.status(400).json({ status: "Wrong userId" });
+    }
+  },
 };

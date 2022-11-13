@@ -36,11 +36,11 @@ router.post(
   UserProfile.upload
 );
 
-router.post("/userdiscard",auth, bodyParser, UserDiscard.create);
+router.post("/userdiscard", auth, bodyParser, UserDiscard.create);
 
 router.post("/usergoaldelete", bodyParser, UserGoal.truncate);
 
-router.post("/userprofileviewcreate",auth, bodyParser, UserProfileView.create);
+router.post("/userprofileviewcreate", auth, bodyParser, UserProfileView.create);
 
 router.get(
   "/userprofileview",
@@ -49,7 +49,14 @@ router.get(
   UserProfileView.getprofileviews
 );
 
-router.post("/usergoalmatch",auth, bodyParser, UserGoal.goalcomponentmatch);
+router.post("/usergoalmatch", auth, bodyParser, UserGoal.goalcomponentmatch);
+router.post(
+  "/usergoalmatchremove",
+  auth,
+  bodyParser,
+  UserGoal.goalcomponentmatchremoval
+);
+
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);
