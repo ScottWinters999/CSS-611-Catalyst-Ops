@@ -3,7 +3,11 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import { BsSearch } from "react-icons/bs";
-import { MdOutlineDashboardCustomize ,MdPortrait,MdPeopleAlt} from "react-icons/md";
+import {
+  MdOutlineDashboardCustomize,
+  MdPortrait,
+  MdPeopleAlt,
+} from "react-icons/md";
 // import { MdPeopleAlt }
 
 import { AiOutlineEye } from "react-icons/ai";
@@ -73,6 +77,10 @@ const NavLinkWrapper = styled.div`
 
 const NavLinks = () => {
   const auth = useContext(AuthContext);
+
+  const userId = JSON.parse(localStorage.getItem("userId"));
+  console.log(userId);
+  const pathToCaty = `/userchat/greet/${userId}`;
   return (
     <NavBar>
       {!auth.isLoggedIn && (
@@ -102,7 +110,9 @@ const NavLinks = () => {
             <NavLink to="/userdashboard">
               <LinkName>
                 <div>
-                  <MdOutlineDashboardCustomize  style={{"height": "24px","width": "24px"}} />
+                  <MdOutlineDashboardCustomize
+                    style={{ height: "24px", width: "24px" }}
+                  />
                 </div>
                 <LinkNameInner>Dashboard</LinkNameInner>
               </LinkName>
@@ -116,7 +126,7 @@ const NavLinks = () => {
             <NavLink to="/profilesearch">
               <LinkName>
                 <div>
-                  <MdPortrait   style={{"height": "24px","width": "24px"}}/>
+                  <MdPortrait style={{ height: "24px", width: "24px" }} />
                 </div>
                 <LinkNameInner>Profile Matches</LinkNameInner>
               </LinkName>
@@ -130,7 +140,7 @@ const NavLinks = () => {
             <NavLink to="/profileviews">
               <LinkName>
                 <div>
-                <MdPeopleAlt   style={{"height": "24px","width": "24px"}}/>
+                  <MdPeopleAlt style={{ height: "24px", width: "24px" }} />
                 </div>
                 <LinkNameInner>Profile Views</LinkNameInner>
               </LinkName>
@@ -141,10 +151,10 @@ const NavLinks = () => {
       {auth.isLoggedIn && (
         <NavLinkWrapper>
           <li>
-            <NavLink to="/userchat">
+            <NavLink to={pathToCaty}>
               <LinkName>
                 <div>
-                  <TbRobot style={{"height": "24px","width": "24px"}} />
+                  <TbRobot style={{ height: "24px", width: "24px" }} />
                 </div>
                 <LinkNameInner>Caty</LinkNameInner>
               </LinkName>
