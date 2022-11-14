@@ -488,35 +488,35 @@ return (
                                       <h2 className="card-name">{item.name}</h2>
                                       <ol className="card-list">
                                           <li>
-                                            /* <button type="button">Industry</button> */
+                                            <button type="button">Industry</button>
                                               Industry: <span>{item.industry}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">City</button> */
+                                           <button type="button">City</button>
                                               City: <span>{item.city}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">State</button> */
+                                           <button type="button">State</button>
                                               State: <span>{item.state}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">Country</button> */
+                                           <button type="button">Country</button>
                                               Country: <span>{item.country}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">Skills</button> */
+                                           <button type="button">Skills</button>
                                               Goal Component: <span>{item.goalComponent}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">Experience</button> */
+                                           <button type="button">Experience</button>
                                               Goal Experience: <span>{item.goalExperience}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">Skills</button> */
+                                           <button type="button">Skills</button>
                                               Goal: <span>{item.parentgoal}</span>
                                           </li>
                                           <li>
-                                          /* <button type="button">Experience</button> */
+                                           <button type="button">Experience</button>
                                               Goal Mapped: <span>{item.goalMapped}</span>
                                           </li>
                                       </ol>
