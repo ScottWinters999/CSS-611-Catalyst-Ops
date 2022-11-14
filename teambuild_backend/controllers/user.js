@@ -77,12 +77,13 @@ module.exports = {
                 });
                 if (userNew) {
                   const userUserId = userNew.userId;
-
+                  const isNewUser = "true";
                   UserProfile.create({
                     userUserId,
                     firstName,
                     lastName,
                     email,
+                    isNewUser
                   }).then(() => {
                     res.status(200).json({
                       token: token,

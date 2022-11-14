@@ -15,7 +15,7 @@ const { UserProfile } = require("../controllers");
 const { UserDiscard } = require("../controllers");
 const { UserGoal } = require("../controllers");
 const { UserProfileView } = require("../controllers");
-const { Rasa } = require("../controllers");
+const { Rasa,RasaUser,RasaPosition } = require("../controllers");
 const { USER } = require("../util/database");
 const fileUpload = require("../middleware/file-upload");
 router.post("/signup", bodyParser, User.create);
@@ -58,25 +58,31 @@ router.post(
   UserGoal.goalcomponentmatchremoval
 );
 
-router.post("/goalcreate", auth, bodyParser, Rasa.creategoal);
-router.post("/goalupdate", auth, bodyParser, Rasa.updategoal);
+router.post("/goalcreate", bodyParser, Rasa.creategoal);
+router.post("/goalupdate",  bodyParser, Rasa.updategoal);
 
-router.post("/goalcomponentcreate", auth, bodyParser, Rasa.creategoalcomponent);
-router.post("/goalcomponentupdate", auth, bodyParser, Rasa.updategoalcomponent);
+router.post("/goalcomponentcreate",  bodyParser, Rasa.creategoalcomponent);
+router.post("/goalcomponentupdate",  bodyParser, Rasa.updategoalcomponent);
 
 router.post(
   "/goalcomponentskillcreate",
-  auth,
   bodyParser,
   Rasa.creategoalcomponentskill
 );
 router.post(
   "/goalcomponentskillupdate",
-  auth,
   bodyParser,
   Rasa.updategoalcomponentskill
 );
 
+
+router.get("/getgoaldetails", bodyParser, Rasa.getallgoalcomponenet);
+
+router.get("/getuserdetails", bodyParser, RasaUser.getuserprofile);
+
+router.get("/getpositiondetails", bodyParser, RasaPosition.getpostiondetails);
+
+router.post("/rasauserupdate", bodyParser, RasaUser.userProfileUpdate);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);
