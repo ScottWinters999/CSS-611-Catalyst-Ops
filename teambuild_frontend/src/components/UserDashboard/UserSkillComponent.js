@@ -377,7 +377,7 @@ const UserSkillComponent = ({ title, data }) => {
         <SkillInfoOuterWrapper>
           <HeadingWrapper>
             <div style={{ display: "flex", width: "100%" }}>
-              <div style={{ width: "50%" }}>Skillset</div>
+              <div style={{ width: "50%" }}>Positions</div>
 
               <ButtonWrapper>
                 <Link
