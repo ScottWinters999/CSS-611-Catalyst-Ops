@@ -49,7 +49,7 @@ function App() {
     routes = (
       <Routes>
         <Route element={<PrivateRoutes />}>
-          <Route path="/userchat" element={<CatyChatPage />} />
+          <Route path="/userchat/:action/:id" element={<CatyChatPage />} />
           <Route path="/userdashboard" element={<UserDashboardPage />} />
           <Route path="/profilesearch" element={<UserPartnerSearchPage />} />
           <Route path="/profileviews" element={<UserProfileViewsPage />} />

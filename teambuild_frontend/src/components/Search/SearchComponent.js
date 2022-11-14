@@ -186,8 +186,7 @@ const UserSearchComponent = () => {
   const [userMatchesFilter, setUserMatchesFilter] = useState([]);
   const [usersviewed, setUsersviewed] = useState([]);
   const [inputValue, setInputValue] = useState('');
-
-
+  const [flag,setFlag]=useState(1);
   const [userMatchesToRender, setUserMatchesToRender] = useState();
   
   const [page, setPage] = React.useState(0);
@@ -218,7 +217,7 @@ const handleChangeRowsPerPage = (event) => {
 
 useEffect(() => {
   let temp=[]
-  if (inputValue.length!==1){
+  if (inputValue.length!==1 && flag===0){
     console.log("inputfrom1")
     const perPage = rowsPerPage
     let currLength = usersviewed.length
@@ -413,6 +412,7 @@ const searchFilterInputHandler = (event) => {
     setInputValue('')
     console.log(inputValue.length,"inputvalue");
   } else {
+    setFlag(0)
     const excludeColumns = [
       "lastname",
       "email",
