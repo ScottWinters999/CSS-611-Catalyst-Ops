@@ -859,7 +859,7 @@ const UserGoalComponent = ({ data }) => {
   //   </GoalsOutsideWrapper>
   // );
   const editGoalHandler = (id) => {
-    history("/userchat", {
+    history(`/userchat/edit_goal/${id}`, {
       state: {
         editGoal: id,
       },

@@ -319,7 +319,7 @@ const UserSkillComponent = ({ title, data }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   console.log(data,"skills")
   const editSkillHandler = (id) => {
-    history("/userchat", {
+    history(`/userchat/edit_skill_set/${id}`, {
       state: {
         editSkill: id,
       },
