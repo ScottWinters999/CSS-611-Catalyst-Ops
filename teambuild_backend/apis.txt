@@ -68,3 +68,6 @@
     - skill
     - experience
     - positionId
+
+/getuserdetails
+ - userId
