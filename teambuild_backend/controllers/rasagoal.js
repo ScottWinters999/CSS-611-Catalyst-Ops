@@ -7,7 +7,8 @@ const { Op } = require("sequelize");
 
 module.exports = {
   creategoal: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       //const goalId = req.body.goalId;
       const userprofileUserProfileId = userId;
@@ -34,7 +35,8 @@ module.exports = {
     }
   },
   updategoal: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       const goalId = req.body.goalId;
       const goalName = req.body.goalName;
@@ -56,7 +58,8 @@ module.exports = {
   },
 
   creategoalcomponent: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       //const goalComponentId = req.body.goalComponentId;
       const goalGoalId = req.body.goalId;
@@ -92,7 +95,8 @@ module.exports = {
   },
 
   updategoalcomponent: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       const goalComponentId = req.body.goalComponentId;
       const experienceRequired = req.body.experience;
@@ -122,7 +126,8 @@ module.exports = {
   },
 
   creategoalcomponentskill: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       //const goalComponentSkillId = req.body.skillId;
       const goalcomponentGoalComponentId = req.body.goalComponentId;
@@ -152,7 +157,8 @@ module.exports = {
     }
   },
   updategoalcomponentskill: async (req, res) => {
-    const userId = req.userData.userId;
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
     if (userId) {
       const goalComponentSkillId = req.body.skillId;
       const experience = req.body.experience;
@@ -173,6 +179,40 @@ module.exports = {
       });
     } else {
       res.status(200).json({ status: "wrong user" });
+    }
+  },
+
+  getallgoalcomponenet: async (req, res) => {
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
+    if (userId) {
+      //const goalId = req.body.goalId;
+      //const userprofileUserProfileId = userId;
+      const goalId = req.body.goalId;
+      const goalDetails = await Goal.findOne({
+        include:{
+          model:GoalComponent
+        },
+        where:{
+          goalId:goalId
+        }
+      })
+      let goal={};
+      if(goalDetails){
+        goal['goal']=goalDetails.dataValues.goal;
+        goal['goalId']=goalDetails.dataValues.goalId;
+        let goalComp=[];
+        for(let i=0;i<goalDetails.dataValues.goalcomponents.length;i++){
+          let components= goalDetails.dataValues.goalcomponents[i].dataValues;
+          goalComp.push(components);
+        }
+        goal['components']= [...goalComp];
+
+      }
+     // console.log(goal);
+      res.status(200).json({goalDetails:goal});
+    } else {
+      res.status(400).json({ status: "wrong userId" });
     }
   },
 };

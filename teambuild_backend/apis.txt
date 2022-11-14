@@ -1,0 +1,41 @@
+/goalcreate
+ - goal
+
+
+/goalupdate
+ - goalId
+ - goalName
+
+
+/goalcomponentcreate
+ - goalId
+ - experience
+ - goalComponent
+ - country
+ - state
+ - city
+
+
+/goalcomponentupdate
+ - goalComponentId
+ - experience
+ - goalComponent
+ - country
+ - state
+ - city
+
+
+/goalcomponentskillcreate
+ - goalComponentId
+ - experience
+ - skill
+
+
+/goalcomponentskillupdate
+ - skillId
+ - experience
+ - skill
+
+
+ /getgoaldetails
+  -goalId
