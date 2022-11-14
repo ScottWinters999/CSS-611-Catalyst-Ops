@@ -58,6 +58,7 @@ module.exports = {
           let temp = {
             position: userSkill[i].dataValues.positionName,
             positionExperience: userSkill[i].dataValues.positionExperience,
+            positionId:userSkill[i].dataValues.positionId,
             skillset: "",
           };
 

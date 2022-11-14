@@ -26,7 +26,7 @@ const { Op } = require("sequelize");
 //var decoded = jwt.verify(token, 'secret_this_should_be_longer');
 module.exports = {
   getuserprofile: async (req, res) => {
-      const userId= req.userData.userId;
+      const userId= req.body.userId;
       if(userId){
           const userDetails= await UserProfile.findOne({
               where:{
