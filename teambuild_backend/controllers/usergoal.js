@@ -1,5 +1,5 @@
 const {
-  model: { Goal, GoalComponent },
+  model: { Goal, GoalComponent,GoalComponentSkill },
 } = require("../models");
 const goalcomponent = require("../models/goalcomponent");
 const { Sequelize } = require("sequelize");
@@ -80,4 +80,55 @@ module.exports = {
       res.status(400).json({ status: "Wrong userId" });
     }
   },
+
+  goalcomponentdelete: async (req, res) => {
+    const userId= req.userData.userId;
+    if(userId){
+      const goalComponentId = req.body.goalComponentId;
+      if (goalComponentId) {
+        GoalComponent.destroy({
+          where: {
+            goalComponentId: goalComponentId,
+          },
+        })
+          .then(() => {
+            res.status(200).json({
+              status: "goalcomponent deleted",
+            });
+          });
+      } else {
+        res.status(400).json({
+          status: "Invalid GoalComponent",
+        });
+      }
+    }else{
+      res.status(400).json({status:"wrong user"});
+    }
+  },
+
+  goalcomponentskilldelete: async (req, res) => {
+    const userId= req.userData.userId;
+    if(userId){
+      const goalComponentSkillId = req.body.skillId;
+      if (goalComponentSkillId) {
+        GoalComponentSkill.destroy({
+          where: {
+            goalComponentSkillId: goalComponentSkillId,
+          },
+        })
+          .then(() => {
+            res.status(200).json({
+              status: "goalcomponentskill deleted ",
+            });
+          });
+      } else {
+        res.status(400).json({
+          status: "Invalid GoalComponentskill",
+        });
+      }
+    }else{
+      res.status(400).json({status:"wrong user"});
+    }
+  },
+
 };

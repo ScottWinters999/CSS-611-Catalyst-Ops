@@ -87,6 +87,10 @@ router.post("/rasauserupdate", bodyParser, RasaUser.userProfileUpdate);
 router.post("/rasapositioncreate", bodyParser, RasaPosition.createpostion);
 
 router.post("/rasaskillcreate", bodyParser, RasaSkill.create);
+
+router.post("/goalcomponentdelete", auth, bodyParser, UserGoal.goalcomponentdelete);
+router.post("/goalcomponentskilldelete", auth, bodyParser, UserGoal.goalcomponentskilldelete);
+
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);
