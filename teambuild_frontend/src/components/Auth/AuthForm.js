@@ -56,7 +56,7 @@ const Control = styled.div`
     color: white;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    font-family: 'Roboto';
+    font-family: "Roboto";
   }
   input {
     font: inherit;
@@ -84,7 +84,7 @@ const Actions = styled.div`
 const Button = styled.button`
   cursor: pointer;
   filter: drop-shadow(4px 4px 2px #562929);
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-size: 16px;
   font-weight: 600;
   color: white;
@@ -101,7 +101,7 @@ const Button = styled.button`
 `;
 
 const Errortext = styled.p`
-font-family: 'Roboto';
+  font-family: "Roboto";
   color: #d8c1c1;
   font-size: 14px;
   font-weight: bold;
@@ -134,7 +134,7 @@ const AuthForm = () => {
   const isPassword = (value) => value.trim().length >= 8;
   const history = useNavigate();
   const [emailAlreadyExist, setEmailAlreadyExist] = useState(false);
-  const authCtx=useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
   const {
     value: firstNameValue,
     isValid: firstNameIsValid,
@@ -200,7 +200,6 @@ const AuthForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     if (!formIsValid) {
-
       return;
     }
     if (passwordValue !== confirmPasswordValue) {
@@ -215,7 +214,7 @@ const AuthForm = () => {
       email: emailValue,
       userName: userNameValue,
       password: passwordValue,
-      role: "Customer"
+      role: "Customer",
     });
     resetFirstName();
     resetLastName();
@@ -249,9 +248,9 @@ const AuthForm = () => {
       console.log(data);
       if (data.Status == "user already exist") {
         setEmailAlreadyExist(true);
-      } else  if(data.token){
+      } else if (data.token) {
         authCtx.login(data.token);
-        localStorage.setItem('userId',JSON.stringify(data.userId))
+        localStorage.setItem("userId", JSON.stringify(data.userId));
 
         localStorage.setItem(
           "userData",
@@ -259,7 +258,7 @@ const AuthForm = () => {
             token: data.token,
           })
         );
-        history("/userchat");
+        history(`/userchat/hello/${data.userId}`);
       }
     } catch (err) {
       console.log(err);
@@ -276,7 +275,7 @@ const AuthForm = () => {
         <Control>
           <label htmlFor="first_name">First Name</label>
           <input
-          required
+            required
             type="text"
             id="first_name"
             value={firstNameValue}
