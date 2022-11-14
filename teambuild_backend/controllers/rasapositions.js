@@ -45,5 +45,46 @@ module.exports = {
       }else{
           res.status(400).json({status:"wrong user"});
       }
-  }
+  },
+
+
+  createpostion: async (req, res) => {
+      //const userId= req.userData.userId;
+      const userId= req.body.userId;
+      if(userId){
+          //const positionId= req.body.positionId;
+          const userDetails= await UserProfile.findOne({
+            where:{
+              userUserId:userId
+            }
+          });
+          const positionName= req.body.positionName;
+          const positionExperience= req.body.experience;
+          const country= userDetails.country;
+          const state= userDetails.state;
+          const city= userDetails.city;
+          const userUserId= userId;
+          const userprofileUserProfileId= userDetails.userProfileId;
+
+          const positionDetails= await UserPosition.create({
+            country,
+            state,
+            city,
+            positionExperience,
+            positionName,
+            userprofileUserProfileId,
+            userUserId
+
+
+          }).then((response)=>{
+              res.status(200).json({positonId:response.positionId, status:"positoin created"});
+          })
+        
+       // console.log(postionDetails.dataValues);
+       
+
+      }else{
+          res.status(400).json({status:"wrong user"});
+      }
+  },
 }
