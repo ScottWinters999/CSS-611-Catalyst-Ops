@@ -318,7 +318,7 @@ const UserDashboardComponent = () => {
           <SectionTwoLeftInnerWrapper>
             {/* <SkillWrapper> */}
             <UserSkillComponent
-              title="Skillset"
+              title="Positions"
               data={loadedUserInfo?.position}
             />
             {/* <UserSkillComponent data={userData.experience} /> */}

@@ -20,6 +20,10 @@
     margin-top: 50px;
 
 }
+.filtertext{
+    color: navy;
+    font-size: 15px;
+}
 
 .SearchBarWrapper {
     padding: 20px 20px 8px 20px;
@@ -33,10 +37,13 @@
   .SearchBarWrapperInner {
     width: 50%;
     /* height: 89%; */
-    padding: 4px 8px;
+    padding: 4px 1px;
     height: 90%;
   }
-  
+  .filterdiv{
+    padding-left: 40%;
+    padding-bottom: 5%;
+  }
   .SearchBarWrapperInner input {
     width: 100%;
   

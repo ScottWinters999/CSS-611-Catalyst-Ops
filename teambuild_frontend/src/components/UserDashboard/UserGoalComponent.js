@@ -363,7 +363,12 @@ const ItemActions = {
   // "border-top": "1px solid #ccc",
   height: "14%",
 };
-
+const ItemActionsnew = {
+  padding: "30px",
+  // "text-align": "center",
+  // "border-top": "1px solid #ccc",
+  height: "14%",
+};
 const ModalHeader = {
   height: "10%",
   // "font-family": "Montserrat",
@@ -379,6 +384,10 @@ const ItemModal2 = {
   padding: "0",
   height: "30%",
 };
+const ItemModal3 = {
+  padding: "60px",
+  height: "30%",
+};
 
 
 
@@ -390,6 +399,7 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
   const [idValue,setIdValue] = useState();
+  const [iddeleteValue,setIddeleteValue] = useState();
   const token = JSON.parse(localStorage.getItem("userData"));
   const authorization = "Bearer " + token.token;
   const goalId = goalid
@@ -409,15 +419,60 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
 
 
   const [showModal, setShowModal] = useState(false);
+  const [showdeleteModal, setShowdeleteModal] = useState(false);
+
 
   const openModalHandler = (value) => {
     setShowModal(true);
     console.log(value,"removal value final")
     setIdValue(value)
   };
+
+  const opendeleteModalHandler = (val,id) => {
+    setShowdeleteModal(val);
+    setIddeleteValue(id);
+    console.log(id,"this is to delete")
+  };
+
+
   const closeModalHandler = () => {
     setShowModal(false);
   };
+  const closedeleteModalHandler = () => {
+    setShowdeleteModal(false);
+  };
+
+  const deletecomponentHandler = () => {
+    console.log("reached delete",iddeleteValue)
+    window.location.reload(false);
+    const body = {
+      goalComponentId: iddeleteValue
+      ,
+    };
+    console.log(body,"removal value from delete")
+    try {
+      const response =  fetch("http://localhost:5000/api/goalcomponentdelete", {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+          "authorization":authorization
+        },
+      });
+      const data = response.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  
+
+
+
+
+
+
   const deleteHandler = () => {
     console.log(idValue,"removal value from delete")
     window.location.reload(false);
@@ -463,6 +518,40 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
     }
   }
     
+
+  const deleteheader = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalHeader}>
+        <button onClick={closedeleteModalHandler}> X </button>
+      </div>
+    </React.Fragment>
+  );
+  const modaldeleteFooter = (
+    <React.Fragment>
+      {/* <UploadButton onClick={uploadImageButtonHandle} disabled={!previewUrl}>
+        Upload
+      </UploadButton>
+      {/* {profilePhotoUrl && (
+        <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
+      )} */}
+      <div className={classes.ModalFooternew}>
+        {/* <button onClick={closeModalHandler}>Close</button> */}
+        <div className={classes.footerdiscardbutton} style={{padding:"3px"}}>
+        <button onClick={deletecomponentHandler}>YES</button>
+        <button>NO</button>
+        </div>
+        </div>
+    </React.Fragment>
+  );
+
+
+
     
   const header = (
     <React.Fragment>
@@ -505,7 +594,7 @@ const modal = (
   modalHeader={ModalHeader}
   contentClass={ItemModal}
   header={header}
-  footerClass={ItemActions}
+  footerClass={ItemActionsnew}
   footer={modalFooter}
 >
   <div className="form-control">
@@ -563,7 +652,7 @@ const modal = (
     Goal Location Details:
       <div className={classes.UserContent}><p>{idValue?.city + ","}{idValue?.state + ","}{idValue?.country}</p></div>
     </div>
-    Matched User Details:
+    <div className={classes.matchedUserDisplay}>Matched User Details:</div>
       <div className={classes.ModalMainInfo}>
         <div className={classes.IconsClass}>
           <GrMail className={classes.IconsSvg} />
@@ -637,10 +726,33 @@ const modal = (
                   <button onClick={()=>openModalHandler(singleGoalComponent)}>Click for More Details</button>
                 </TablebodyCellInner>
                     
-
+                <TablebodyCellButtonDelete
+                          onClick={() => opendeleteModalHandler(true,singleGoalComponent?.goalcomponentId)}
+                      >
+                          <MdDeleteOutline
+                            style={{ width: "24px", height: "24px" }}
+                          />
+                        </TablebodyCellButtonDelete>
 
               </TableDropDownBodyRow>
             ))}
+                       <Modal
+      show={showdeleteModal}
+      modalWrapper={ModalWrapper2}
+      onCancel={closedeleteModalHandler}
+      modalHeader={ModalHeader}
+      contentClass={ItemModal3}
+      header={deleteheader}
+      footerClass={ItemActions}
+      footer={modaldeleteFooter}
+    >
+        <div className={classes.ModalMainContent}>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.UserContent}><div align="center" padding-left = "71px" padding-top = "35%"> Are You Sure You Want to Delete </div></div>
+          </div>
+        {/* {!isValid && <p>'error'</p>} */}
+      </div>
+    </Modal> 
            
           </TableBodyInner>
           {/* </Table> */}

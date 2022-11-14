@@ -24,6 +24,7 @@ import MainContainer from '../layout/MainContainer';
 // import classes from "./ProfileViews.module.css";
 // import ProfileViewsCard from './ProfileViewsCard';
 import UserContext from '../../shared/context/user-context';
+import { Button } from "@mui/material";
 
 
 // const UserDashboardWrapper = styled.div`
@@ -185,12 +186,20 @@ const UserSearchComponent = () => {
   const [userMatches, setUserMatches] = useState();
   const [userMatchesFilter, setUserMatchesFilter] = useState([]);
   const [usersviewed, setUsersviewed] = useState([]);
-  const [inputValue, setInputValue] = useState('');
-  const [flag,setFlag]=useState(1);
+  const [inputGoalValue, setInputGoalValue] = useState('');
+  const [inputRoleValue, setInputRoleValue] = useState('');
+  const [inputExperienceValue, setInputExperienceValue] = useState('');
+  const [inputLocationValue, setInputLocationValue] = useState('');
+  const [flag,setFlag] = useState(1);
+  const [goalflag,setgoalFlag] = useState(1);
+  const [experienceflag,setexperienceFlag] = useState(1);
+  const [locationflag,setlocationFlag] = useState(1);
+
+  const [roleflag,setroleFlag] = useState(1);
   const [userMatchesToRender, setUserMatchesToRender] = useState();
   
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const [rowLength, setRowLength] = React.useState();
 
@@ -217,7 +226,7 @@ const handleChangeRowsPerPage = (event) => {
 
 useEffect(() => {
   let temp=[]
-  if (inputValue.length!==1 && flag===0){
+  if (flag===0){
     console.log("inputfrom1")
     const perPage = rowsPerPage
     let currLength = usersviewed.length
@@ -237,7 +246,7 @@ useEffect(() => {
   console.log(temp)
   setUserMatchesToRender(temp);
 }
-,[userMatches,usersviewed, rowsPerPage, page])
+,[userMatches,usersviewed, rowsPerPage, page,flag])
 
   useEffect(() => {
 
@@ -284,6 +293,7 @@ useEffect(() => {
 
             setUserMatches(reqData)
             setUserMatchesFilter(reqData)
+            setUsersviewed(reqData)
             console.log(reqData,"single user matches")
         })
         // responseData.t
@@ -404,38 +414,39 @@ if(userMatches){
 
 }
 console.log(userMatchesFilter)
-const searchFilterInputHandler = (event) => {
+const searchFilterGoalHandler = (event) => {
+  if(flag===1){
   console.log(event.target.value);
   const lowercasedValue = event.target.value.toLowerCase().trim();
-  setInputValue(lowercasedValue)
+  setInputGoalValue(lowercasedValue)
   if (lowercasedValue === "") {
-    setInputValue('')
-    console.log(inputValue.length,"inputvalue");
+    setInputGoalValue('')
+    console.log(inputGoalValue.length,"inputvalue");
   } else {
-    setFlag(0)
+    setgoalFlag(0)
     const excludeColumns = [
+      "firstname",
       "lastname",
       "email",
       "positionid",
       "skillset",
       "userid",
       "goalMatchedId",
-      "goalcomponentid"
-    ];
-
-    const includeColumns = [
-      "firstname",
-      "parentgoal",
+      "goalComponent",
+      "goalcomponentid",
       "goalMapped",
       "industry",
       "city",
       "state",
       "country",
-      "goalComponent",
       "goalExperience"
     ];
 
-    const filteredData = userMatchesFilter.filter((item) => {
+    const includeColumns = [
+      "parentgoal"
+    ];
+
+    const filteredData = usersviewed.filter((item) => {
       console.log(Object.keys(item));
       return Object.keys(item).some((key) => {
         console.log(key, "keyaasdsadsad");
@@ -450,23 +461,226 @@ const searchFilterInputHandler = (event) => {
     setUsersviewed(filteredData);
     
   }
+}
   console.log(usersviewed)
-  console.log(inputValue.length,"inputvaluenew");
+  console.log(inputGoalValue.length,"inputvaluenew");
 };
+
+
+const searchFilterRoleHandler = (event) => {
+  console.log(event.target.value);
+  if(flag===1){
+  const lowercasedValue = event.target.value.toLowerCase().trim();
+  setInputRoleValue(lowercasedValue)
+  if (lowercasedValue === "") {
+    setInputRoleValue('')
+    console.log(inputRoleValue.length,"inputvalue");
+  } else {
+    setroleFlag(0)
+    const excludeColumns = [
+      "lastname",
+      "email",
+      "parentgoal",
+      "positionid",
+      "skillset",
+      "userid",
+      "goalMatchedId",
+      "goalcomponentid",
+      "firstname",
+      "goalMapped",
+      "industry",
+      "city",
+      "state",
+      "country",
+      "goalExperience"
+    ];
+
+    const includeColumns = [
+      "goalComponent"
+    ];
+
+    const filteredData = usersviewed.filter((item) => {
+      console.log(Object.keys(item));
+      return Object.keys(item).some((key) => {
+        console.log(key, "keyaasdsadsad");
+        console.log(excludeColumns, "key");
+
+        return excludeColumns.includes(key)
+          ? false
+          : item[key]?.toString().toLowerCase().includes(lowercasedValue);
+      });
+    });
+    console.log(filteredData,"filetred");
+    setUsersviewed(filteredData);
+  }
+  }
+  console.log(usersviewed)
+  console.log(inputRoleValue.length,"inputvaluenew");
+};
+
+
+const searchFilterExperienceHandler = (event) => {
+  console.log(event.target.value);
+  if(flag===1){
+  const lowercasedValue = event.target.value.toLowerCase().trim();
+  setInputExperienceValue(lowercasedValue)
+  if (lowercasedValue === "") {
+    setInputExperienceValue('')
+    console.log(inputExperienceValue.length,"inputvalue");
+  } else {
+    setexperienceFlag(0)
+    const excludeColumns = [
+      "lastname",
+      "email",
+      "parentgoal",
+      "positionid",
+      "skillset",
+      "userid",
+      "goalMatchedId",
+      "goalcomponentid",
+      "firstname",
+      "goalMapped",
+      "industry",
+      "city",
+      "state",
+      "country",
+      "goalComponent"
+    ];
+
+    const includeColumns = [
+      "goalExperience"
+    ];
+
+    const filteredData = usersviewed.filter((item) => {
+      console.log(Object.keys(item));
+      return Object.keys(item).some((key) => {
+        console.log(key, "keyaasdsadsad");
+        console.log(excludeColumns, "key");
+
+        return excludeColumns.includes(key)
+          ? false
+          : item[key]?.toString().toLowerCase().includes(lowercasedValue);
+      });
+    });
+    console.log(filteredData,"filetred");
+    setUsersviewed(filteredData);
+  }
+  }
+  console.log(usersviewed)
+  console.log(inputRoleValue.length,"inputvaluenew");
+};
+
+
+const searchFilterLocationHandler = (event) => {
+  console.log(event.target.value);
+  if(flag===1){
+  const lowercasedValue = event.target.value.toLowerCase().trim();
+  setInputLocationValue(lowercasedValue)
+  if (lowercasedValue === "") {
+    setInputLocationValue('')
+    console.log(inputLocationValue.length,"inputvalue");
+  } else {
+    setlocationFlag(0)
+    const excludeColumns = [
+      "lastname",
+      "email",
+      "parentgoal",
+      "positionid",
+      "skillset",
+      "userid",
+      "goalMatchedId",
+      "goalcomponentid",
+      "firstname",
+      "goalMapped",
+      "industry",
+      "goalComponent",
+      "goalExperience"
+    ];
+
+    const includeColumns = [
+      "city",
+      "state",
+      "country"
+    ];
+
+    const filteredData = usersviewed.filter((item) => {
+      console.log(Object.keys(item));
+      return Object.keys(item).some((key) => {
+        console.log(key, "keyaasdsadsad");
+        console.log(excludeColumns, "key");
+
+        return excludeColumns.includes(key)
+          ? false
+          : item[key]?.toString().toLowerCase().includes(lowercasedValue);
+      });
+    });
+    console.log(filteredData,"filetred");
+    setUsersviewed(filteredData);
+  }
+  }
+  console.log(usersviewed)
+  console.log(inputRoleValue.length,"inputvaluenew");
+};
+
+const Flagsetter = () => {
+  setFlag(0);
+};
+const FlagNull = () => {
+  setFlag(1);
+  setInputRoleValue('')
+  setInputGoalValue('')
+  setInputExperienceValue('')
+  setInputLocationValue('')
+  setUsersviewed(userMatches)
+};
+
 return (
   <React.Fragment>
     <MainContainer>
     <header className={classes.Header}>Hi {name},Find your potential matches</header>
     <div className={classes.TableWrapper}>
+    {flag===1 && <div>
+      <p className={classes.filtertext}>Apply Your Filters Here:</p>
     <div className={classes.SearchBarWrapper}>
           <div className={classes.SearchBarWrapperInner}>
             <input
-              value={inputValue}
-              onChange={searchFilterInputHandler}
-              placeholder="Type to search..."
+              value={inputGoalValue}
+              onChange={searchFilterGoalHandler}
+              placeholder="Type to search Goal..."
             />
           </div>
+          <div className={classes.SearchBarWrapperInner}>
+            <input
+              value={inputRoleValue}
+              onChange={searchFilterRoleHandler}
+              placeholder="Type to search Role..."
+            />
+          </div>
+          <div className={classes.SearchBarWrapperInner}>
+            <input
+              value={inputExperienceValue}
+              onChange={searchFilterExperienceHandler}
+              placeholder="Type to search Experience..."
+            />
+          </div>
+          <div className={classes.SearchBarWrapperInner}>
+            <input
+              value={inputLocationValue}
+              onChange={searchFilterLocationHandler}
+              placeholder="Type to search Location..."
+            />
+          </div>
+        <Button style={{background: 'darkorange' , color:"white"}} onClick={Flagsetter}>Search</Button>
         </div>
+        </div>
+}
+{flag===0 &&
+<div className={classes.filterdiv}>
+<Button style={{background: 'darkorange' , color:"white" ,width:"35%"}} onClick={FlagNull}>New Search</Button>
+</div>
+
+}
+
     <Box sx={{ flexGrow: 1 }}>
       <Grid     
         container
@@ -478,8 +692,9 @@ return (
             <Item style={{"borderRadius": "16px"}}><UserInfoComponent userData={singleUser} idx={index} deleteSingleMatch={deleteMatchHandler} /></Item>
           </Grid>
         )))}
+        
       </Grid>
-
+          
       {/* <DataGrid
         rows={userMatches}
         // columns={columns}
@@ -489,7 +704,7 @@ return (
 
       {userMatches && userMatches.length && (
             <TablePagination
-            rowsPerPageOptions={[5, 10]}
+            rowsPerPageOptions={[10,5]}
             component="div"
             count={userMatches.length}
             rowsPerPage={rowsPerPage}
