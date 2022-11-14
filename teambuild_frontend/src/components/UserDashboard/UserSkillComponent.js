@@ -345,7 +345,7 @@ const UserSkillComponent = ({ title, data }) => {
               <Tablehead>
                 <Tablerow>
                   <Tablecell style={{ fontWeight: "600" }}>
-                    Skill Name
+                    Position Name
                   </Tablecell>
                   <Tablecell style={{ fontWeight: "600" }}>
                     Experience

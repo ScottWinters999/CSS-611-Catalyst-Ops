@@ -123,6 +123,13 @@
     position: relative;
     height: 30%;
   }
+
+  .matchedUserDisplay{
+    padding-left: 25%;
+    background: cadetblue;
+    color: white;
+    font-size: 20px;
+  }
   
   .ProfilePicInner {
     height: 150px;
@@ -198,6 +205,15 @@
     margin-top: 15%;
     margin-left: 35%;
   }
+  .ModalFooternew {
+    width: 20%;
+    /* padding: 2px; */
+    height: 75%;
+    /* box-shadow: -1px 8px 65px 0px rgb(36 36 36 / 78%); */
+    margin-top: -15%;
+    margin-left: 0%;
+  }
+  
   
   .ModalFooter button {
     width: 100%;
