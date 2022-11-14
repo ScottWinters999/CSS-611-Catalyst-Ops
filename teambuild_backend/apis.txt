@@ -1,13 +1,16 @@
 /goalcreate
+- userId
  - goal
 
 
 /goalupdate
+- userId
  - goalId
  - goalName
 
 
 /goalcomponentcreate
+- userId
  - goalId
  - experience
  - goalComponent
@@ -17,6 +20,7 @@
 
 
 /goalcomponentupdate
+- userId
  - goalComponentId
  - experience
  - goalComponent
@@ -26,16 +30,41 @@
 
 
 /goalcomponentskillcreate
+- userId
  - goalComponentId
  - experience
  - skill
 
 
 /goalcomponentskillupdate
+- userId
  - skillId
  - experience
  - skill
 
 
  /getgoaldetails
+ - userId
   -goalId
+
+  /rasauserupdate
+   - userId
+   - firstName
+   - lastName
+   - industry
+   - phoneNumber
+   - email
+   - country
+   - state
+   - city
+
+/rasaskillcreate
+    - userId
+    - positionName
+    - experience
+
+/rasapositioncreate
+    - userId
+    - skill
+    - experience
+    - positionId

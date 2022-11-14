@@ -8,4 +8,5 @@ controllers.UserProfileView = require("./userprofileviews");
 controllers.Rasa = require("./rasagoal");
 controllers.RasaUser = require("./rasauserprofile");
 controllers.RasaPosition = require("./rasapositions");
+controllers.RasaSkill = require("./rasaskill");
 module.exports = controllers;

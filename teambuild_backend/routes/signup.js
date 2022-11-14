@@ -15,7 +15,7 @@ const { UserProfile } = require("../controllers");
 const { UserDiscard } = require("../controllers");
 const { UserGoal } = require("../controllers");
 const { UserProfileView } = require("../controllers");
-const { Rasa,RasaUser,RasaPosition } = require("../controllers");
+const { Rasa,RasaUser,RasaPosition,RasaSkill } = require("../controllers");
 const { USER } = require("../util/database");
 const fileUpload = require("../middleware/file-upload");
 router.post("/signup", bodyParser, User.create);
@@ -83,6 +83,10 @@ router.get("/getuserdetails", bodyParser, RasaUser.getuserprofile);
 router.get("/getpositiondetails", bodyParser, RasaPosition.getpostiondetails);
 
 router.post("/rasauserupdate", bodyParser, RasaUser.userProfileUpdate);
+
+router.post("/rasapositioncreate", bodyParser, RasaPosition.createpostion);
+
+router.post("/rasaskillcreate", bodyParser, RasaSkill.create);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);
