@@ -709,7 +709,16 @@ const modal = (
                   fontWeight: "600",
                 }}
               >
-                Matched with
+                Goal Details
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                }}
+              >
+                Delete
               </TablebodyCellInner>
               {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
@@ -723,7 +732,7 @@ const modal = (
                   {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner>
-                  <button onClick={()=>openModalHandler(singleGoalComponent)}>Click for More Details</button>
+                  <button onClick={()=>openModalHandler(singleGoalComponent)}>Click for Details</button>
                 </TablebodyCellInner>
                     
                 <TablebodyCellButtonDelete
