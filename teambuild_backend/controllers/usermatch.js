@@ -237,15 +237,18 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
           let state =
             goalcomp[g].state == null
               ? "true"
-              : goalcomp[g].state == posskill.state;
+              : goalcomp[g].state.toLowerCase() == posskill.state == null? posskill.state :(posskill.state ==null ? posskill.state: posskill.state.toLowerCase());
+              //(posskill.state ==null ? posskill.state: posskill.state.toLowerCase())
+              //console.log(241, posskill.state==null);
+              //!= null ? posskill.state.toLowerCase(): posskill.state
           let city =
             goalcomp[g].city == null
               ? "true"
-              : goalcomp[g].city == posskill.city;
+              : goalcomp[g].city.toLowerCase() == posskill.city.toLowerCase();
           let country =
             goalcomp[g].country == null
               ? "true"
-              : goalcomp[g].country == posskill.country;
+              : goalcomp[g].country.toLowerCase()== posskill.country.toLowerCase();
           if (!state || !city || !country) locationFlag = false;
         }
         // console.log(
@@ -274,8 +277,8 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
             ) {
               //console.log(goalcomp[g].skills[gcskill]);
               if (
-                goalcomp[g].skills[gcskill].skill ==
-                  posskill.skillset[k].skillset &&
+                goalcomp[g].skills[gcskill].skill.toLowerCase() ==
+                  posskill.skillset[k].skillset.toLowerCase()  &&
                 goalcomp[g].skills[gcskill].experience <=
                   posskill.skillset[k].experience
               ) {
@@ -309,7 +312,7 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
     }
     //console.log(goalcomp);
   }
-  //console.log(287, finalList[0].goalData);
+  //console.log(287, finalList);
   if (discardList.length == 0) {
     //console.log(287, finalList);
     return finalList;

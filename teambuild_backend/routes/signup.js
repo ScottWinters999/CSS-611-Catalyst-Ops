@@ -100,6 +100,8 @@ router.post(
   UserGoal.goalcomponentskilldelete
 );
 
+router.post("/goalcomponentskill", bodyParser, Rasa.getallgoalcomponentskills);
+
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);
