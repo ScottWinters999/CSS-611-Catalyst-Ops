@@ -215,4 +215,38 @@ module.exports = {
       res.status(400).json({ status: "wrong userId" });
     }
   },
+
+  getallgoalcomponentskills: async (req, res) => {
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
+    if (userId) {
+      //const goalId = req.body.goalId;
+      //const userprofileUserProfileId = userId;
+      const goalComponentId = req.body.goalComponentId;
+      const goalCompDetails= await GoalComponent.findOne({
+        include:{
+          model:GoalComponentSkill
+        },
+        where:{
+          goalComponentId:goalComponentId
+        }
+      })
+      let goalComp={};
+      if(goalCompDetails){
+        goalComp['goalcomp']=goalCompDetails.dataValues.goalComponent;
+        goalComp['goalComponentId']=goalCompDetails.dataValues.goalComponentId;
+        let goalCompSkill=[];
+        for(let i=0;i<goalCompDetails.dataValues.goalcomponentskills.length;i++){
+          let components= goalCompDetails.dataValues.goalcomponentskills[i].dataValues;
+          goalCompSkill.push(components);
+        }
+        goalComp['components']= [...goalCompSkill];
+
+      }
+     // console.log(goal);
+      res.status(200).json({goalCompDetails:goalComp});
+    } else {
+      res.status(400).json({ status: "wrong userId" });
+    }
+  },
 };

@@ -45,5 +45,7 @@ module.exports = {
       }else{
           res.status(400).json({status:"wrong user"});
       }
-  }
+  },
+
+  
 }
