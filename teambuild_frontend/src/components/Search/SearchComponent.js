@@ -660,6 +660,20 @@ const [open, setOpen] = React.useState(false);
     setOpen(false);
   };
 
+  const [visible, setVisible] = useState(true);
+
+  const [search, filters] = useState([
+    'Goal - X',
+    'Role - X',
+    'Experience - X',
+    'Location - X'
+  ]);
+
+  const removeElement = (index) => {
+    const newSearch = search.filter((_, i) => i !== index);
+    filters(newSearch);
+  };
+
 return (
   <React.Fragment>
     <MainContainer>
@@ -699,22 +713,19 @@ return (
         <Button style={{background: 'darkorange' , color:"white"}} onClick={Flagsetter}>Search</Button>
         <div className="dropdown">
       <button onClick={handleOpen}>Search Filters</button>
-      {open ? (
-        <ul className="menu">
-          <li className="menu-item">
-            <button onClick={handleMenuOne}>Goal</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleMenuTwo}>Role</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleMenuThree}>Experience</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleMenuFour}>Location</button>
-          </li>
-        </ul>
-      ) : null}
+      <div>
+      {search.map((a_search, index) => (
+        <div key={index}>
+          <button
+            onClick={() => removeElement(index)}
+          >
+            {a_search}
+          </button>
+          <br />
+          <br />
+        </div>
+      ))}
+    </div>
     </div>
         </div>
         </div>
