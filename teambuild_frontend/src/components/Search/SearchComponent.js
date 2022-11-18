@@ -634,6 +634,32 @@ const FlagNull = () => {
   setUsersviewed(userMatches)
 };
 
+const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+
+  const handleMenuOne = () => {
+    // do something
+    setOpen(false);
+  };
+
+  const handleMenuTwo = () => {
+    // do something
+    setOpen(false);
+  };
+
+  const handleMenuThree = () => {
+    // do something
+    setOpen(false);
+  };
+
+  const handleMenuFour = () => {
+    // do something
+    setOpen(false);
+  };
+
 return (
   <React.Fragment>
     <MainContainer>
@@ -671,14 +697,27 @@ return (
             />
           </div>
         <Button style={{background: 'darkorange' , color:"white"}} onClick={Flagsetter}>Search</Button>
+        <div className="dropdown">
+      <button onClick={handleOpen}>Search Filters</button>
+      {open ? (
+        <ul className="menu">
+          <li className="menu-item">
+            <button onClick={handleMenuOne}>Goal</button>
+          </li>
+          <li className="menu-item">
+            <button onClick={handleMenuTwo}>Role</button>
+          </li>
+          <li className="menu-item">
+            <button onClick={handleMenuThree}>Experience</button>
+          </li>
+          <li className="menu-item">
+            <button onClick={handleMenuFour}>Location</button>
+          </li>
+        </ul>
+      ) : null}
+    </div>
         </div>
         </div>
-}
-{flag===0 &&
-<div className={classes.filterdiv}>
-<Button style={{background: 'darkorange' , color:"white" ,width:"35%"}} onClick={FlagNull}>New Search</Button>
-</div>
-
 }
 
     <Box sx={{ flexGrow: 1 }}>
