@@ -257,7 +257,7 @@ const UserInfoComponent = ({ userData }) => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_SERVER}userupdate`,
+        "http://localhost:5000/api/userupdate",
         {
           method: "PATCH",
           body: JSON.stringify(body),

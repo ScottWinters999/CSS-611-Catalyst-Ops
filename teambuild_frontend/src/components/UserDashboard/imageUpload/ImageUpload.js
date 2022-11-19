@@ -191,7 +191,7 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
     }
       );
       const data = await response.json();
-      // console.log(data);
+      //console.log(data);
       // if(data)
       
     } catch (err) {
@@ -262,8 +262,10 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
             onClick={uploadImageHandler}
           >
             <div className="image-upload__preview">
-              {previewUrl && <img src={previewUrl} alt="Preview" />}
-              {!previewUrl && <p>Please pick an image.</p>}
+              {/* {previewUrl && <img src={previewUrl} alt="Preview" />} */}
+              {/* {!previewUrl && <p>Click here to upload the image.</p>} */}
+              {<p>Click here to upload the image.</p>}
+
             </div>
 
             {/* <Button >
