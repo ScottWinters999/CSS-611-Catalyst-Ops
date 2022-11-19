@@ -158,13 +158,13 @@ module.exports = {
 
     console.log(SENDGRID_API_KEY, "apii");
     const userExists = await User.findOne({ where: { email: req.body.email } });
-    console.log(120, userExists);
+    //console.log(120, userExists);
     if (!userExists) {
       response.status(403).json({ Status: "User does not exist" });
     } else {
       const token = crypto.randomBytes(32).toString("hex");
-      console.log(token, "token");
-      console.log("125", req.body.email);
+      //console.log(token, "token");
+      //console.log("125", req.body.email);
       //   console.log()
       User.update(
         {
@@ -194,7 +194,7 @@ module.exports = {
             response.status(400).json({ status: "Wrong credentials" });
           });
       });
-      console.log(userExists);
+      //console.log(userExists);
     }
   },
 

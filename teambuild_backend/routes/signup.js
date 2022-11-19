@@ -14,6 +14,7 @@ const { User, UserMatch } = require("../controllers");
 const { UserProfile } = require("../controllers");
 const { UserDiscard } = require("../controllers");
 const { UserGoal } = require("../controllers");
+const { Notifications } = require("../controllers");
 const { UserProfileView } = require("../controllers");
 const { Rasa, RasaUser, RasaPosition, RasaSkill } = require("../controllers");
 const { USER } = require("../util/database");
@@ -101,6 +102,10 @@ router.post(
 );
 
 router.post("/goalcomponentskill", bodyParser, Rasa.getallgoalcomponentskills);
+
+router.post("/goalandgoalcomponentcreate", bodyParser, Rasa.creategoalandcomponent);
+
+router.post("/getnotifications", bodyParser, Notifications.usernotification);
 
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
