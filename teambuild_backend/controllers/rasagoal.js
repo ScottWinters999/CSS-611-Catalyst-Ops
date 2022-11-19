@@ -13,6 +13,16 @@ module.exports = {
       //const goalId = req.body.goalId;
       const userprofileUserProfileId = userId;
       const goalName = req.body.goal;
+      const goalDetails = await Goal.findOne({
+        where:{
+          userUserId:userId,
+          goal: goalName
+        }
+      });
+
+      if(goalDetails){
+        res.status(200).json({goalId:goalDetails.goalId, staus:"goal already exists"});
+      }else{
       Goal.create(
         {
           goal: goalName,
@@ -28,12 +38,88 @@ module.exports = {
         //console.log(response.goalId);
         res
           .status(200)
-          .json({ goalId: response.goalId, status: "goal created" });
+          .json({ goalId: response.goalId, status: "new goal created" });
       });
+      }
     } else {
       res.status(400).json({ status: "wrong userId" });
     }
   },
+
+  creategoalandcomponent: async (req, res) => {
+    // const userId = req.userData.userId;
+    const userId= req.body.userId;
+    if (userId) {
+      //const goalId = req.body.goalId;
+      const userprofileUserProfileId = userId;
+      const goalName = req.body.goal;
+      const goalComponent= req.body.goalComponent;
+      const experienceRequired = req.body.experience;
+      const country = req.body.country;
+      const state= req.body.state;
+      const city = req.body.city;
+
+      const goalDetails = await Goal.findOne({
+        where:{
+          userUserId:userId,
+          goal: goalName
+        }
+      });
+      let goalId=null;
+      if(goalDetails){
+        goalId=goalDetails.goalId;
+        //res.status(200).json({goalId:goalDetails.goalId, staus:"goal already exists"});
+      }
+      if(!goalId){
+      Goal.create(
+        {
+          goal: goalName,
+          userUserId: userId,
+          userprofileUserProfileId,
+        }
+        // {
+        //   where: {
+        //     userUserId: userId,
+        //   },
+        // }
+      ).then((response) => {
+        //console.log(response.goalId);
+        const goalGoalId= response.goalId;
+        GoalComponent.create({
+            goalGoalId,
+            goalComponent,
+            country,
+            state,
+            city,
+            experienceRequired
+        }).then((response)=>{
+            res
+          .status(200)
+          .json({ goalId:goalGoalId, goalComponentId: response.goalComponentId, status: "new goal and Component  created" });
+        })
+
+        
+      });
+      }else{
+        const goalGoalId = goalId;
+        GoalComponent.create({
+            goalGoalId,
+            goalComponent,
+            country,
+            state,
+            city,
+            experienceRequired
+        }).then((response)=>{
+          res
+          .status(200)
+          .json({ goalId:goalGoalId,goalComponentId: response.goalComponentId, status: "new goalComponent  created" });
+        })
+      }
+    } else {
+      res.status(400).json({ status: "wrong userId" });
+    }
+  },
+
   updategoal: async (req, res) => {
     // const userId = req.userData.userId;
     const userId= req.body.userId;

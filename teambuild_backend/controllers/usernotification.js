@@ -1,4 +1,9 @@
-const jwt = require("jsonwebtoken");
+const { Sequelize } = require("sequelize");
+const {
+  model: { Goal },
+} = require("../models");
+const { USER } = require("../util/database");
+const { Op } = require("sequelize");
 const {
   model: { UserProfile },
 } = require("../models");
@@ -6,56 +11,39 @@ const {
   model: { Skills },
 } = require("../models");
 const {
-  model: { Goal },
-} = require("../models");
-
-const {
-  model: { UserPosition },
-} = require("../models");
-
-const {
-  model: { GoalComponentSkill },
+  model: { GoalComponent, GoalComponentSkill },
 } = require("../models");
 const {
-  model: { GoalComponent },
+  model: { UserDiscard, UserPosition },
 } = require("../models");
+const db = require("../models");
+const {
+  model: { User },
+} = require("../models");
+const { use } = require("../routes/signup");
 const goalcomponent = require("../models/goalcomponent");
-const { Sequelize } = require("sequelize");
-const { Op } = require("sequelize");
 
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
-//var decoded = jwt.verify(token, 'secret_this_should_be_longer');
+
 module.exports = {
-  create: async (req, res) => {
-
-      userId= req.body.userId;
-      const userpositionPositionId= req.body.positionId;
+  usernotification: async (req, res) => {
+      const userId = req.body.userUserId;
+      const positionName = req.body.positionName;
+      const positionId=req.body.positionId;
+      const experience = req.body.experience;
       if(userId){
-          const skillset = req.body.skill;
-          const experience= req.body.experience;
-          
-
-          const skills= await Skills.create({
-              skillset,
-              experience,
-              userpositionPositionId
 
 
-          }).then(async (response)=>{
-
-            //sent notifications to the matched users who want this skills.
-            const positionDetails = await UserPosition.findOne({
+      const positionDetails = await UserPosition.findOne({
           include:{
               model:Skills
           },
           where:{
-              positionId:userpositionPositionId
+              positionId:positionId
           }
       });    
 
-      const positionName = positionDetails.positionName;
-      const experience = positionDetails.positionExperience;
 
       const goalDetails = await Goal.findAll({
         include: {
@@ -82,9 +70,8 @@ module.exports = {
           },
         },
       });
-
-
-      let matchedDetails=[];
+      //console.log(73,goalDetails[0].goalcomponents);
+        let matchedDetails=[];
         for(let i=0;i< goalDetails.length;i++){
             let goalcomp= goalDetails[i].goalcomponents;
             
@@ -142,7 +129,7 @@ module.exports = {
             let goalcomponentMatched=matchedDetails[i]['goalcomponent'][0].goalComponent;
             let goalName =matchedDetails[i]['goalName'];
             let email = matchedDetails[i]['goalEmailId'];
-            //console.log(123, email);
+            console.log(123, email);
             transporter
           .sendMail({
             to: email,
@@ -158,13 +145,18 @@ module.exports = {
           
         }
 
-          res.status(200).json({ status: "Skills inserted and Match send" });
-              //res.status(200).json({skillId: response.skillsetId , status:"skill created"});
-          })
-      }else{
-          res.status(400).json({status:"wrong user"});
-      }
-  },
 
-  
+        res.status(200).json({ status: "Match send" });
+
+
+
+
+
+
+
+      //res.status(200).json({matchedDetails:matchedDetails});
+  }else{
+      res.status(400).json({status:"wrong user"});
+  }
+}
 }
