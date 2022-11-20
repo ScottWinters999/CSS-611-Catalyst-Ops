@@ -353,6 +353,12 @@ const ModalWrapper2 = {
   left: "calc(50% - 15rem)",
   borderRadius: "10px",
 };
+const ModalWrapper3 = {
+  height: "20%",
+  width: "30rem",
+  left: "calc(50% - 15rem)",
+  borderRadius: "10px",
+};
 const ItemActions = {
   padding: "30px",
   // "text-align": "center",
@@ -368,7 +374,10 @@ const ItemActionsnew = {
 const ModalHeader = {
   height: "10%",
   // "font-family": "Montserrat",
-  background: "#264ECA",
+  background:"#264ECA",
+  borderTopLeftRadius: "10px",
+  borderTopRightRadius: "10px",
+  
 };
 
 const ItemModal = {
@@ -384,12 +393,91 @@ const ItemModal3 = {
   height: "30%",
 };
 
-const ExpandableTableRow = ({
-  children,
-  goalComponents,
-  goalid,
-  ...otherProps
-}) => {
+const ItemModal4 = {
+  padding: "40px 60px 5px 60px",
+  height: "20%",
+};
+
+
+
+
+const ExpandableSkillRow = ({ children, goalComponents, ...otherProps }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [goalComponentList, setGoalComponentList] = useState([]);
+
+  useEffect(() => {
+    if (goalComponents) {
+      setGoalComponentList(goalComponents);
+    }
+
+  }, [goalComponents]);
+
+  if(goalComponentList){
+    console.log(goalComponentList,"newSkills");
+
+  }
+
+
+  return (
+    <div style={{ padding: "0px", marginTop: "0px" }}>
+      <TablebodyRownew {...otherProps}>
+        {children}
+      </TablebodyRownew>
+      {/* <TableRow>adsd</TableRow> */}
+        <TablebodyCellDropRow>
+          {/* <TableCell /> */}
+          {/* <TablebodyCellDrop> */}
+          {/* <Table> */}
+          <Tableheader>
+            <TableDropDownBodyRow style={{background:"#f8ecf8" , fontSize:"12px"}}>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "10px",
+                  fontWeight: "200",
+                }}
+              >
+                Skill Component
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "10px",
+                  fontWeight: "200",
+                }}
+              >
+                Experience Required
+              </TablebodyCellInner>
+              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
+                <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
+            </TableDropDownBodyRow>
+          </Tableheader>
+          <TableBodyInner>
+            {goalComponentList.map((singleGoalComponent, idx) => (
+              <TableDropDownBodyRow key={idx} style={{background:"#f8ecf8",fontSize:"12px"}}>
+                <TablebodyCellInner>
+                  {singleGoalComponent?.skill}
+                </TablebodyCellInner>
+                <TablebodyCellInner>
+                  {singleGoalComponent?.experience}
+                </TablebodyCellInner>
+
+              </TableDropDownBodyRow>
+            ))}
+
+          </TableBodyInner>
+          {/* </Table> */}
+          {/* </TablebodyCellDrop> */}
+        </TablebodyCellDropRow>
+    </div>
+  );
+};
+
+
+
+
+const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
   const [idValue, setIdValue] = useState();
@@ -506,7 +594,7 @@ const ExpandableTableRow = ({
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
       )} */}
       <div className={classes.ModalHeader}>
-        <button onClick={closedeleteModalHandler}> X </button>
+        {/* <button onClick={closedeleteModalHandler}> X </button> */}
       </div>
     </React.Fragment>
   );
@@ -518,13 +606,26 @@ const ExpandableTableRow = ({
       {/* {profilePhotoUrl && (
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
       )} */}
-      <div className={classes.ModalFooternew}>
         {/* <button onClick={closeModalHandler}>Close</button> */}
-        <div className={classes.footerdiscardbutton} style={{ padding: "3px" }}>
-          <button onClick={deletecomponentHandler}>YES</button>
-          <button>NO</button>
+        {/* <div className={classes.footerdiscardbutton} style={{padding:"3px"}}>
+        <button onClick={deletecomponentHandler}>YES</button>
+        <button onClick={closedeleteModalHandler}>NO</button> */}
+        {/* </div> */}
+        {/* </div> */}
+
+        <div style={{"width": "100%",
+    "display": "flex",
+    "alignItems": "center",
+    "justifyContent": "center",
+    "alignContent": "center",
+    "paddingTop": "12px"}}>
+          <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
+           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           onClick={deletecomponentHandler}>yes</button></div>
+          <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
+          style={{"border":"none","padding":"4px 22px"}}
+          onClick={closedeleteModalHandler}>No</button></div>
         </div>
-      </div>
     </React.Fragment>
   );
 
@@ -681,7 +782,7 @@ const ExpandableTableRow = ({
           {/* <TablebodyCellDrop> */}
           {/* <Table> */}
           <Tableheader>
-            <TableDropDownBodyRow>
+            <TableDropDownBodyRow style={{background:"rgb(204 247 247)"}}>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
@@ -696,15 +797,27 @@ const ExpandableTableRow = ({
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
+                  paddingLeft:"10%"
                 }}
               >
-                Goal Details
+                Goal Location
               </TablebodyCellInner>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
+                  paddingLeft:"10%"
+                }}
+              >
+                Matched with
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                  paddingLeft:"16%"
                 }}
               >
                 Delete
@@ -716,15 +829,28 @@ const ExpandableTableRow = ({
           </Tableheader>
           <TableBodyInner>
             {goalComponentList.map((singleGoalComponent, idx) => (
-              <TableDropDownBodyRow key={idx}>
+              <ExpandableSkillRow
+              key={idx}
+              goalComponents={singleGoalComponent?.skills}
+            >
+              <TableDropDownBodyRow key={idx} style={{background:"rgb(204 247 247)"}}>
                 <TablebodyCellInner>
                   {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
-                <TablebodyCellInner>
-                  <button onClick={() => openModalHandler(singleGoalComponent)}>
-                    Click for Details
-                  </button>
+                <TablebodyCellInner style={{fontSize:"14px"}}>
+                  {singleGoalComponent.city + ","}{singleGoalComponent.state + ","}{singleGoalComponent.country}
                 </TablebodyCellInner>
+                <TablebodyCellInner >
+                  <div style={{ color: 'blue'}} onClick={()=>openModalHandler(singleGoalComponent)}>{singleGoalComponent?.matcheduserId?.firstName}</div>
+                </TablebodyCellInner>
+                    
+                <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
+                          onClick={() => opendeleteModalHandler(true,singleGoalComponent?.goalcomponentId)}
+                      >
+                          <MdDeleteOutline
+                            style={{ width: "24px", height: "24px" }}
+                          />
+                        </TablebodyCellButtonDelete>
 
                 <TablebodyCellButtonDelete
                   onClick={() =>
@@ -737,29 +863,26 @@ const ExpandableTableRow = ({
                   <MdDeleteOutline style={{ width: "24px", height: "24px" }} />
                 </TablebodyCellButtonDelete>
               </TableDropDownBodyRow>
+              </ExpandableSkillRow>
             ))}
-            <Modal
-              show={showdeleteModal}
-              modalWrapper={ModalWrapper2}
-              onCancel={closedeleteModalHandler}
-              modalHeader={ModalHeader}
-              contentClass={ItemModal3}
-              header={deleteheader}
-              footerClass={ItemActions}
-              footer={modaldeleteFooter}
-            >
-              <div className={classes.ModalMainContent}>
-                <div className={classes.ModalMainInfo}>
-                  <div className={classes.UserContent}>
-                    <div align="center" padding-left="71px" padding-top="35%">
-                      {" "}
-                      Are You Sure You Want to Delete{" "}
-                    </div>
-                  </div>
-                </div>
-                {/* {!isValid && <p>'error'</p>} */}
-              </div>
-            </Modal>
+                       <Modal
+      show={showdeleteModal}
+      modalWrapper={ModalWrapper3}
+      onCancel={closedeleteModalHandler}
+      modalHeader={ModalHeader}
+      contentClass={ItemModal4}
+      header={deleteheader}
+      footerClass={ItemActions}
+      footer={modaldeleteFooter}
+    >
+        <div className={classes.ModalMainContent}>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.UserContent}><div align="center" padding-left = "71px" padding-top = "35%"> Are You Sure You Want to Delete </div></div>
+          </div>
+        {/* {!isValid && <p>'error'</p>} */}
+      </div>
+    </Modal> 
+           
           </TableBodyInner>
           {/* </Table> */}
           {/* </TablebodyCellDrop> */}
@@ -835,9 +958,22 @@ const UserGoalComponent = ({ data }) => {
     //     setTotalGoals(currentUserGoals);
     //   }
     // }
-    if (data) {
-      console.log(data, "469");
+    if(data){
+      console.log(data,'469')
+      data.forEach((val,idx) => {
+        let status = 0
+        console.log(val,'aaa')
+        val['goalcomponent'].forEach((val2,idx2) =>{
 
+          console.log(val2,'bbbbb')
+          if(val2['matcheduserId'] != null){
+            status += 1
+          }
+        })
+        console.log(status)
+        val['status'] = `${status} / ${val['goalcomponent'].length}`
+      })
+      console.log(data,'meow')
       setTotalGoals(data);
     }
   }, [data]);
@@ -911,7 +1047,7 @@ const UserGoalComponent = ({ data }) => {
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
       )} */}
       <div className={classes.ModalHeader}>
-        <button onClick={closeModalHandler}> X </button>
+        {/* <button onClick={closeModalHandler}> X </button> */}
       </div>
     </React.Fragment>
   );
@@ -923,13 +1059,22 @@ const UserGoalComponent = ({ data }) => {
       {/* {profilePhotoUrl && (
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
       )} */}
-      <div className={classes.ModalFooter}>
-        {/* <button onClick={closeModalHandler}>Close</button> */}
-        <div className={classes.footerdiscardbutton} style={{ padding: "3px" }}>
-          <button onClick={deleteHandler}>YES</button>
-          <button>NO</button>
+    
+
+        <div style={{"width": "100%",
+    "display": "flex",
+    "alignItems": "center",
+    "justifyContent": "center",
+    "alignContent": "center",
+    "paddingTop": "12px"}}>
+          <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
+           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           onClick={deleteHandler}>yes</button></div>
+          <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
+          style={{"border":"none","padding":"4px 22px"}}
+          onClick={closeModalHandler}>No</button></div>
         </div>
-      </div>
+        
     </React.Fragment>
   );
 
@@ -1047,6 +1192,8 @@ const UserGoalComponent = ({ data }) => {
                           style={{ width: "36%", marginLeft: "2%" }}
                         >
                           {row.goalName}
+
+                          {row.goalcomponent.status}
                         </TablebodyCell>
                         <TablebodyCell>{row.status}</TablebodyCell>
                         <TablebodyCellEdit>
@@ -1064,28 +1211,23 @@ const UserGoalComponent = ({ data }) => {
                       </TablebodyCellWrapper>
                     </ExpandableTableRow>
                   ))}
-                  <Modal
-                    show={showModal}
-                    modalWrapper={ModalWrapper2}
-                    onCancel={closeModalHandler}
-                    modalHeader={ModalHeader}
-                    contentClass={ItemModal2}
-                    header={header}
-                    footerClass={ItemActions}
-                    footer={modalFooter}
-                  >
-                    <div className={classes.ModalMainContent}>
-                      <div className={classes.ModalMainInfo}>
-                        <div className={classes.UserContent}>
-                          <div align="center">
-                            {" "}
-                            Are You Sure You Want to Delete{" "}
-                          </div>
-                        </div>
-                      </div>
-                      {/* {!isValid && <p>'error'</p>} */}
-                    </div>
-                  </Modal>
+                      <Modal
+      show={showModal}
+      modalWrapper={ModalWrapper2}
+      onCancel={closeModalHandler}
+      modalHeader={ModalHeader}
+      contentClass={ItemModal2}
+      header={header}
+      footerClass={ItemActions}
+      footer={modalFooter}
+    >
+        <div className={classes.ModalMainContent}>
+          <div className={classes.ModalMainInfo}>
+            <div className={classes.UserContent}><div align="center" style={{fontSize: "25px", padding: "20px",fontFamily: "ui-monospace"}}> Are you sure you want to delete </div></div>
+          </div>
+        {/* {!isValid && <p>'error'</p>} */}
+      </div>
+    </Modal>                
                 </Tablebody>
               </Table>
             </TableWrapper>
