@@ -237,13 +237,16 @@ const AuthForm = () => {
     console.log(body);
     // history("/userchat");
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
-        method: "POST",
-        body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}signup`,
+        {
+          method: "POST",
+          body: body,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       console.log(data);
       if (data.Status == "user already exist") {
@@ -258,7 +261,7 @@ const AuthForm = () => {
             token: data.token,
           })
         );
-        history(`/userchat/hello/${data.userId}`);
+        history(`/userchat/new_user/${data.userId}`);
       }
     } catch (err) {
       console.log(err);

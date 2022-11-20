@@ -264,13 +264,16 @@ const AuthForm = () => {
     console.log(body);
     // history("/userchat");
     try {
-      const response = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        body: body,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}login`,
+        {
+          method: "POST",
+          body: body,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       console.log(data);
       if (
@@ -286,7 +289,7 @@ const AuthForm = () => {
         // console.log(da)
         authCtx.login(data.token);
         // console.log(data.userId)
-        localStorage.setItem('userId',JSON.stringify(data.userId))
+        localStorage.setItem("userId", JSON.stringify(data.userId));
         history("/userdashboard");
       }
     } catch (err) {

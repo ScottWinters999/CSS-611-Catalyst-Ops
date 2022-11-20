@@ -438,14 +438,17 @@ const ExpandableTableRow = ({
     };
     console.log(body, "removal value from delete");
     try {
-      const response = fetch("http://localhost:5000/api/goalcomponentdelete", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: authorization,
-        },
-      });
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}goalcomponentdelete`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
       const data = response.json();
       console.log(data);
     } catch (err) {
@@ -468,28 +471,34 @@ const ExpandableTableRow = ({
     };
     console.log(body, "removal value from delete");
     try {
-      const response = fetch("http://localhost:5000/api/usergoalmatchremove", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: authorization,
-        },
-      });
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}usergoalmatchremove`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
       const data = response.json();
       console.log(data);
     } catch (err) {
       console.log(err);
     }
     try {
-      const response = fetch("http://localhost:5000/api/userdiscard", {
-        method: "POST",
-        body: JSON.stringify(discardBody),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: authorization,
-        },
-      });
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}userdiscard`,
+        {
+          method: "POST",
+          body: JSON.stringify(discardBody),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
       const data = response.json();
       console.log(data);
     } catch (err) {
@@ -859,13 +868,16 @@ const UserGoalComponent = ({ data }) => {
       goalId: idValue,
     };
     try {
-      const response = fetch("http://localhost:5000/api/usergoaldelete", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}usergoaldelete`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = response.json();
       console.log(data);
     } catch (err) {
@@ -880,13 +892,16 @@ const UserGoalComponent = ({ data }) => {
       goalId: idx,
     };
     try {
-      const response = await fetch("http://localhost:5000/api/usergoaldelete", {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}usergoaldelete`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       console.log(data);
       if (data) {
@@ -981,7 +996,7 @@ const UserGoalComponent = ({ data }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const userId = JSON.parse(localStorage.getItem("userId"));
   console.log(userId);
-  const pathToCaty = `/userchat/add_goal/${userId}`;
+  const pathToCaty = `/userchat/add_new_goal/${userId}`;
   // const listItems = numbers.map((number) => <li>{number}</li>);
   return (
     <GoalsOutsideWrapper>

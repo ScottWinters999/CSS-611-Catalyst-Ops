@@ -147,7 +147,7 @@ const ResetPasswordForm = (props) => {
       console.log(passwordValue);
       try {
         const response = await fetch(
-          "http://localhost:5000/api/resetpassword",
+          `${process.env.REACT_APP_BACKEND_SERVER}resetpassword`,
           {
             method: "POST",
             body: JSON.stringify({
@@ -160,11 +160,10 @@ const ResetPasswordForm = (props) => {
           }
         );
         const data = await response.json();
-        if (data.status == "password updated"){
-            setPasswordUpdated(true)
-            history('/login')
+        if (data.status == "password updated") {
+          setPasswordUpdated(true);
+          history("/login");
         }
-
       } catch (err) {
         console.log(err);
       }
@@ -235,9 +234,7 @@ const ResetPasswordForm = (props) => {
               Please enter a password with length 8 or greater{" "}
             </Errortext>
           )}
-          {passwordUpdated && (
-            <Errortext>Password Updated</Errortext>
-          )}
+          {passwordUpdated && <Errortext>Password Updated</Errortext>}
         </Control>
         <Actions>
           <Button>Update password</Button>

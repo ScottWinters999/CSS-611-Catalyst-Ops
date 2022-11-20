@@ -175,7 +175,9 @@ const UserDashboardComponent = () => {
   useEffect(() => {
     const userInfo = async () => {
       try {
-        fetch("http://localhost:5000/api/userprofile", { headers: headers })
+        fetch(`${process.env.REACT_APP_BACKEND_SERVER}userprofile`, {
+          headers: headers,
+        })
           .then((res) => {
             return res.json();
           })
@@ -185,7 +187,7 @@ const UserDashboardComponent = () => {
           });
       } catch (err) {}
     };
-    console.log(loadedUserInfo)
+    console.log(loadedUserInfo);
     userInfo();
   }, [sendRequest, authorization]);
 
@@ -212,9 +214,9 @@ const UserDashboardComponent = () => {
     basicUserInfo: {
       firstName: loadedUserInfo ? loadedUserInfo.firstName : "",
       lastName: loadedUserInfo ? loadedUserInfo.lastName : "",
-      city : loadedUserInfo ? loadedUserInfo.city : "",
-      state : loadedUserInfo ? loadedUserInfo.state : "",
-      country : loadedUserInfo ? loadedUserInfo.country : "",
+      city: loadedUserInfo ? loadedUserInfo.city : "",
+      state: loadedUserInfo ? loadedUserInfo.state : "",
+      country: loadedUserInfo ? loadedUserInfo.country : "",
       currentPosition: loadedUserInfo ? loadedUserInfo.currentPosition : "",
       phone: loadedUserInfo ? loadedUserInfo.phone : "",
       email: loadedUserInfo ? loadedUserInfo.email : "",
@@ -295,7 +297,6 @@ const UserDashboardComponent = () => {
     // ],
   };
   console.log(loadedUserInfo?.goal, "ll");
-  
 
   return (
     // <ScrollToBottom>
