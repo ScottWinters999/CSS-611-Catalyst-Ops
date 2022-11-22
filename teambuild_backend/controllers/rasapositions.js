@@ -85,38 +85,48 @@ module.exports = {
   },
 
   updatepostion: async (req, res) => {
-    //const userId= req.userData.userId;
-    const userId = req.body.userId;
-    if (userId) {
-      //const positionId= req.body.positionId;
-      // const userDetails= await UserProfile.findOne({
-      //   where:{
-      //     userUserId:userId
-      //   }
-      // });
-      const positionName = req.body.positionName;
-      const positionExperience = req.body.experience;
-      const country = req.body.country;
-      const state = req.body.state;
-      const city = req.body.city;
-      const userUserId = userId;
-      const userprofileUserProfileId = userId;
+      //const userId= req.userData.userId;
+      const userId= req.body.userId;
+      if(userId){
+          //const positionId= req.body.positionId;
+          // const userDetails= await UserProfile.findOne({
+          //   where:{
+          //     userUserId:userId
+          //   }
+          // });
+          const positionName= req.body.positionName;
+          const positionExperience= req.body.experience;
+          const country= req.body.country;
+          const state= req.body.state;
+          const city= req.body.city;
+          const userUserId= userId;
+          const userprofileUserProfileId= userId;
+          const positionId= req.body.positionId;
 
-      UserPosition.update({
-        country,
-        state,
-        city,
-        positionExperience,
-        positionName,
-        userprofileUserProfileId,
-        userUserId,
-      }).then((response) => {
-        res.status(200).json({ status: "position updated" });
-      });
+          UserPosition.update({
+            country,
+            state,
+            city,
+            positionExperience,
+            positionName,
+            userprofileUserProfileId,
+            userUserId
 
-      // console.log(postionDetails.dataValues);
-    } else {
-      res.status(400).json({ status: "wrong user" });
-    }
+
+          },
+          {
+          where: {
+            positionId: positionId,
+          },
+        }).then((response)=>{
+              res.status(200).json({status:"positoin updated"});
+          })
+        
+       // console.log(postionDetails.dataValues);
+       
+
+      }else{
+          res.status(400).json({status:"wrong user"});
+      }
   },
 };
