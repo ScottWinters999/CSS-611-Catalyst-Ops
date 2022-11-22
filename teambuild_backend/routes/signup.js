@@ -107,6 +107,7 @@ router.post("/goalandgoalcomponentcreate", bodyParser, Rasa.creategoalandcompone
 
 router.post("/getnotifications", bodyParser, Notifications.usernotification);
 
+router.post("/updatepostionskill", bodyParser, RasaSkill.updatepostionskill);
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);

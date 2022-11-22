@@ -169,14 +169,21 @@ module.exports = {
       //     userUserId:userId
       //   }
       // });
-      const userpositionPositionId = req.body.positionId;
+      const skillsetId = req.body.skillId;
       const skillset = req.body.skill;
       const experience = req.body.experience;
 
-      Skill.update({
-        skillset,
-        experience,
-      }).then((response) => {
+      Skills.update(
+        {
+          skillset,
+          experience,
+        },
+        {
+          where: {
+            skillsetId: skillsetId,
+          },
+        }
+      ).then((response) => {
         res.status(200).json({ status: "position updated" });
       });
 
@@ -185,4 +192,5 @@ module.exports = {
       res.status(400).json({ status: "wrong user" });
     }
   },
-};
+  
+}
