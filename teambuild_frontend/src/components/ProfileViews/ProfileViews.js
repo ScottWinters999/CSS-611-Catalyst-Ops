@@ -28,7 +28,9 @@ const ProfileViews = (props) => {
   React.useEffect(() => {
     const userInfo = async () => {
       try {
-        fetch("http://localhost:5000/api/userprofileview", { headers: headers })
+        fetch(`${process.env.REACT_APP_BACKEND_SERVER}userprofileview`, {
+          headers: headers,
+        })
           .then((res) => {
             return res.json();
           })

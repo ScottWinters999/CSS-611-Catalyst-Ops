@@ -184,16 +184,17 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
     formData.append("image", file);
     // console.log(formData, file);
     try {
-      const response = await fetch("http://localhost:5000/api/upload", {
-        method: "POST",
-        body: formData,
-        headers: headers
-    }
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}upload`,
+        {
+          method: "POST",
+          body: formData,
+          headers: headers,
+        }
       );
       const data = await response.json();
       //console.log(data);
       // if(data)
-      
     } catch (err) {
       console.log(err);
     }

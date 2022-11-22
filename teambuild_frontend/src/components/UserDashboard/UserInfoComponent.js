@@ -179,7 +179,9 @@ const UserInfoComponent = ({ userData }) => {
   useEffect(() => {
     const userPhoto = async () => {
       try {
-        fetch("http://localhost:5000/api/getpicture", { headers: headers })
+        fetch(`${process.env.REACT_APP_BACKEND_SERVER}getpicture`, {
+          headers: headers,
+        })
           .then((res) => {
             // console.log(res)
             return res.json();
@@ -250,10 +252,10 @@ const UserInfoComponent = ({ userData }) => {
       industry: industry,
       phoneNumber: phone,
       city: city,
-      state:  state,
-      country: country
+      state: state,
+      country: country,
     };
-    console.log(body)
+    console.log(body);
 
     try {
       const response = await fetch(
@@ -323,7 +325,6 @@ const UserInfoComponent = ({ userData }) => {
                 // className={classes.textfield}
                 variant="standard"
                 size="small"
-
                 value={firstName}
                 helperText={isnameInvalid ? "Enter a valid name" : ""}
                 onChange={onNameChangeHandler}

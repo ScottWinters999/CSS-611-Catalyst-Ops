@@ -11,8 +11,6 @@ import { CgProfile } from "react-icons/cg";
 import { GrLocation } from "react-icons/gr";
 import { AuthContext } from "../../shared/context/auth-context";
 
-
-
 // const UserInfoOuterWrapper = styled.div`
 //   display: flex;
 //   flex-direction: column;
@@ -127,7 +125,7 @@ const TableDropDownBodyRow = styled.div`
 //   font-style: normal;
 //   font-size: 20px;
 //   line-height: 24px;
-  
+
 //   color: #0C0B0B;
 // `;
 
@@ -137,8 +135,6 @@ const TableDropDownBodyRow = styled.div`
 //  flex-direction: row;
 //   color: #0C0B0B;
 // `;
-
-
 
 const ModalWrapper = {
   height: "78%",
@@ -156,8 +152,7 @@ const ItemActions = {
 const ModalHeader = {
   height: "10%",
   // "font-family": "Montserrat",
-  background:"#264ECA",
-  
+  background: "#264ECA",
 };
 
 const ItemModal = {
@@ -165,35 +160,35 @@ const ItemModal = {
   height: "100%",
 };
 
-
-
 const UserInfoComponent = (props) => {
-  console.log(props)
+  console.log(props);
   const basicInfo = props.userData;
-  const idx = props.idx
-  const deleteMatch=props.deleteSingleMatch
-//   const skillset = props.userData.skillSet;
-  const [skillset,setSkillset] = useState([])
-  const [isEdit,setIsEdit] = useState(false)
+  const idx = props.idx;
+  const deleteMatch = props.deleteSingleMatch;
+  //   const skillset = props.userData.skillSet;
+  const [skillset, setSkillset] = useState([]);
+  const [isEdit, setIsEdit] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
 
   const authorization = "Bearer " + token.token;
-
 
   const [showModal, setShowModal] = useState(false);
 
   const openModalHandler = () => {
     setShowModal(true);
     try {
-      const response = fetch("http://localhost:5000/api/userprofileviewcreate", {
-        method: "POST",
-        body: viewBody,
-        headers: {
-          "Content-Type": "application/json",
-          "authorization":authorization
-        },
-      });
-      const data =  response.json();
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}userprofileviewcreate`,
+        {
+          method: "POST",
+          body: viewBody,
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = response.json();
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -203,18 +198,21 @@ const UserInfoComponent = (props) => {
   const UserAccept = () => {
     closeModalHandler();
     window.location.reload(false);
-    console.log(acceptBody)
+    console.log(acceptBody);
     // deleteMatch(idx)
     try {
-      const newresponse = fetch("http://localhost:5000/api/usergoalmatch", {
-        method: "POST",
-        body: acceptBody,
-        headers: {
-          "Content-Type": "application/json",
-          "authorization":authorization
-        },
-      });
-      const data =  newresponse.json();
+      const newresponse = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}usergoalmatch`,
+        {
+          method: "POST",
+          body: acceptBody,
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = newresponse.json();
       console.log(data);
       window.location.reload(false);
     } catch (err) {
@@ -222,21 +220,23 @@ const UserInfoComponent = (props) => {
     }
   };
 
-
   const UserDiscard = () => {
     closeModalHandler();
-    console.log(discardBody)
-    deleteMatch(idx)
+    console.log(discardBody);
+    deleteMatch(idx);
     try {
-      const response = fetch("http://localhost:5000/api/userdiscard", {
-        method: "POST",
-        body: discardBody,
-        headers: {
-          "Content-Type": "application/json",
-          "authorization":authorization
-        },
-      });
-      const data =  response.json();
+      const response = fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}userdiscard`,
+        {
+          method: "POST",
+          body: discardBody,
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = response.json();
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -247,36 +247,31 @@ const UserInfoComponent = (props) => {
     setShowModal(false);
   };
 
-
-  
-  
   const viewBody = JSON.stringify({
     userUserId: basicInfo.userid,
-    matchedGoal:basicInfo.parentgoal,
+    matchedGoal: basicInfo.parentgoal,
     //skillSetId:basicInfo.skillsetid
   });
 
   const discardBody = JSON.stringify({
     discardUserId: basicInfo.userid,
-    goalId:basicInfo.goalMatchedId,
-    positionId:basicInfo.positionid,
-    goalcompId:basicInfo.goalcomponentid
+    goalId: basicInfo.goalMatchedId,
+    positionId: basicInfo.positionid,
+    goalcompId: basicInfo.goalcomponentid,
   });
-  console.log(discardBody,"discard")
+  console.log(discardBody, "discard");
 
   const acceptBody = JSON.stringify({
     matchedUserId: basicInfo.userid,
-    goalComponentId:basicInfo.goalcomponentid
+    goalComponentId: basicInfo.goalcomponentid,
   });
 
-
-  useEffect(() =>{
-      if(props.userData){
-        setSkillset(props.userData.skillset)
-
-      }
-  })
-  console.log(skillset)
+  useEffect(() => {
+    if (props.userData) {
+      setSkillset(props.userData.skillset);
+    }
+  });
+  console.log(skillset);
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -291,9 +286,6 @@ const UserInfoComponent = (props) => {
     },
     false
   );
-
-
-
 
   const header = (
     <React.Fragment>
@@ -319,19 +311,18 @@ const UserInfoComponent = (props) => {
       <div className={classes.ModalFooter}>
         {/* <button onClick={closeModalHandler}>Close</button> */}
         <div className={classes.footerdiscardbutton}>
-        <div>
-        <button onClick={UserDiscard}>Remove this person</button>
-        </div>
+          <div>
+            <button onClick={UserDiscard}>Remove this person</button>
+          </div>
         </div>
         <div className={classes.footeracceptbutton}>
-        <div>
-        <button onClick={UserAccept}>Accept this person</button>
+          <div>
+            <button onClick={UserAccept}>Accept this person</button>
+          </div>
         </div>
-        </div>
-        </div>
+      </div>
     </React.Fragment>
   );
-
 
   const modal = (
     <Modal
@@ -354,49 +345,45 @@ const UserInfoComponent = (props) => {
             {basicInfo.skillset}
           </div> */}
           <TablebodyCellDropRow>
-          {/* <TableCell /> */}
-          {/* <TablebodyCellDrop> */}
-          {/* <Table> */}
-          <Tableheader>
-            <TableDropDownBodyRow>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Skill
-              </TablebodyCellInner>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Experience in skill
-              </TablebodyCellInner>
-              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+            {/* <TableCell /> */}
+            {/* <TablebodyCellDrop> */}
+            {/* <Table> */}
+            <Tableheader>
+              <TableDropDownBodyRow>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Skill
+                </TablebodyCellInner>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Experience in skill
+                </TablebodyCellInner>
+                {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
-            </TableDropDownBodyRow>
-          </Tableheader>
-          <TableBodyInner>
-            {basicInfo.skillset.map((skills, idx) => (
-              <TableDropDownBodyRow key={idx}>
-                <TablebodyCellInner>
-                  {skills?.skill}
-                </TablebodyCellInner>
-                <TablebodyCellInner>
-                  {skills?.experience}
-                </TablebodyCellInner>
               </TableDropDownBodyRow>
-            ))}
-          </TableBodyInner>
-          {/* </Table> */}
-          {/* </TablebodyCellDrop> */}
-        </TablebodyCellDropRow>
+            </Tableheader>
+            <TableBodyInner>
+              {basicInfo.skillset.map((skills, idx) => (
+                <TableDropDownBodyRow key={idx}>
+                  <TablebodyCellInner>{skills?.skill}</TablebodyCellInner>
+                  <TablebodyCellInner>{skills?.experience}</TablebodyCellInner>
+                </TableDropDownBodyRow>
+              ))}
+            </TableBodyInner>
+            {/* </Table> */}
+            {/* </TablebodyCellDrop> */}
+          </TablebodyCellDropRow>
           <div className={classes.ModalMainInfo}>
             <div className={classes.IconsClass}>
               <GrMail className={classes.IconsSvg} />
@@ -404,8 +391,16 @@ const UserInfoComponent = (props) => {
             <div className={classes.UserContent}>{basicInfo.email}</div>
           </div>
           <div className={classes.ModalMainInfo}>
-            <div className={classes.IconsClass}><GrLocation className={classes.IconsSvg} /></div>
-            <div className={classes.UserContent}><p>{basicInfo.city + ","}{basicInfo.state + ","}{basicInfo.country}</p></div>
+            <div className={classes.IconsClass}>
+              <GrLocation className={classes.IconsSvg} />
+            </div>
+            <div className={classes.UserContent}>
+              <p>
+                {basicInfo.city + ","}
+                {basicInfo.state + ","}
+                {basicInfo.country}
+              </p>
+            </div>
           </div>
         </div>
         {/* {!isValid && <p>'error'</p>} */}
@@ -413,16 +408,8 @@ const UserInfoComponent = (props) => {
     </Modal>
   );
 
+  console.log(basicInfo, skillset, "a");
 
-
-  console.log(basicInfo,skillset,'a');
-  
-  
-  
-  
-  
-  
-  
   // return (
   //   <Card>
   //     <UserInfoOuterWrapper>
@@ -431,7 +418,7 @@ const UserInfoComponent = (props) => {
   //         </UserProfilePhotoWrapper>
   //         <UserProfileNameOutsideWrapper>
   //           <UserProfileNameInsideWrapper>
-  //             {basicInfo.firstname+" "+basicInfo.lastname} 
+  //             {basicInfo.firstname+" "+basicInfo.lastname}
 
   //           </UserProfileNameInsideWrapper>
   //           {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" size="small" /> */}
@@ -456,7 +443,7 @@ const UserInfoComponent = (props) => {
   //         </Rowwrapper>
   //         <Rowwrapper>
   //           <UserProfileInfoBulletinInnerWrapper>
-  //             Goals Matched : 
+  //             Goals Matched :
   //           </UserProfileInfoBulletinInnerWrapper>
   //           <UserProfileInfoBulletinWrapper>
   //           {
@@ -503,11 +490,6 @@ const UserInfoComponent = (props) => {
   //   </Card>
   // );
 
-
-
-
-
-
   return (
     <React.Fragment>
       {modal}
@@ -537,18 +519,20 @@ const UserInfoComponent = (props) => {
             <div>
               <div className={classes.LabelWrapper}>
                 <p>Industry :</p>
-                <span className={classes.ContentWrapper}>{basicInfo.industry}</span>
+                <span className={classes.ContentWrapper}>
+                  {basicInfo.industry}
+                </span>
               </div>
               <div className={classes.LabelWrapper}>
                 <p>Goal Matched :</p>
                 <span className={classes.ContentWrapper}>
-                      {basicInfo.parentgoal}
+                  {basicInfo.parentgoal}
                 </span>
               </div>
               <div className={classes.LabelWrapper}>
                 <p>Role Matched :</p>
                 <span className={classes.ContentWrapper}>
-                      {basicInfo.goalComponent}
+                  {basicInfo.goalComponent}
                 </span>
               </div>
               {/* <div className={classes.LabelWrapper}>
@@ -560,7 +544,7 @@ const UserInfoComponent = (props) => {
               <div className={classes.LabelWrapper}>
                 <p>Experience years:</p>
                 <span className={classes.ContentWrapper}>
-                      {basicInfo.goalExperience} 
+                  {basicInfo.goalExperience}
                 </span>
               </div>
             </div>
@@ -569,8 +553,6 @@ const UserInfoComponent = (props) => {
       </div>
     </React.Fragment>
   );
-
-
 };
 
 export default UserInfoComponent;

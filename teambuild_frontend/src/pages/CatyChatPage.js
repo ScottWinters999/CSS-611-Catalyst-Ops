@@ -6,7 +6,7 @@ import ChatMain from "../components/Chat/ChatMain";
 import ChatUi from "../components/Chat/ChatUi";
 
 import styled from "styled-components";
-import DefaultChat from "../components/Chat/DefaultChat"
+import DefaultChat from "../components/Chat/DefaultChat";
 const Outsidewrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -25,8 +25,8 @@ const CatyChatPage = () => {
     <Outsidewrapper>
       <SidebarNavigation />
       {/* <ChatUiWrapper> */}
-        {/* <ChatUi /> */}
-        <DefaultChat/>
+      {/* <ChatUi /> */}
+      <DefaultChat />
       {/* </ChatUiWrapper> */}
     </Outsidewrapper>
   );
