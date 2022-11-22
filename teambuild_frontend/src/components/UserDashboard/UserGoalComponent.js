@@ -629,7 +629,7 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
     "alignContent": "center",
     "paddingTop": "12px"}}>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
-           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           style={{"border":"none","padding":"4px 22px","background": "rgb(249,0,0)" , color:"white"}}
            onClick={deletecomponentHandler}>yes</button></div>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
           style={{"border":"none","padding":"4px 22px"}}
@@ -853,13 +853,13 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   <div style={{ color: 'blue'}} onClick={()=>openModalHandler(singleGoalComponent)}>{singleGoalComponent?.matcheduserId?.firstName}</div>
                 </TablebodyCellInner>
                     
-                <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
+                {/* <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
                           onClick={() => opendeleteModalHandler(true,singleGoalComponent?.goalcomponentId)}
                       >
                           <MdDeleteOutline
                             style={{ width: "24px", height: "24px" }}
                           />
-                        </TablebodyCellButtonDelete>
+                        </TablebodyCellButtonDelete> */}
 
                 <TablebodyCellButtonDelete
                   onClick={() =>
@@ -1083,7 +1083,7 @@ const UserGoalComponent = ({ data }) => {
     "alignContent": "center",
     "paddingTop": "12px"}}>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
-           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           style={{"border":"none","padding":"4px 22px","background": "rgb(249,0,0)",color:"white"}}
            onClick={deleteHandler}>yes</button></div>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
           style={{"border":"none","padding":"4px 22px"}}
