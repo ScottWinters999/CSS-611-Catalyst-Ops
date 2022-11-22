@@ -353,7 +353,7 @@ const UserSkillComponent = ({ title, data }) => {
   console.log(data, "skills");
   const editSkillHandler = (id) => {
     // console.log(id);
-    history(`/userchat/edit_skill_set/${id}`, {
+    history(`/userchat/edit_position/${id}`, {
       state: {
         editSkill: id,
       },

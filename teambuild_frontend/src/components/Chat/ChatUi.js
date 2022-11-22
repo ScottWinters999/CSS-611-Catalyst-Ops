@@ -1,4 +1,4 @@
-import Widget from "rasa-webchat";
+// import Widget from "rasa-webchat";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -14,7 +14,7 @@ const WidgetWrapper = styled.div`
 `;
 
 const ChatUi = (props) => {
-  console.log(Widget);
+  // console.log(Widget);
   const location = useLocation();
   console.log(location);
   const [connectionEstablished, setConnectionEstablished] = useState(false);
@@ -82,39 +82,39 @@ const ChatUi = (props) => {
     // <>
     <React.Fragment>
       <MainContainer>
-        {embed && (
-          <WidgetWrapper>
-            <Widget
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
-                  calMe();
-                }
-              }}
-              ref={webchatRef}
-              // fullScreenMode={true}
-              embedded={true}
-              socketUrl={"http://0.0.0.0:5005"}
-              onSocketEvent={onSocketEvent}
-              socketPath={"/socket.io/"}
-              customData={{ language: "en", userId: userId }} // arbitrary custom data. Stay minimal as this will be added to the socket
-              title={"Title"}
-              // initPayload={"hi"}
-              // hideWhenNotConnected={true}
-              // showCloseButton={true}
-              // onWidgetEvent = {(onChatOpen) => {
-              //   console.log('hihihiih')
-              // }
-              //  }
-            />
-            <div className="chat-footer">
-              <button className="button-chat">
-                <Link to="/userdashboard" style={{ color: "black" }}>
-                  End Chat
-                </Link>
-              </button>
-            </div>
-          </WidgetWrapper>
-        )}
+        {/* {embed && (
+          // <WidgetWrapper>
+          //   <Widget
+          //     onKeyPress={(event) => {
+          //       if (event.key === "Enter") {
+          //         calMe();
+          //       }
+          //     }}
+          //     ref={webchatRef}
+          //     // fullScreenMode={true}
+          //     embedded={true}
+          //     socketUrl={"http://0.0.0.0:5005"}
+          //     onSocketEvent={onSocketEvent}
+          //     socketPath={"/socket.io/"}
+          //     customData={{ language: "en", userId: userId }} // arbitrary custom data. Stay minimal as this will be added to the socket
+          //     title={"Title"}
+          //     // initPayload={"hi"}
+          //     // hideWhenNotConnected={true}
+          //     // showCloseButton={true}
+          //     // onWidgetEvent = {(onChatOpen) => {
+          //     //   console.log('hihihiih')
+          //     // }
+          //     //  }
+          //   />
+          //   <div className="chat-footer">
+          //     <button className="button-chat">
+          //       <Link to="/userdashboard" style={{ color: "black" }}>
+          //         End Chat
+          //       </Link>
+          //     </button>
+          //   </div>
+          // </WidgetWrapper>
+        )} */}
         {!embed && <div>Please wait for caty to connect...</div>}
       </MainContainer>
     </React.Fragment>

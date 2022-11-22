@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Widget from "rasa-webchat";
+// import Widget from "rasa-webchat";
 import { useParams } from "react-router-dom";
 
 const DefaultChat = () => {
@@ -9,11 +9,19 @@ const DefaultChat = () => {
   console.log(action);
   console.log(id);
 
-  let payload = `/${action}{"edit_id": "${id.toString()}{""}" }`;
+  let payload = `/${action}{"edit_id": "${id.toString()}"}`;
 
-  if (action == "add_new_goal" || action == "new_user") {
+  if (
+    action == "add_new_goal" ||
+    action == "new_user" ||
+    action == "add_position"
+  ) {
     payload = `/${action}{"user_id": "${id.toString()}" }`;
+  } else if (action == "edit_position") {
+    const userId = JSON.parse(localStorage.getItem("userId"));
+    payload = `/${action}{"user_id": "${userId.toString()}" ,"edit_id": "${id.toString()}"}`;
   }
+  // payload = `/${action}{"edit_id": "${id.toString()}"}`
 
   useEffect(() => {
     const script = document.createElement("script");

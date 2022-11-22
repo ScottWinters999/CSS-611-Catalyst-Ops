@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import TablePagination from "@mui/material/TablePagination";
+import Select from "react-select";
 
 import classes from "./Search.module.css";
 
@@ -190,6 +191,8 @@ const UserSearchComponent = () => {
   const [goalflag, setgoalFlag] = useState(1);
   const [experienceflag, setexperienceFlag] = useState(1);
   const [locationflag, setlocationFlag] = useState(1);
+  const [valueflag, setValueFlag] = useState();
+  const [countflag, setCountFlag] = useState(1);
 
   const [roleflag, setroleFlag] = useState(1);
   const [userMatchesToRender, setUserMatchesToRender] = useState();
@@ -205,6 +208,14 @@ const UserSearchComponent = () => {
   console.log(token);
   const authorization = "Bearer " + token.token;
   console.log(authorization);
+
+  const SearchOptions = [
+    { label: "Goal", value: 1 },
+    { label: "Role", value: 2 },
+    { label: "Location", value: 3 },
+    { label: "Experience", value: 4 },
+  ];
+
   // const user
   const headers = {
     authorization: "Bearer " + token.token,
@@ -598,6 +609,7 @@ const UserSearchComponent = () => {
   };
 
   const Flagsetter = () => {
+    console.log(SearchOptions, "searchoption");
     setFlag(0);
   };
   const FlagNull = () => {
@@ -607,6 +619,9 @@ const UserSearchComponent = () => {
     setInputExperienceValue("");
     setInputLocationValue("");
     setUsersviewed(userMatches);
+  };
+  const incrementFlag = () => {
+    setCountFlag(countflag + 1);
   };
 
   return (
@@ -620,34 +635,46 @@ const UserSearchComponent = () => {
             <div>
               <p className={classes.filtertext}>Apply Your Filters Here:</p>
               <div className={classes.SearchBarWrapper}>
-                <div className={classes.SearchBarWrapperInner}>
-                  <input
-                    value={inputGoalValue}
-                    onChange={searchFilterGoalHandler}
-                    placeholder="Type to search Goal..."
-                  />
-                </div>
-                <div className={classes.SearchBarWrapperInner}>
-                  <input
-                    value={inputRoleValue}
-                    onChange={searchFilterRoleHandler}
-                    placeholder="Type to search Role..."
-                  />
-                </div>
-                <div className={classes.SearchBarWrapperInner}>
-                  <input
-                    value={inputExperienceValue}
-                    onChange={searchFilterExperienceHandler}
-                    placeholder="Type to search Experience..."
-                  />
-                </div>
-                <div className={classes.SearchBarWrapperInner}>
-                  <input
-                    value={inputLocationValue}
-                    onChange={searchFilterLocationHandler}
-                    placeholder="Type to search Location..."
-                  />
-                </div>
+                <Select
+                  options={SearchOptions}
+                  onChange={(opt) => setValueFlag(opt.value)}
+                />
+                {valueflag === 1 && (
+                  <div className={classes.SearchBarWrapperInner}>
+                    <input
+                      value={inputGoalValue}
+                      onChange={searchFilterGoalHandler}
+                      placeholder="Type to search Goal..."
+                    />
+                  </div>
+                )}
+                {valueflag === 2 && (
+                  <div className={classes.SearchBarWrapperInner}>
+                    <input
+                      value={inputRoleValue}
+                      onChange={searchFilterRoleHandler}
+                      placeholder="Type to search Role..."
+                    />
+                  </div>
+                )}
+                {valueflag === 3 && (
+                  <div className={classes.SearchBarWrapperInner}>
+                    <input
+                      value={inputExperienceValue}
+                      onChange={searchFilterExperienceHandler}
+                      placeholder="Type to search Experience..."
+                    />
+                  </div>
+                )}
+                {valueflag === 4 && (
+                  <div className={classes.SearchBarWrapperInner}>
+                    <input
+                      value={inputLocationValue}
+                      onChange={searchFilterLocationHandler}
+                      placeholder="Type to search Location..."
+                    />
+                  </div>
+                )}
                 <Button
                   style={{ background: "darkorange", color: "white" }}
                   onClick={Flagsetter}
@@ -655,6 +682,12 @@ const UserSearchComponent = () => {
                   Search
                 </Button>
               </div>
+              <Button
+                style={{ background: "darkorange", color: "white" }}
+                onClick={incrementFlag}
+              >
+                Add New Filter
+              </Button>
             </div>
           )}
           {flag === 0 && (

@@ -19,7 +19,7 @@ const UserInfoOuterWrapper = styled.div`
   // box-shadow: -1px 8px 65px 0px rgb(164 164 181 / 58%);
 }
   @media (max-width: 1200px) {
-    padding: 20px 16px;
+    padding: 0px 16px;
   }
 `;
 const UserNameContainer = styled.div`
@@ -35,7 +35,7 @@ const UserProfilePhotoWrapper = styled.div`
 `;
 
 const UserProfileNameOutsideWrapper = styled.div`
-  width: 60%;
+  width: 100%;
 `;
 
 const UserProfileNameInsideWrapper = styled.div`
@@ -297,7 +297,7 @@ const UserInfoComponent = ({ userData }) => {
     <Card>
       <UserInfoOuterWrapper>
         <UserNameContainer>
-          <UserProfilePhotoWrapper>
+          {/* <UserProfilePhotoWrapper>
             <ImageUpload
               center
               id="image"
@@ -306,7 +306,7 @@ const UserInfoComponent = ({ userData }) => {
               isEdit={isEdit}
               img={photoUrl}
             />
-          </UserProfilePhotoWrapper>
+          </UserProfilePhotoWrapper> */}
           <UserProfileNameOutsideWrapper>
             {/* <UserProfileNameInsideWrapper>
               {basicInfo.userName}
@@ -335,7 +335,7 @@ const UserInfoComponent = ({ userData }) => {
                 {firstName}
               </UserProfileNameInsideWrapper>
             )}
-
+            <div>
             <UserProfileLocationWrapper>
               {isEdit && (
                 <TextField
@@ -375,6 +375,8 @@ const UserInfoComponent = ({ userData }) => {
               )}
               {!isEdit && <React.Fragment>{country}</React.Fragment>}
             </UserProfileLocationWrapper>
+            </div>
+
           </UserProfileNameOutsideWrapper>
         </UserNameContainer>
         <Hr />
