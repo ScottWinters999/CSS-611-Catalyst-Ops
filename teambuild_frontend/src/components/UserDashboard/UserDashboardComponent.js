@@ -76,13 +76,32 @@ const SectionTwoLeftInnerWrapper = styled.div`
   //   justify-content: flex-end;
   width: 94%;
   justify-content: center;
-  padding: 6px 24px;
+  padding: 0px 24px;
   height: 80%;
   @media (max-width: 1200px) {
     width: 80%;
   }
   @media (max-height: 1200px) {
     height: 100%;
+  }
+
+  @media (max-width: 760px) {
+    width: 100%;
+  }
+`;
+
+const SectionTwoLeftInnerWrapperSkill = styled.div`
+  display: flex;
+  //   justify-content: flex-end;
+  width: 94%;
+  justify-content: center;
+  padding: 0px 24px;
+  height: 80%;
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+  @media (max-height: 1200px) {
+    height: 45%;
   }
 
   @media (max-width: 760px) {
@@ -316,7 +335,7 @@ const UserDashboardComponent = () => {
           <SectionTwoLeftInnerWrapper>
             <UserInfoComponent userData={userData.basicUserInfo} />
           </SectionTwoLeftInnerWrapper>
-          <SectionTwoLeftInnerWrapper>
+          <SectionTwoLeftInnerWrapperSkill>
             {/* <SkillWrapper> */}
             <UserSkillComponent
               title="Positions"
@@ -324,7 +343,7 @@ const UserDashboardComponent = () => {
             />
             {/* <UserSkillComponent data={userData.experience} /> */}
             {/* </SkillWrapper> */}
-          </SectionTwoLeftInnerWrapper>
+          </SectionTwoLeftInnerWrapperSkill>
         </SectionTwoLeft>
         <SectionTwoRight>
           <SectionTwoRightInnerWrapper>

@@ -391,7 +391,7 @@ const UserSkillComponent = ({ title, data }) => {
                 >
                   <Button>
                     <ButtonInner>
-                      <GoalAdd>Add New Skill</GoalAdd>
+                      <GoalAdd>Add New Position</GoalAdd>
                       <AiOutlinePlus
                         style={{
                           color: "white",

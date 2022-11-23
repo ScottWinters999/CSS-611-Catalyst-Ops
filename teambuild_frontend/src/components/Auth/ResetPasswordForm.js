@@ -173,7 +173,7 @@ const ResetPasswordForm = (props) => {
     // } else {
     //   try {
     //     const response = await fetch(
-    //       "http://localhost:5000/api/forgetpassword",
+    //       "${process.env.REACT_APP_BACKEND_SERVER}forgetpassword",
     //       {
     //         method: "POST",
     //         body: body,
