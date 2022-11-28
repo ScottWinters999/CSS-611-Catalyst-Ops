@@ -185,10 +185,10 @@ const UserSearchComponent = () => {
   const [userMatchesFilter, setUserMatchesFilter] = useState([]);
   const [usersviewed, setUsersviewed] = useState([]);
   const [inputValue, setInput] = useState();
-  const [inputGoalValue, setInputGoalValue] = useState();
-  const [inputRoleValue, setInputRoleValue] = useState();
-  const [inputExperienceValue, setInputExperienceValue] = useState();
-  const [inputLocationValue, setInputLocationValue] = useState();
+  const [inputGoalValue, setInputGoalValue] = useState("");
+  const [inputRoleValue, setInputRoleValue] = useState("");
+  const [inputExperienceValue, setInputExperienceValue] = useState("");
+  const [inputLocationValue, setInputLocationValue] = useState("");
   const [flag, setFlag] = useState(1);
   const [goalflag, setgoalFlag] = useState(1);
   const [experienceflag, setexperienceFlag] = useState(1);
@@ -663,7 +663,6 @@ const UserSearchComponent = () => {
     setUsersviewed(userMatches);
   };
 
-  const [showAll, setShowAll] = useState(false);
   const [showGole, setShowGole] = useState(false);
   const [showRole, setShowRole] = useState(false);
   const [showExperience, setShowExperience] = useState(false);
@@ -672,9 +671,6 @@ const UserSearchComponent = () => {
   console.log(optainoValue);
 
   useEffect(() => {
-    if (optainoValue === "All") {
-      setShowAll(true);
-    }
     if (optainoValue === "Goal") {
       setShowGole(true);
     }
@@ -695,13 +691,21 @@ const UserSearchComponent = () => {
     <React.Fragment>
       <MainContainer>
         <header className={classes.Header}>
-          Hi {name}, Find your potential matches
+          Hi {name},Find your potential matches
         </header>
         <div className={classes.TableWrapper}>
           {flag === 1 && (
             <div>
               <p className={classes.filtertext}>Apply Your Filters Here:</p>
-
+              <div>
+                <div className={classes.inputDiv}>
+                  <input
+                    value={inputValue}
+                    onChange={searchAll}
+                    placeholder="Type to search..."
+                  />
+                </div>
+              </div>
               <div className={classes.filterWaper}>
                 <div className={classes.selectWapper}>
                   <select
@@ -710,28 +714,14 @@ const UserSearchComponent = () => {
                     onChange={(e) => setOptainoValue(e.target.value)}
                   >
                     <option>Add Filter</option>
-                    <option value="All">Search All</option>
-                    <option value="Goal">Search Goal</option>
-                    <option value="Role">Search Role</option>
-                    <option value="Experience">Search Experience</option>
-                    <option value="Location">Search Location</option>
+                    <option value="Goal">search Goal</option>
+                    <option value="Role">search Role</option>
+                    <option value="Experience">search Experience</option>
+                    <option value="Location">search Location</option>
                   </select>
                 </div>
+
                 <div>
-                  {showAll && (
-                    <div>
-                      <div className={classes.inputDiv}>
-                        <input
-                          value={inputValue}
-                          onChange={searchAll}
-                          placeholder="Type to search..."
-                        />
-                        <button onClick={() => setShowAll(false)}>
-                          <ImCross />
-                        </button>
-                      </div>
-                    </div>
-                )}
                   {showGole && (
                     <div>
                       <div className={classes.inputDiv}>
@@ -807,6 +797,15 @@ const UserSearchComponent = () => {
             <div className={classes.filterdiv}>
               <div>
               <p className={classes.filtertext}>Apply Your Filters Here:</p>
+              <div>
+                <div className={classes.inputDiv}>
+                  <input
+                    value={inputValue}
+                    onChange={searchAll}
+                    placeholder="Type to search..."
+                  />
+                </div>
+              </div>
               <div className={classes.filterWaper}>
                 <div className={classes.selectWapper}>
                   <select
@@ -815,29 +814,14 @@ const UserSearchComponent = () => {
                     onChange={(e) => setOptainoValue(e.target.value)}
                   >
                     <option>Add Filter</option>
-                    <option value="All">Search All</option>
-                    <option value="Goal">Search Goal</option>
-                    <option value="Role">Search Role</option>
-                    <option value="Experience">Search Experience</option>
-                    <option value="Location">Search Location</option>
+                    <option value="Goal">search Goal</option>
+                    <option value="Role">search Role</option>
+                    <option value="Experience">search Experience</option>
+                    <option value="Location">search Location</option>
                   </select>
                 </div>
-                <div>
-                  {showAll && (
-                      <div>
-                        <div className={classes.inputDiv}>
-                          <input
-                            value={inputValue}
-                            onChange={searchAll}
-                            placeholder="Type to search..."
-                          />
-                          <button onClick={() => setShowAll(false)}>
-                            <ImCross />
-                          </button>
-                        </div>
-                      </div>
-                  )}
 
+                <div>
                   {showGole && (
                     <div>
                       <div className={classes.inputDiv}>
