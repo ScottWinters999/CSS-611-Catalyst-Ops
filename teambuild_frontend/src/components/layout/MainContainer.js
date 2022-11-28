@@ -4,7 +4,7 @@ import SidebarNavigation from "./SidebarNavigation";
 
 
 const Innerwrapper = styled.div`
-  height: 100vh;
+  height: max-content;
   width: 100%;
   background-color: white;
   border-radius: 20px;

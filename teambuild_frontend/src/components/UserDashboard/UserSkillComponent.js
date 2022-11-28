@@ -428,14 +428,12 @@ const UserSkillComponent = ({ title, data }) => {
                       <SingleSkill style={{ width: "40%" }}>
                         {val.positionExperience}
                       </SingleSkill>
-                      <SingleSkillEdit>
-                        <BsPencilFill
-                          onClick={() =>
+                      <SingleSkillEdit  onClick={() =>
                             editSkillHandler(
                               val.skillset[0]?.userpositionPositionId
                             )
-                          }
-                        />
+                          }>
+                        <BsPencilFill/>
                       </SingleSkillEdit>
                     </ExpandableTableRow>
                   </SkillSetWrap>

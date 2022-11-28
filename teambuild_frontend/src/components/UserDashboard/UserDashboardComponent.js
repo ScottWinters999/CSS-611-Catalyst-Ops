@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import UserContext from "../../shared/context/user-context";
 // const
 const UserDashboardWrapper = styled.div`
-  height: 100vh;
+  height: max-content;
   width: 80%;
   background-color: white;
   border-radius: 20px;
@@ -125,7 +125,7 @@ const SkillWrapper = styled.div`
 
 const SectionTwoRightInnerWrapper = styled.div`
   display: flex;
-  height: 90%;
+  height: 40rem;
   //   justify-content: flex-end;
   justify-content: center;
   padding: 26px 24px;
