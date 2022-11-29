@@ -184,7 +184,6 @@ const UserSearchComponent = () => {
   const [userMatches, setUserMatches] = useState();
   const [userMatchesFilter, setUserMatchesFilter] = useState([]);
   const [usersviewed, setUsersviewed] = useState([]);
-  const [inputValue, setInput] = useState();
   const [inputGoalValue, setInputGoalValue] = useState("");
   const [inputRoleValue, setInputRoleValue] = useState("");
   const [inputExperienceValue, setInputExperienceValue] = useState("");
@@ -407,41 +406,6 @@ const UserSearchComponent = () => {
     console.log(userMatches);
   }
   console.log(userMatchesFilter);
-
-  const searchAll = (event) => {
-    console.log(event.target.value);
-    if (flag === 1) {
-      const lowercasedValue = event.target.value.toLowerCase().trim();
-      setInputLocationValue(lowercasedValue);
-      if (lowercasedValue === "") {
-        setInputLocationValue("");
-        console.log(inputLocationValue.length, "inputvalue");
-      } else {
-        setlocationFlag(0);
-        const excludeColumns = [];
-
-        const includeColumns = ["lastname", "email", "parentgoal", "positionid", "skillset", "userid", "goalMatchedId", "goalcomponentid", "firstname", "goalMapped", "industry",  "goalComponent", "goalExperience", 
-        "city", "state", "country"];
-
-        const filteredData = usersviewed.filter((item) => {
-          console.log(Object.keys(item));
-          return Object.keys(item).some((key) => {
-            console.log(key, "keyaasdsadsad");
-            console.log(excludeColumns, "key");
-
-            return excludeColumns.includes(key)
-              ? false
-              : item[key]?.toString().toLowerCase().includes(lowercasedValue);
-          });
-        });
-        console.log(filteredData, "filetred");
-        setUsersviewed(filteredData);
-      }
-    }
-    console.log(usersviewed);
-    console.log(inputRoleValue.length, "inputvaluenew");
-  };
-
   const searchFilterGoalHandler = (event) => {
     if (flag === 1) {
       console.log(event.target.value);
@@ -654,7 +618,6 @@ const UserSearchComponent = () => {
   };
   const FlagNull = () => {
     setFlag(1);
-    setInput();
     setInputRoleValue("");
     setInputGoalValue("");
     setInputExperienceValue("");
@@ -697,15 +660,7 @@ const UserSearchComponent = () => {
           {flag === 1 && (
             <div>
               <p className={classes.filtertext}>Apply Your Filters Here:</p>
-              <div>
-                <div className={classes.inputDiv}>
-                  <input
-                    value={inputValue}
-                    onChange={searchAll}
-                    placeholder="Type to search..."
-                  />
-                </div>
-              </div>
+
               <div className={classes.filterWaper}>
                 <div className={classes.selectWapper}>
                   <select
@@ -791,107 +746,57 @@ const UserSearchComponent = () => {
                   </Button>
                 </div>
               </div>
+
+              {/* <div className={classes.SearchBarWrapper}>
+                <div className={classes.SearchBarWrapperInner}>
+                  <input
+                    value={inputGoalValue}
+                    onChange={searchFilterGoalHandler}
+                    placeholder="Type to search Goal..."
+                  />
+                </div>
+                <div className={classes.SearchBarWrapperInner}>
+                  <input
+                    value={inputRoleValue}
+                    onChange={searchFilterRoleHandler}
+                    placeholder="Type to search Role..."
+                  />
+                </div>
+                <div className={classes.SearchBarWrapperInner}>
+                  <input
+                    value={inputExperienceValue}
+                    onChange={searchFilterExperienceHandler}
+                    placeholder="Type to search Experience..."
+                  />
+                </div>
+                <div className={classes.SearchBarWrapperInner}>
+                  <input
+                    value={inputLocationValue}
+                    onChange={searchFilterLocationHandler}
+                    placeholder="Type to search Location..."
+                  />
+                </div>
+                <Button
+                  style={{ background: "darkorange", color: "white" }}
+                  onClick={Flagsetter}
+                >
+                  Search
+                </Button>
+              </div> */}
             </div>
           )}
           {flag === 0 && (
             <div className={classes.filterdiv}>
-              <div>
-              <p className={classes.filtertext}>Apply Your Filters Here:</p>
-              <div>
-                <div className={classes.inputDiv}>
-                  <input
-                    value={inputValue}
-                    onChange={searchAll}
-                    placeholder="Type to search..."
-                  />
-                </div>
-              </div>
-              <div className={classes.filterWaper}>
-                <div className={classes.selectWapper}>
-                  <select
-                    name="cars"
-                    id="cars"
-                    onChange={(e) => setOptainoValue(e.target.value)}
-                  >
-                    <option>Add Filter</option>
-                    <option value="Goal">search Goal</option>
-                    <option value="Role">search Role</option>
-                    <option value="Experience">search Experience</option>
-                    <option value="Location">search Location</option>
-                  </select>
-                </div>
-
-                <div>
-                  {showGole && (
-                    <div>
-                      <div className={classes.inputDiv}>
-                        <input
-                          value={inputGoalValue}
-                          onChange={searchFilterGoalHandler}
-                          placeholder="Type to search Goal..."
-                        />
-                        <button onClick={() => setShowGole(false)}>
-                          <ImCross />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {showRole && (
-                    <div>
-                      <div className={classes.inputDiv}>
-                        <input
-                          value={inputRoleValue}
-                          onChange={searchFilterRoleHandler}
-                          placeholder="Type to search Role..."
-                        />
-                        <button onClick={() => setShowRole(false)}>
-                          <ImCross />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {showExperience && (
-                    <div>
-                      <div className={classes.inputDiv}>
-                        <input
-                          value={inputExperienceValue}
-                          onChange={searchFilterExperienceHandler}
-                          placeholder="Type to search Experience..."
-                        />
-                        <button onClick={() => setShowExperience(false)}>
-                          <ImCross />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {showLocation && (
-                    <div>
-                      <div className={classes.inputDiv}>
-                        <input
-                          value={inputLocationValue}
-                          onChange={searchFilterLocationHandler}
-                          placeholder="Type to search Location..."
-                        />
-                        <button onClick={() => setShowLocation(false)}>
-                          <ImCross />
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <Button
-                    style={{ background: "darkorange", color: "white" }}
-                    onClick={FlagNull}
-                  >
-                    Search
-                  </Button>
-                </div>
-              </div>
-            </div>
+              <Button
+                style={{
+                  background: "darkorange",
+                  color: "white",
+                  width: "35%",
+                }}
+                onClick={FlagNull}
+              >
+                New Search
+              </Button>
             </div>
           )}
 

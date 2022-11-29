@@ -11,16 +11,17 @@ const DefaultChat = () => {
 
   let payload = `/${action}{"edit_id": "${id.toString()}"}`;
 
-  if (
-    action == "add_new_goal" ||
-    action == "new_user" ||
-    action == "add_position"
-  ) {
-    payload = `/${action}{"user_id": "${id.toString()}" }`;
-  } else if (action == "edit_position") {
-    const userId = JSON.parse(localStorage.getItem("userId"));
-    payload = `/${action}{"user_id": "${userId.toString()}" ,"edit_id": "${id.toString()}"}`;
-  }
+  // if (
+  //   action == "add_new_goal" ||
+  //   action == "new_user" ||
+  //   action == "add_position"
+  // ) {
+  const userId = JSON.parse(localStorage.getItem("userId"));
+  payload = `/${action}{"user_id": "${userId.toString()}" ,"edit_id": "${id.toString()}"}`;
+  // } else if (action == "edit_position") {
+  //   const userId = JSON.parse(localStorage.getItem("userId"));
+  //   payload = `/${action}{"user_id": "${userId.toString()}" ,"edit_id": "${id.toString()}"}`;
+  // }
   // payload = `/${action}{"edit_id": "${id.toString()}"}`
 
   const [dimensions, setDimensions] = useState({
@@ -85,8 +86,8 @@ const DefaultChat = () => {
         data-width={dimensions.width * 0.87}
         data-height={dimensions.height * 0.8}
         data-initial-payload={payload}
-        data-websocket-url="http://34.162.181.89:5005/"
-        ></div>
+        data-websocket-url="http://34.69.203.178:5005/"
+      ></div>
       <div id="hey"></div>
 
       {/* <script src="https://unpkg.com/@rasahq/rasa-chat" type="application/javascript"></script> */}
