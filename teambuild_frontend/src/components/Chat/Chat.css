@@ -52,22 +52,39 @@
   
   .chat-window {
     width: 86%;
-    height: 60%;
+    height: 94%;
+  }
+
+  .message-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   }
 
   .message-content p{
     font-size: 18px;
     font-family: sans-serif;
-    font-weight: 700;
+    word-spacing: 2px;
+    /* text-align: justify; */
+    /* font-weight: 700; */
   }
-  .message-content  button{
-    background: white;
+  .message-content-button{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .message-content-button  button{
+    background: #d3d5f7;
     border: none;
     padding: 6px 22px;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: 600;
     font-family: sans-serif;
+    width: 94%;
+    box-shadow: -1px 8px 65px 0px rgba(204, 204, 232, 0.74);
   }
 
   .message-content-button-wrapper{
@@ -76,13 +93,14 @@
 
   
 
-  .message-content  button:hover{
+  .message-content-button  button:hover{
     background: rgb(213, 207, 207);
     cursor: pointer;
   }
 
   .message-content-wrapper{
-    background-color: #f0f7ff;
+    background-color: #ffffff;
+    min-width: 8rem;
   }
   
   .chat-window p {
@@ -90,7 +108,8 @@
   }
   .chat-window .chat-header {
     height: 45px;
-    border-radius: 6px;
+    border-radius: 24px 24px 0px 0px;
+    /* border-radius: 6px; */
     background: #F7F7F7;;
     position: relative;
     cursor: pointer;
@@ -102,10 +121,14 @@
     font-weight: 700;
     line-height: 45px;
   }
+
+  .send-message-wrapper{
+    display: flex;
+  }
   
   .chat-window .chat-body {
-    height: calc(750px - (45px + 70px));
-    border: 1px solid #263238;
+    height: 94%;
+    /* border: 1px solid #263238; */
     background: #fff;
   
     position: relative;
@@ -137,7 +160,7 @@
     display: flex;
     align-items: center;
     margin: 12px 10px;
-    padding: 14px 12px;
+    padding: 18px 34px;
     overflow-wrap: break-word;
     word-break: break-word;
   }
@@ -161,7 +184,7 @@
   
   #other .message-content {
     justify-content: flex-end;
-    background-color: #001835;
+    background-color: #867e7e;
     border-radius: 41.59px 41.5946px 0px;
   }
   
@@ -174,6 +197,34 @@
     margin-left: 10px;
     font-weight: bold;
   }
+
+  .send-message{
+    width: 4rem;
+    background: #587ceb;
+    /* border-radius: 4px; */
+    border: none;
+  }
+
+  .send-message-wrapper .send-message:hover{
+    background: #4e6dcd;
+    cursor: pointer;
+  }
+
+  .end-message{
+    width: 7rem;
+    color: white;
+    background: #d9a0b0;
+    border: none;
+    font-size: 16px;
+    border-radius: 0px 0px 12px 0px;
+  }
+
+  .end-message:hover{
+    background: #ce597a;
+    cursor: pointer;
+  }
+
+  
   
   .chat-window .chat-body .message .message-meta {
     display: flex;
@@ -181,10 +232,11 @@
   }
   
   .chat-window .chat-footer {
-    height: 40px;
-    border: 1px solid #263238;
+    height: 6%;
+    /* border: 1px solid #263238; */
     border-top: none;
     display: flex;
+    
   }
   
   .chat-window .chat-footer input {
@@ -194,23 +246,23 @@
     padding: 0 0.7em;
     font-size: 1em;
     border-right: 1px dotted #607d8b;
-  
+    background: #e8f0ff;
     outline: none;
     font-family: "Open Sans", sans-serif;
+    border-radius: 0px 0px 0px 12px;
   }
-  
+/*   
   .chat-window .chat-footer button {
-    border: 1px solid #0047FF;
+    border: none;
     display: grid;
     place-items: center;
     cursor: pointer;
-    flex: 15%;
+    flex: 15% 1;
     height: 100%;
-    background-color: #F5F5F5;
+    background-color: #eeeeee;
     outline: none;
     font-size: 25px;
     color: #0F82FF;
-    border-radius: 20px;
   }
   .chat-window .chat-footer button2 {
     border: 1px solid #0047FF;
@@ -224,11 +276,11 @@
     font-size: 25px;
     color: #0F82FF;
     border-radius: 20px;
-  }
+  } */
   
-  .chat-window .chat-footer button:hover {
+  /* .chat-window .chat-footer button:hover {
     color: #43a047;
-  }
+  } */
   .hide {
     opacity: 0 !important;
   }

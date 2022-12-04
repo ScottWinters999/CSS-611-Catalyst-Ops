@@ -61,3 +61,31 @@
   opacity: 0;
   transition: all 200ms;
 }
+
+
+.ButtonModal {
+  border: none !important;
+  padding: 4px 22px !important;
+  background: rgb(249,0,0) !important;
+  color: white !important;
+}
+
+.ButtonModal:hover {
+
+  background: rgb(180, 3, 3) !important;
+  cursor: pointer;
+  
+}
+
+.ButtonModalClose {
+  border: none !important;
+  padding: 4px 22px !important;
+  background: rgb(212, 210, 210) !important;
+  color: rgb(0, 0, 0) !important;
+}
+
+.ButtonModalClose:hover {
+
+  background: rgb(168, 163, 163) !important;
+  cursor: pointer;
+}

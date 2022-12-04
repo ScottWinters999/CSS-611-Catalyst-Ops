@@ -6,11 +6,13 @@ const UserContext = createContext({
   isPremiumUser:null,
   location:null,
   phone:null,
+  chatSession:null,
   onSetUserName: (name) => {},
   onSetPhone: (phone) => {},
   onSetPremiumUser: (isPremium) => {},
   onSetLocation: (location) => {},
   onSetEmail: (email) => {},
+  onSetChat: (chatsessionMessage) => {}
   //   onSetGoalName: () => {},
 });
 
@@ -21,7 +23,7 @@ export const UserContextProvider = (props) => {
   const [location, setLocation] = useState("");
   const [phone, setPhone] = useState("");
   const [goalId, setGoalId] = useState("");
-
+  const [chatSession,setChatSession] = useState([])
 
   const setUserNameHandler = (name) => {
     setUserName(name);
@@ -43,6 +45,12 @@ export const UserContextProvider = (props) => {
     setGoalId(goal);
   };
 
+  const setChatSessionHandler = (chatsessionMessage) => {
+    console.log('settt',chatsessionMessage)
+    setChatSession(chatsessionMessage)
+    console.log(chatSession)
+  }
+
 
 //   useEffect
 
@@ -55,7 +63,8 @@ export const UserContextProvider = (props) => {
         onSetLocation:setLocationHandler,
         onSetPremiumUser:setPremiumUserHandler,
         onSetUserName: setUserNameHandler,
-        onSetGoalId: setGoalIdHandler
+        onSetGoalId: setGoalIdHandler,
+        onSetChat: setChatSessionHandler
       }}
     >
       {props.children}

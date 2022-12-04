@@ -16,6 +16,8 @@ import UserContext from "../../shared/context/user-context";
 const UserDashboardWrapper = styled.div`
   height: max-content;
   width: 80%;
+
+  min-height: 100%;
   background-color: white;
   border-radius: 20px;
   padding: 18px 16px;

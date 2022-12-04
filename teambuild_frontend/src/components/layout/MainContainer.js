@@ -5,6 +5,8 @@ import SidebarNavigation from "./SidebarNavigation";
 
 const Innerwrapper = styled.div`
   height: max-content;
+
+  min-height: 100%;
   width: 100%;
   background-color: white;
   border-radius: 20px;
@@ -14,6 +16,7 @@ const Innerwrapper = styled.div`
   flex-direction: column;
   @media (max-width: 1200px) {
     height: fit-content;
+    min-height: 100%;
   }
 
   @media (max-height: 1100px) {
