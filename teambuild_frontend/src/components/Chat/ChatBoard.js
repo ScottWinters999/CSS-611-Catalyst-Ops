@@ -34,8 +34,10 @@ function Chat() {
       }
     } else {
       localStorage.setItem("chatSession", []);
-      
-      sendMessageToRasa("/greet")
+      if(action =="greet"){
+        sendMessageToRasa("/greet")
+
+      }
     }
     if (userCtx.chatSession) {
       console.log(userCtx.chatSession);

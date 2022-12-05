@@ -852,7 +852,7 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner style={{fontSize:"14px"}}>
-                  {singleGoalComponent.city + ","}{singleGoalComponent.state + ","}{singleGoalComponent.country}
+                  {singleGoalComponent.city?singleGoalComponent.city+ ",":'-' }{singleGoalComponent.state?singleGoalComponent.state + ",":"-"}{singleGoalComponent.country?singleGoalComponent.country:"-"}
                 </TablebodyCellInner>
                 <TablebodyCellInner >
                   <div style={{ color: 'blue'}} onClick={()=>openModalHandler(singleGoalComponent)}>{singleGoalComponent?.matcheduserId?.firstName}</div>
