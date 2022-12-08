@@ -321,6 +321,10 @@ module.exports = {
       if(goalCompDetails){
         goalComp['goalcomp']=goalCompDetails.dataValues.goalComponent;
         goalComp['goalComponentId']=goalCompDetails.dataValues.goalComponentId;
+        goalComp['goalComponentExperience']= goalCompDetails.dataValues.experienceRequired;
+        goalComp['city']= goalCompDetails.dataValues.city;
+        goalComp['state']= goalCompDetails.dataValues.state;
+        goalComp['country']= goalCompDetails.dataValues.country;
         let goalCompSkill=[];
         for(let i=0;i<goalCompDetails.dataValues.goalcomponentskills.length;i++){
           let components= goalCompDetails.dataValues.goalcomponentskills[i].dataValues;
