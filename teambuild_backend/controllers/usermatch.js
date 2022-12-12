@@ -216,8 +216,8 @@ module.exports = {
 };
 
 async function compareMatch(goalComponent, positionSkill, discardList) {
-  //   console.log("goalcomp", goalComponent);
-  //   console.log("posskill", positionSkill);
+    // console.log("goalcomp", goalComponent);
+    // console.log("posskill", positionSkill);
   let finalList = [];
   for (let i = 0; i < goalComponent.length; i++) {
     let goalcomp = goalComponent[i];
@@ -264,11 +264,11 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
           posskill.positionExperience >= goalcomp[g].experience &&
           locationFlag
         ) {
-          //console.log(253, posskill.position, " ", goalcomp[g].goalcomponent);
+          // console.log(253, posskill.position, " ", goalcomp[g].goalcomponent);
           let matchlength = goalcomp[g].skills.length;
           let matchData = {};
           for (let k = 0; k < posskill.skillset.length; k++) {
-            //console.log(posskill.skillset[k]);
+            // console.log(271,posskill.skillset[k]);
 
             for (
               let gcskill = 0;
@@ -276,13 +276,15 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
               gcskill++
             ) {
               //console.log(goalcomp[g].skills[gcskill]);
+              console.log(279,goalcomp[g].skills[gcskill].skill.toLowerCase() ==
+                  posskill.skillset[k].skillset.toLowerCase() );
+              console.log(281, Number( goalcomp[g].skills[gcskill].experience)<= Number( posskill.skillset[k].experience ))
               if (
                 goalcomp[g].skills[gcskill].skill.toLowerCase() ==
                   posskill.skillset[k].skillset.toLowerCase()  &&
-                goalcomp[g].skills[gcskill].experience <=
-                  posskill.skillset[k].experience
+                Number( goalcomp[g].skills[gcskill].experience)<= Number( posskill.skillset[k].experience )
               ) {
-                //console.log("match found");
+                console.log(288, "match found");
                 matchlength--;
                 //console.log(matchlength);
               }
@@ -312,7 +314,7 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
     }
     //console.log(goalcomp);
   }
-  //console.log(287, finalList);
+  // console.log(287, finalList);
   if (discardList.length == 0) {
     //console.log(287, finalList);
     return finalList;
