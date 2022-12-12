@@ -2,14 +2,29 @@ import { TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 import styled from "styled-components";
 import Card from "../UI/Card";
 import { BsPencilFill } from "react-icons/bs";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { width } from "@mui/system";
 import { Link } from "react-router-dom";
 import { AiOutlinePlus } from "react-icons/ai";
+import { MdDeleteOutline } from "react-icons/md";
+import classes from "./UserInfo.module.css";
 
+// import {
+//   modaldeleteFooter,
+//   showModal,
+//   modalFooter,
+//   ItemActions,
+//   header,
+//   ModalWrapper2,
+//   closeModalHandler,
+//   ModalHeader,
+//   ItemModal2,
+// } from "./UserPositionDeleteModalComponent/UserPositionDeleteComponent";
+import Modal from "../UI/Modal";
+import UserPositionDeleteComponent from "./UserPositionDeleteModalComponent/UserPositionDeleteComponent";
 const SkillInfoOuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -113,23 +128,27 @@ width:100%;
 const SkillSetWrap = styled.div`
   display: flex;
   // box-shadow: -1px 8px 65px 0px rgb(115 115 129 / 58%);
-  margin: 4px 14px;
-  padding: 10px 18px;
+  margin: 4px 0px;
+  padding: 10px 2px;
   border-radius: 4px;
 `;
 
 const SingleSkill = styled.div`
   display: flex;
-  justify-content: space-around;
+  padding: 8px 6px;
+  display: flex;
+  align-items: center;
+  width: 100% !important;
+  justify-content: center;
 `;
 
 const SingleSkillEdit = styled.div`
   display: flex;
   justify-content: space-around;
-  width: 20%;
+  width: 50%;
   margin-left: 36px;
   align-items: center;
-  height: 36px;
+  // height: 36px;
   &:hover {
     background: #c8dbdb;
     cursor: pointer;
@@ -190,7 +209,7 @@ const TableBodyInner = styled.div``;
 
 const TablebodyCellInner = styled.div`
   padding: 8px 6px;
-  width: 50%;
+  width: 38%;
   display: flex;
   justify-content: center;
 `;
@@ -223,34 +242,30 @@ const TableHeaderCol = styled.div`
   font-size: 20px;
 `;
 
-// const ExpandableTableRow = ({goalComponents}) => {
-//   const [isExpanded, setIsExpanded] = useState(false);
-//   const [goalComponentList, setGoalComponentList] = useState([]);
-//   // const classes = useStyles();
-// console.log(goalComponents,"passed")
-//   useEffect(() => {
-//     if (goalComponents) {
-//       setGoalComponentList(goalComponents);
-//       console.log(goalComponentList,"skillset")
-//     }
-//   }, [goalComponents]);
-//   console.log(goalComponentList,"skillset")
+const TablebodyCellButtonDelete = styled.div`
+  width: 80%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &:hover {
+    background: #ffa6a6;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
 
-//   return(
-//     <div>
-//         <div>
-//           <div>Skillset</div>
-//           <div>Experience</div>
-//         </div>
-//         {goalComponentList.map((skill,idx)=>(
-//           <div>
-//           <div>{skill.skillset}</div>
-//           <div>{skill["experience"]}</div>
-//         </div>
-//         ))}
-//     </div>
-//   );
-// };
+const TablebodyCellSkillButtonDelete = styled.div`
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &:hover {
+    background: #ffa6a6;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
+
 const useStyles = makeStyles({
   tc: {
     padding: "4px",
@@ -268,6 +283,72 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
   const classes = useStyles();
+
+  const [popup, setPopup] = useState({
+    show: false, // initial values set to false and null
+    id: null,
+    idx: null,
+    item: null,
+  });
+  // const userId = JSON.stringify(localStorage.getItem('userId'))
+  const openModalHandler = (idx, id, item) => {
+    // setShowModal(true);
+    setPopup({ show: true, id, idx, item });
+  };
+
+  const closeModalHandler = () => {
+    setPopup({
+      show: false,
+      id: null,
+      idx: null,
+      item: null,
+    });
+  };
+
+  const deletePositionSkillHandler = (skillsetId, idx) => {
+    console.log(skillsetId, idx);
+    openModalHandler(skillsetId, idx, "skill");
+  };
+
+  const onDeletePositionSKill = async (skillsetId, idx) => {
+    console.log("deleted", skillsetId, idx);
+
+    
+    const token = JSON.parse(localStorage.getItem("userData"));
+    const authorization = "Bearer " + token.token;
+    let body = {
+      skillId: skillsetId,
+    };
+    try {
+      console.log(body);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}deleteuserpositionskill`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = await response.json();
+      if (data) {
+        let temp = [...goalComponentList];
+        temp.splice(idx, 1);
+        setGoalComponentList(temp);
+        setPopup({
+          show: false,
+          id: null,
+          idx: null,
+          item: null,
+        });
+      }
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (goalComponents) {
@@ -298,46 +379,76 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
       {/* <TableRow>adsd</TableRow> */}
       {isExpanded && (
         // <div>ssds</div>
-        <TablebodyCellDropRow>
-          {/* <TableCell /> */}
-          {/* <TablebodyCellDrop> */}
-          {/* <Table> */}
-          <Tableheader>
-            <TableDropDownBodyRow>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Goal Component
-              </TablebodyCellInner>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Experience in Years
-              </TablebodyCellInner>
-              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+        <React.Fragment>
+          <TablebodyCellDropRow>
+            {/* <TableCell /> */}
+            {/* <TablebodyCellDrop> */}
+            {/* <Table> */}
+            <Tableheader>
+              <TableDropDownBodyRow>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Skill Name
+                </TablebodyCellInner>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Experience
+                </TablebodyCellInner>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Delete
+                </TablebodyCellInner>
+
+                {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
-            </TableDropDownBodyRow>
-          </Tableheader>
-          <TableBodyInner>
-            {goalComponentList.map((skill, idx) => (
-              <TableDropDownBodyRow key={idx}>
-                <TablebodyCellInner>{skill.skillset}</TablebodyCellInner>
-                <TablebodyCellInner>{skill.experience}</TablebodyCellInner>
               </TableDropDownBodyRow>
-            ))}
-          </TableBodyInner>
-          {/* </Table> */}
-          {/* </TablebodyCellDrop> */}
-        </TablebodyCellDropRow>
+            </Tableheader>
+            <TableBodyInner>
+              {goalComponentList.map((skill, idx) => (
+                <TableDropDownBodyRow key={idx}>
+                  <TablebodyCellInner>{skill.skillset}</TablebodyCellInner>
+                  <TablebodyCellInner>
+                    {skill.experience == 1
+                      ? skill.experience + " year"
+                      : skill.experience + " years"}
+                  </TablebodyCellInner>
+                  <TablebodyCellSkillButtonDelete
+                    onClick={() =>
+                      deletePositionSkillHandler(skill.skillsetId, idx)
+                    }
+                  >
+                    <MdDeleteOutline
+                      style={{ width: "24px", height: "24px" }}
+                    />
+                  </TablebodyCellSkillButtonDelete>
+                </TableDropDownBodyRow>
+              ))}
+            </TableBodyInner>
+            {/* </Table> */}
+            {/* </TablebodyCellDrop> */}
+          </TablebodyCellDropRow>
+          <UserPositionDeleteComponent
+            popup={popup}
+            closeModalHandler={closeModalHandler}
+            onDeletePositionSkill={onDeletePositionSKill}
+          />
+        </React.Fragment>
       )}
     </div>
   );
@@ -350,7 +461,31 @@ const UserSkillComponent = ({ title, data }) => {
   const [skill, setSkill] = useState([]);
   const history = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
+  const userId = JSON.parse(localStorage.getItem("userId"));
+
   console.log(data, "skills");
+  // const [showModal, setShowModal] = useState(false);
+  const [popup, setPopup] = useState({
+    show: false, // initial values set to false and null
+    id: null,
+    idx: null,
+    item: null,
+  });
+  // const userId = JSON.stringify(localStorage.getItem('userId'))
+  const openModalHandler = (idx, id, item) => {
+    // setShowModal(true);
+    setPopup({ show: true, id, idx, item });
+  };
+
+  const closeModalHandler = () => {
+    setPopup({
+      show: false,
+      id: null,
+      idx: null,
+      item: null,
+    });
+  };
+
   const editSkillHandler = (id) => {
     // console.log(id);
     history(`/userchat/edit_position/${id}`, {
@@ -361,7 +496,48 @@ const UserSkillComponent = ({ title, data }) => {
     // console.log(id);
   };
 
-  const userId = JSON.parse(localStorage.getItem("userId"));
+  const deletePositionHandler = (idx, flag, id) => {
+    console.log(idx, flag, id);
+    openModalHandler(idx, id, "position");
+  };
+
+  const onDeletePosition = async (idx, id) => {
+    const token = JSON.parse(localStorage.getItem("userData"));
+    const authorization = "Bearer " + token.token;
+    let body = {
+      positionId: id,
+    };
+    try {
+      console.log(body);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}deleteuserpositions`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = await response.json();
+      if (data) {
+        let temp = [...skill];
+        temp.splice(idx, 1);
+        setSkill(temp);
+        setPopup({
+          show: false,
+          id: null,
+          idx: null,
+          item: null,
+        });
+      }
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // console.log(userId);
   const pathToCaty = `/userchat/add_position/${userId}`;
   // const skill = data;
@@ -373,78 +549,100 @@ const UserSkillComponent = ({ title, data }) => {
   console.log(data, "fix");
   if (data) {
     return (
-      <Card>
-        <SkillInfoOuterWrapper>
-          <HeadingWrapper>
-            <div style={{ display: "flex", width: "100%" }}>
-              <div style={{ width: "50%" }}>Positions</div>
+      <React.Fragment>
+        <Card>
+          <SkillInfoOuterWrapper>
+            <HeadingWrapper>
+              <div style={{ display: "flex", width: "100%" }}>
+                <div style={{ width: "50%" }}>Positions</div>
 
-              <ButtonWrapper>
-                <Link
-                  to={pathToCaty}
-                  state={{ addGoal: "True" }}
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Button>
-                    <ButtonInner>
-                      <GoalAdd>Add New Skill</GoalAdd>
-                      <AiOutlinePlus
-                        style={{
-                          color: "white",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                      />
-                    </ButtonInner>
-                  </Button>
-                </Link>
-              </ButtonWrapper>
-            </div>
-          </HeadingWrapper>
-          <SkillBulletinOuterWrapper>
-            <Table>
-              <Tablehead>
-                <Tablerow>
-                  <Tablecell style={{ fontWeight: "600" }}>
-                    Position Name
-                  </Tablecell>
-                  <Tablecell style={{ fontWeight: "600" }}>
-                    Experience
-                  </Tablecell>
-                  <Tablecell style={{ fontWeight: "600" }}>Edit</Tablecell>
-                </Tablerow>
-              </Tablehead>
-              <Tablebody>
-                {skill.map((val, idx) => (
-                  <SkillSetWrap key={idx}>
-                    <ExpandableTableRow key={idx} goalComponents={val.skillset}>
-                      <SingleSkill style={{ width: "36%" }}>
-                        {val.position}
-                      </SingleSkill>
-                      <SingleSkill style={{ width: "40%" }}>
-                        {val.positionExperience}
-                      </SingleSkill>
-                      <SingleSkillEdit>
-                        <BsPencilFill
+                <ButtonWrapper>
+                  <Link
+                    to={pathToCaty}
+                    state={{ addGoal: "True" }}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Button>
+                      <ButtonInner>
+                        <GoalAdd>Add New Position</GoalAdd>
+                        <AiOutlinePlus
+                          style={{
+                            color: "white",
+                            width: "24px",
+                            height: "24px",
+                          }}
+                        />
+                      </ButtonInner>
+                    </Button>
+                  </Link>
+                </ButtonWrapper>
+              </div>
+            </HeadingWrapper>
+            <SkillBulletinOuterWrapper>
+              <Table>
+                <Tablehead>
+                  <Tablerow>
+                    <Tablecell style={{ fontWeight: "600" }}>
+                      Position Name
+                    </Tablecell>
+                    <Tablecell style={{ fontWeight: "600" }}>
+                      Experience
+                    </Tablecell>
+                    <Tablecell style={{ fontWeight: "600" }}>Edit</Tablecell>
+                    <Tablecell style={{ fontWeight: "600" }}>Delete</Tablecell>
+                  </Tablerow>
+                </Tablehead>
+                <Tablebody>
+                  {skill.map((val, idx) => (
+                    <SkillSetWrap key={idx}>
+                      <ExpandableTableRow
+                        key={idx}
+                        goalComponents={val.skillset}
+                      >
+                        <SingleSkill style={{ width: "36%" }}>
+                          {val.position}
+                        </SingleSkill>
+                        <SingleSkill style={{ width: "40%" }}>
+                          {val.positionExperience == 1
+                            ? val.positionExperience + " year"
+                            : val.positionExperience + " years"}
+                        </SingleSkill>
+                        <SingleSkillEdit
                           onClick={() =>
                             editSkillHandler(
                               val.skillset[0]?.userpositionPositionId
                             )
                           }
-                        />
-                      </SingleSkillEdit>
-                    </ExpandableTableRow>
-                  </SkillSetWrap>
-                ))}
-              </Tablebody>
-            </Table>
-          </SkillBulletinOuterWrapper>
-        </SkillInfoOuterWrapper>
-      </Card>
+                        >
+                          <BsPencilFill />
+                        </SingleSkillEdit>
+                        <TablebodyCellButtonDelete
+                          onClick={() =>
+                            deletePositionHandler(idx, true, val.positionId)
+                          }
+                        >
+                          <MdDeleteOutline
+                            style={{ width: "24px", height: "24px" }}
+                          />
+                        </TablebodyCellButtonDelete>
+                      </ExpandableTableRow>
+                    </SkillSetWrap>
+                  ))}
+                </Tablebody>
+              </Table>
+            </SkillBulletinOuterWrapper>
+          </SkillInfoOuterWrapper>
+        </Card>
+        <UserPositionDeleteComponent
+          popup={popup}
+          closeModalHandler={closeModalHandler}
+          onDeletePosition={onDeletePosition}
+        />
+      </React.Fragment>
     );
   } else {
     return (

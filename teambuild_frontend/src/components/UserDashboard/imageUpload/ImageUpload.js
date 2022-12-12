@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { BsPencilFill } from "react-icons/bs";
 import { RiUpload2Fill } from "react-icons/ri";
 
+import { CgProfile } from "react-icons/cg";
+// import { env } from 'process';
 // import Button from './Button';
 import "./ImageUpload.css";
 import Modal from "../../UI/Modal";
@@ -12,6 +14,23 @@ const CloseButton = styled.button`
   cursor: pointer;
   border: none;
   background: #a7a4a4;
+  padding: 0.5rem;
+  /* font: inherit; */
+  margin: 2px 4px;
+  color: white;
+  font-family: "Roboto";
+  font-weight: 600;
+  border-radius: 4px;
+  & :hover {
+    background: #17583b;
+    color: #ffffff;
+  }
+`;
+
+const DeleteButton = styled.button`
+  cursor: pointer;
+  border: none;
+  background: #d13c3c;
   padding: 0.5rem;
   /* font: inherit; */
   margin: 2px 4px;
@@ -102,14 +121,35 @@ const Pencil = styled.div`
   cursor: pointer;
 `;
 
-const Pick = styled.p`
-  height: 54px;
+const Pick = styled.div`
+  height: 100px;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  margin-top: 25%;
+  width: 100px;
+  justify-content: center;
+  border-radius: 50%;
+`;
+
+const Pick2 = styled.div`
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
   justify-content: center;
   padding: 0px;
-  width: 70%;
+  width: 86%;
   padding: 6px 6px;
 `;
 
@@ -175,14 +215,15 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
     if (!previewUrl) {
       setErrorUpload(true);
     }
-
+    console.log('hiii')
     const token = JSON.parse(localStorage.getItem("userData"));
     const headers = {
       authorization: "Bearer " + token.token,
+      Accept : 'application/json'
     };
     const formData = new FormData();
     formData.append("image", file);
-    // console.log(formData, file);
+    console.log(process.env.REACT_APP_BACKEND_SERVER);
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_SERVER}upload`,
@@ -192,14 +233,16 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
           headers: headers,
         }
       );
-      const data = await response.json();
+      const data = await response;
+      if (data) {
+        console.log(data.status);
+        setProfilePhotoUrl(previewUrl);
+      }
       //console.log(data);
       // if(data)
     } catch (err) {
       console.log(err);
     }
-
-    setProfilePhotoUrl(previewUrl);
 
     closeModalHandler();
   };
@@ -222,6 +265,7 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
     }
     setShowModal(true);
   };
+
   const closeModalHandler = () => {
     setPreviewUrl(null);
     setShowModal(false);
@@ -234,6 +278,7 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
       {/* {profilePhotoUrl && (
         <RemoveButton onClick={removeImageButtonHandle}>Remove</RemoveButton>
       )} */}
+      <DeleteButton onClick={removeImageButtonHandle}>Delete</DeleteButton>
       <CloseButton onClick={closeModalHandler}>Close</CloseButton>
     </React.Fragment>
   );
@@ -263,10 +308,9 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
             onClick={uploadImageHandler}
           >
             <div className="image-upload__preview">
-              {/* {previewUrl && <img src={previewUrl} alt="Preview" />} */}
-              {/* {!previewUrl && <p>Click here to upload the image.</p>} */}
-              {<p>Click here to upload the image.</p>}
-
+              {previewUrl && <img src={previewUrl} alt="Preview" />}
+              {!previewUrl && <p>Click here to upload the image.</p>}
+              {/* {<p>Click here to upload the image.</p>} */}
             </div>
 
             {/* <Button >
@@ -281,14 +325,26 @@ const ImageUpload = ({ center, header, id, isEdit, onInput, img }) => {
           <img src={profilePhotoUrl} onClick={pickImageHandler} alt="Preview" />
         )}
         {!profilePhotoUrl && (
-          <Pick
-            className={isEdit ? "edit_form" : ""}
-            onClick={pickImageHandler}
-          >
-            <RiUpload2Fill
-              className={`edit_icon ${isEdit ? "edit_icon_active" : ""}`}
-            />
-          </Pick>
+          <React.Fragment>
+            {isEdit && (
+              <Pick
+                className={isEdit ? "edit_form" : ""}
+                onClick={pickImageHandler}
+              >
+                <RiUpload2Fill
+                  className={`edit_icon ${isEdit ? "edit_icon_active" : ""}`}
+                />
+              </Pick>
+            )}
+            {!isEdit && (
+              <Pick2
+                className={isEdit ? "edit_form" : ""}
+                onClick={pickImageHandler}
+              >
+                <CgProfile style={{ height: "3rem", width: "3rem" }} />
+              </Pick2>
+            )}
+          </React.Fragment>
         )}
       </div>
       {/* {isEdit &&<Pencil>

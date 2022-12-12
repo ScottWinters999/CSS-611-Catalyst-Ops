@@ -39,6 +39,7 @@ export const useAuth = () => {
     localStorage.removeItem("userId");
 
     localStorage.removeItem("chat_session")
+    localStorage.clear()
   }, []);
 
  

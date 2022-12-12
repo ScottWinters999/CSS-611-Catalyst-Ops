@@ -16,7 +16,7 @@ const ModalOverlay = (props) => {
         onSubmit={
           props.onSubmit ? props.onSubmit : (event) => event.preventDefault()
         }
-        style={{height: "64%"}}
+        style={{height: props.height?props.height:"64%"}}
       >
         <div className={`modal__content`} style={props.contentClass}>
           {props.children}

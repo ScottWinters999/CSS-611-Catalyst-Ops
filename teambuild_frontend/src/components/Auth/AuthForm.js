@@ -363,11 +363,12 @@ const AuthForm = () => {
         <Actions>
           <Button>REGISTER</Button>
         </Actions>
-        <Link to="/userchat" style={{ textDecoration: "none" }}>
           <ButtonWrapper>
+          <Link to="/userchat" style={{ textDecoration: "none" }}>
             <p>Sign In</p>
+            </Link>
           </ButtonWrapper>
-        </Link>
+
       </FormControl>
     </Auth>
   );
