@@ -140,7 +140,7 @@ module.exports = {
           //console.log(123, email);
           transporter.sendMail({
             to: email,
-            from: "asheeque123456@gmail.com",
+            from: "stwintersphd@gmail.com",
             subject: "match found",
             html: `
                     <p>You found a potential match for the profession ${goalcomponentMatched} for the goal - ${goalName}. Kindly check your new matches for more details.</p>

@@ -237,18 +237,15 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
           let state =
             goalcomp[g].state == null
               ? "true"
-              : goalcomp[g].state.toLowerCase() == posskill.state == null? posskill.state :(posskill.state ==null ? posskill.state: posskill.state.toLowerCase());
-              //(posskill.state ==null ? posskill.state: posskill.state.toLowerCase())
-              //console.log(241, posskill.state==null);
-              //!= null ? posskill.state.toLowerCase(): posskill.state
+              : goalcomp[g].state == posskill.state;
           let city =
             goalcomp[g].city == null
               ? "true"
-              : goalcomp[g].city.toLowerCase() == posskill.city.toLowerCase();
+              : goalcomp[g].city == posskill.city;
           let country =
             goalcomp[g].country == null
               ? "true"
-              : goalcomp[g].country.toLowerCase()== posskill.country.toLowerCase();
+              : goalcomp[g].country == posskill.country;
           if (!state || !city || !country) locationFlag = false;
         }
         // console.log(
@@ -277,10 +274,9 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
             ) {
               //console.log(goalcomp[g].skills[gcskill]);
               if (
-                goalcomp[g].skills[gcskill].skill.toLowerCase() ==
-                  posskill.skillset[k].skillset.toLowerCase()  &&
-                goalcomp[g].skills[gcskill].experience <=
-                  posskill.skillset[k].experience
+                goalcomp[g].skills[gcskill].skill ==
+                  posskill.skillset[k].skillset &&
+                Number( goalcomp[g].skills[gcskill].experience)<= Number( posskill.skillset[k].experience )
               ) {
                 //console.log("match found");
                 matchlength--;
@@ -312,7 +308,7 @@ async function compareMatch(goalComponent, positionSkill, discardList) {
     }
     //console.log(goalcomp);
   }
-  //console.log(287, finalList);
+  //console.log(287, finalList[0].goalData);
   if (discardList.length == 0) {
     //console.log(287, finalList);
     return finalList;

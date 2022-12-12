@@ -46,6 +46,25 @@ module.exports = {
     }
   },
 
+  getpostiondetailsofuser: async (req, res) => {
+    //const userId= req.userData.userId;
+    const userId = req.body.userId;
+    if (userId) {
+      // const positionId = req.body.positionId;
+      const postionDetails = await UserPosition.findAll({
+       
+        where: {
+          userUserId: userId,
+        },
+      });
+
+      // console.log(postionDetails.dataValues);
+      res.status(200).json({ postionDetails: postionDetails });
+    } else {
+      res.status(400).json({ status: "wrong user" });
+    }
+  },
+
   createpostion: async (req, res) => {
     //const userId= req.userData.userId;
     const userId = req.body.userId;

@@ -670,10 +670,10 @@ const UserSearchComponent = () => {
                     onChange={(e) => setOptainoValue(e.target.value)}
                   >
                     <option>Add Filter</option>
-                    <option value="Goal">search Goal</option>
-                    <option value="Role">search Role</option>
-                    <option value="Experience">search Experience</option>
-                    <option value="Location">search Location</option>
+                    <option value="Goal">Search Goal</option>
+                    <option value="Role">Search Role</option>
+                    <option value="Experience">Search Experience</option>
+                    <option value="Location">Search Location</option>
                   </select>
                 </div>
 

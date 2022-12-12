@@ -125,6 +125,7 @@ module.exports = {
             j < userGoal[i].dataValues.goalcomponents.length;
             j++
           ) {
+            //console.log(userGoal[i].dataValues.goalcomponents[j]);
             goalcomp["goalcomponent"] =
               userGoal[i].dataValues.goalcomponents[j].dataValues.goalComponent;
             goalcomp["goalcomponentId"] =
@@ -138,7 +139,7 @@ module.exports = {
             goalcomp["city"] =
               userGoal[i].dataValues.goalcomponents[j].dataValues.city;
             goalcomp["experience"] =
-              userGoal[i].dataValues.goalcomponents[j].dataValues.experience;
+              userGoal[i].dataValues.goalcomponents[j].dataValues.experienceRequired;
 
             // need to include matched data as well
             const matchedId =
@@ -387,6 +388,32 @@ module.exports = {
       });
       console.log(userDetails.dataValues);
       res.status(200).json({ image: userDetails.dataValues.profilePicture });
+    }
+  },
+
+  deletePic: async (req, res) => {
+    console.log(req.file);
+    // constants.log(req.keys()
+    //const image = req.file.buffer.toString('base64');
+    const userId = req.userData.userId;
+
+    if (userId) {
+      UserProfile.update(
+          {
+            profilePicture: null,
+          },
+          {
+            where: {
+              userProfileId: userId,
+            },
+          }
+        ).then(() => {
+          res.status(200).json({ status: "Photo Deleted successfully" });
+        });
+      // console.log(userDetails.dataValues);
+      // res.status(200).json({ image: userDetails.dataValues.profilePicture });
+    }else{
+      res.status(400).json({status:"wrong user"});
     }
   },
 };
