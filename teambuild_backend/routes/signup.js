@@ -10,7 +10,7 @@ const auth = require("../middleware/check-auth");
 const multer = require("multer");
 const upload = multer({ storage: multer.memoryStorage });
 const bodyParser = require("body-parser").json();
-const { User, UserMatch } = require("../controllers");
+const { User, UserMatch , UserPosition } = require("../controllers");
 const { UserProfile } = require("../controllers");
 const { UserDiscard } = require("../controllers");
 const { UserGoal } = require("../controllers");
@@ -76,11 +76,11 @@ router.post(
   Rasa.updategoalcomponentskill
 );
 
-router.get("/getgoaldetails", bodyParser, Rasa.getallgoalcomponenet);
+router.post("/getgoaldetails", bodyParser, Rasa.getallgoalcomponenet);
 
-router.get("/getuserdetails", bodyParser, RasaUser.getuserprofile);
+router.post("/getuserdetails", bodyParser, RasaUser.getuserprofile);
 
-router.get("/getpositiondetails", bodyParser, RasaPosition.getpostiondetails);
+router.post("/getpositiondetails", bodyParser, RasaPosition.getpostiondetails);
 
 router.post("/rasauserupdate", bodyParser, RasaUser.userProfileUpdate);
 
@@ -108,6 +108,18 @@ router.post("/goalandgoalcomponentcreate", bodyParser, Rasa.creategoalandcompone
 router.post("/getnotifications", bodyParser, Notifications.usernotification);
 
 router.post("/updatepostionskill", bodyParser, RasaSkill.updatepostionskill);
+
+router.post("/deletepicture", auth, bodyParser, UserProfile.deletePic);
+
+router.post("/getuserpositions", bodyParser, RasaPosition.getpostiondetailsofuser);
+
+
+router.post("/deleteuserpositions",auth, bodyParser, UserPosition.deleteposition);
+
+router.post("/updatepositiondetails", bodyParser, RasaPosition.updatepostion);
+
+router.post("/deleteuserpositionskill",auth, bodyParser, UserPosition.deletepositionskill);
+
 // router.get('/skill',auth,bodyParser,UserProfile.skill);
 // router.get('/goal',auth,bodyParser,UserProfile.goal);
 // router.post('/signup',bodyParser,User.create);

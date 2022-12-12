@@ -34,6 +34,7 @@ app.post("/api/posts", (req, res, next) => {
 });
 
 app.use("/upload/images", express.static(path.join("uploads", "images")));
+app.use(express.static(path.join("public")));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 (async () => {
@@ -44,9 +45,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/api", routes);
 
-// app.use( (req,res,next)=>{
-//     res.sendFile(path.resolve(__dirname,'public','index.html'));
-// })
+
+
+app.use( (req,res,next)=>{
+    res.sendFile(path.resolve(__dirname,'public','index.html'));
+})
 
 //const server=app.listen(5000);
 const httpserver = http.createServer(app);
