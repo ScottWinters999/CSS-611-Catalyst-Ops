@@ -1,0 +1,4 @@
+runtime: nodejs16
+env_variables:
+  REACT_APP_NOT_SECRET_CODE: 'abcdef'
+  REACT_APP_BACKEND_SERVER: 'https://chatbot-362823.uk.r.appspot.com/api/'
