@@ -14,8 +14,10 @@ import { Link } from "react-router-dom";
 import UserContext from "../../shared/context/user-context";
 // const
 const UserDashboardWrapper = styled.div`
-  height: 100vh;
+  height: max-content;
   width: 80%;
+
+  min-height: 100%;
   background-color: white;
   border-radius: 20px;
   padding: 18px 16px;
@@ -76,13 +78,32 @@ const SectionTwoLeftInnerWrapper = styled.div`
   //   justify-content: flex-end;
   width: 94%;
   justify-content: center;
-  padding: 6px 24px;
+  padding: 0px 24px;
   height: 80%;
   @media (max-width: 1200px) {
     width: 80%;
   }
   @media (max-height: 1200px) {
     height: 100%;
+  }
+
+  @media (max-width: 760px) {
+    width: 100%;
+  }
+`;
+
+const SectionTwoLeftInnerWrapperSkill = styled.div`
+  display: flex;
+  //   justify-content: flex-end;
+  width: 94%;
+  justify-content: center;
+  padding: 0px 24px;
+  height: 80%;
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+  @media (max-height: 1200px) {
+    height: 45%;
   }
 
   @media (max-width: 760px) {
@@ -106,10 +127,10 @@ const SkillWrapper = styled.div`
 
 const SectionTwoRightInnerWrapper = styled.div`
   display: flex;
-  height: 90%;
+  height: 40rem;
   //   justify-content: flex-end;
   justify-content: center;
-  padding: 26px 24px;
+  // padding: 26px 24px;
   @media (max-width: 1100px) {
     width: 90%;
   }
@@ -316,7 +337,7 @@ const UserDashboardComponent = () => {
           <SectionTwoLeftInnerWrapper>
             <UserInfoComponent userData={userData.basicUserInfo} />
           </SectionTwoLeftInnerWrapper>
-          <SectionTwoLeftInnerWrapper>
+          <SectionTwoLeftInnerWrapperSkill>
             {/* <SkillWrapper> */}
             <UserSkillComponent
               title="Positions"
@@ -324,7 +345,7 @@ const UserDashboardComponent = () => {
             />
             {/* <UserSkillComponent data={userData.experience} /> */}
             {/* </SkillWrapper> */}
-          </SectionTwoLeftInnerWrapper>
+          </SectionTwoLeftInnerWrapperSkill>
         </SectionTwoLeft>
         <SectionTwoRight>
           <SectionTwoRightInnerWrapper>

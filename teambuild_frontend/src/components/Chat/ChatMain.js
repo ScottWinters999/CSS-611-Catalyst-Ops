@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { useEffect, useState } from "react";
 import ChatBoard from "./ChatBoard";
 
-const socket = io.connect("http://localhost:5000");
+// const socket = io.connect("http://localhost:5000");
 
 function ChatMain() {
   const [username, setUsername] = useState("");
@@ -14,7 +14,7 @@ function ChatMain() {
   const joinRoom = () => {
     // if (username !== "" && room !== "") {
       console.log("joinroom")
-      socket.emit("join_room", '123');
+      // socket.emit("join_room", '123');
       setShowChat(true);
     }
   
@@ -45,7 +45,7 @@ function ChatMain() {
           <button onClick={joinRoom}>Join A Room</button>
         </div>
       ) : (
-        <ChatBoard socket={socket} username={"user"} room={"123"} />
+        <ChatBoard username={"user"} room={"123"} />
       )}
     </div>
   );

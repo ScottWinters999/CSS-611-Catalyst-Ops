@@ -460,7 +460,8 @@ const ExpandableSkillRow = ({ children, goalComponents, ...otherProps }) => {
                   {singleGoalComponent?.skill}
                 </TablebodyCellInner>
                 <TablebodyCellInner>
-                  {singleGoalComponent?.experience}
+                  {singleGoalComponent?.experience==1?singleGoalComponent?.experience + " year":singleGoalComponent?.experience + " years"}
+
                 </TablebodyCellInner>
 
               </TableDropDownBodyRow>
@@ -482,6 +483,8 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
   const [goalComponentList, setGoalComponentList] = useState([]);
   const [idValue, setIdValue] = useState();
   const [iddeleteValue, setIddeleteValue] = useState();
+  const [iddeleteIndex, setIddeleteIndex] = useState();
+
   const token = JSON.parse(localStorage.getItem("userData"));
   const authorization = "Bearer " + token.token;
   const goalId = goalid;
@@ -505,9 +508,10 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
     setIdValue(value);
   };
 
-  const opendeleteModalHandler = (val, id) => {
+  const opendeleteModalHandler = (idx,val, id) => {
     setShowdeleteModal(val);
     setIddeleteValue(id);
+    setIddeleteIndex(idx)
     console.log(id, "this is to delete");
   };
 
@@ -520,7 +524,8 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
 
   const deletecomponentHandler = () => {
     console.log("reached delete", iddeleteValue);
-    window.location.reload(false);
+    setGoalComponentList((prev) => prev.filter((el, i) => i !== iddeleteIndex));
+    setShowdeleteModal(false);
     const body = {
       goalComponentId: iddeleteValue,
     };
@@ -537,11 +542,12 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
           },
         }
       );
-      const data = response.json();
-      console.log(data);
+      // const data = response.json()
+      console.log(response);
     } catch (err) {
       console.log(err);
     }
+    // window.location.reload(false);
   };
 
   const deleteHandler = () => {
@@ -629,7 +635,7 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
     "alignContent": "center",
     "paddingTop": "12px"}}>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
-           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           style={{"border":"none","padding":"4px 22px","background": "rgb(249,0,0)" , color:"white"}}
            onClick={deletecomponentHandler}>yes</button></div>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
           style={{"border":"none","padding":"4px 22px"}}
@@ -797,26 +803,27 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
+                  width: "28%"
                 }}
               >
-                Goal Component
+                Position
               </TablebodyCellInner>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"10%"
+                  paddingLeft:"6%"
                 }}
               >
-                Goal Location
+                Location
               </TablebodyCellInner>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"10%"
+                  paddingLeft:"12%"
                 }}
               >
                 Matched with
@@ -826,7 +833,17 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"16%"
+                  paddingLeft:"6%"
+                }}
+              >
+                Experience
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                  paddingLeft:"0%"
                 }}
               >
                 Delete
@@ -843,27 +860,30 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
               goalComponents={singleGoalComponent?.skills}
             >
               <TableDropDownBodyRow key={idx} style={{background:"rgb(204 247 247)"}}>
-                <TablebodyCellInner>
+                <TablebodyCellInner style={{"width": "28%"}}>
                   {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner style={{fontSize:"14px"}}>
-                  {singleGoalComponent.city + ","}{singleGoalComponent.state + ","}{singleGoalComponent.country}
+                  {singleGoalComponent.city?singleGoalComponent.city.toLowerCase()+ ",":'-' }{singleGoalComponent.state?singleGoalComponent.state.toLowerCase() + ",":"-"}{singleGoalComponent.country?singleGoalComponent.country.toLowerCase():"-"}
                 </TablebodyCellInner>
                 <TablebodyCellInner >
                   <div style={{ color: 'blue'}} onClick={()=>openModalHandler(singleGoalComponent)}>{singleGoalComponent?.matcheduserId?.firstName}</div>
                 </TablebodyCellInner>
-                    
-                <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
+                <TablebodyCellInner >
+                  {singleGoalComponent.experience==1?singleGoalComponent.experience+" year":singleGoalComponent.experience+" years"}
+                </TablebodyCellInner>
+                {/* <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
                           onClick={() => opendeleteModalHandler(true,singleGoalComponent?.goalcomponentId)}
                       >
                           <MdDeleteOutline
                             style={{ width: "24px", height: "24px" }}
                           />
-                        </TablebodyCellButtonDelete>
+                        </TablebodyCellButtonDelete> */}
 
                 <TablebodyCellButtonDelete
                   onClick={() =>
                     opendeleteModalHandler(
+                      idx,
                       true,
                       singleGoalComponent?.goalcomponentId
                     )
@@ -906,6 +926,7 @@ const UserGoalComponent = ({ data }) => {
   const [totalGoals, setTotalGoals] = useState([]);
   console.log(data, "GOALSS");
   const [idValue, setIdValue] = useState();
+  const [idIndex, setIdIndex] = useState();
   const history = useNavigate();
   useEffect(() => {
     // if (data) {
@@ -989,20 +1010,24 @@ const UserGoalComponent = ({ data }) => {
 
   const [showModal, setShowModal] = useState(false);
 
-  const openModalHandler = (val, id) => {
+  const openModalHandler = (idx,val, id) => {
     setShowModal(val);
     setIdValue(id);
+    setIdIndex(idx)
   };
   const closeModalHandler = () => {
     setShowModal(false);
   };
   const deleteHandler = () => {
     console.log(idValue, "deleter id");
+    console.log(process.env.REACT_APP_BACKEND_SERVER,"deletebackend")
+    setTotalGoals((prev) => prev.filter((el, i) => i !== idIndex));    
     closeModalHandler();
-    window.location.reload(false);
+    // window.location.reload(false);
     const body = {
       goalId: idValue,
     };
+    console.log(body,"deleterfirst");
     try {
       const response = fetch(
         `${process.env.REACT_APP_BACKEND_SERVER}usergoaldelete`,
@@ -1015,7 +1040,7 @@ const UserGoalComponent = ({ data }) => {
         }
       );
       const data = response.json();
-      console.log(data);
+      console.log(data,"deleter");
     } catch (err) {
       console.log(err);
     }
@@ -1083,7 +1108,7 @@ const UserGoalComponent = ({ data }) => {
     "alignContent": "center",
     "paddingTop": "12px"}}>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
-           style={{"border":"none","padding":"4px 22px","background": "#fe6969"}}
+           style={{"border":"none","padding":"4px 22px","background": "rgb(249,0,0)",color:"white"}}
            onClick={deleteHandler}>yes</button></div>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
           style={{"border":"none","padding":"4px 22px"}}
@@ -1211,13 +1236,11 @@ const UserGoalComponent = ({ data }) => {
                           {row.goalcomponent.status}
                         </TablebodyCell>
                         <TablebodyCell>{row.status}</TablebodyCell>
-                        <TablebodyCellEdit>
-                          <BsPencilFill
-                            onClick={() => editGoalHandler(row?.goalId)}
-                          />
+                        <TablebodyCellEdit onClick={() => editGoalHandler(row?.goalId)}>
+                          <BsPencilFill/>
                         </TablebodyCellEdit>
                         <TablebodyCellButtonDelete
-                          onClick={() => openModalHandler(true, row?.goalId)}
+                          onClick={() => openModalHandler(idx ,true, row?.goalId)}
                         >
                           <MdDeleteOutline
                             style={{ width: "24px", height: "24px" }}

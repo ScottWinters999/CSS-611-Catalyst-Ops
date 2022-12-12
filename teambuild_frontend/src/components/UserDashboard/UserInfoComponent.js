@@ -24,7 +24,7 @@ const UserInfoOuterWrapper = styled.div`
 `;
 const UserNameContainer = styled.div`
   display: flex;
-  height: 36%;
+  height: 50%;
   flex-direction: row;
 `;
 
@@ -189,7 +189,7 @@ const UserInfoComponent = ({ userData }) => {
           .then((res) => {
             // console.log(res);
             if (res.image) {
-              const imgUrl = "http://localhost:5000/upload/images/" + res.image;
+              const imgUrl = `${process.env.REACT_APP_BACKEND_SERVER_PHOTO}/uploads/images/${res.image}`;
               // console.log(imgUrl)
               setPhotoUrl(imgUrl);
             }
@@ -259,7 +259,7 @@ const UserInfoComponent = ({ userData }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/userupdate",
+        `${process.env.REACT_APP_BACKEND_SERVER}userupdate`,
         {
           method: "PATCH",
           body: JSON.stringify(body),
@@ -297,7 +297,7 @@ const UserInfoComponent = ({ userData }) => {
     <Card>
       <UserInfoOuterWrapper>
         <UserNameContainer>
-          {/* <UserProfilePhotoWrapper>
+          <UserProfilePhotoWrapper>
             <ImageUpload
               center
               id="image"
@@ -306,7 +306,7 @@ const UserInfoComponent = ({ userData }) => {
               isEdit={isEdit}
               img={photoUrl}
             />
-          </UserProfilePhotoWrapper> */}
+          </UserProfilePhotoWrapper>
           <UserProfileNameOutsideWrapper>
             {/* <UserProfileNameInsideWrapper>
               {basicInfo.userName}
@@ -359,7 +359,7 @@ const UserInfoComponent = ({ userData }) => {
                   onChange={onStateChangeHandler}
                 />
               )}
-              {!isEdit && <React.Fragment>{city}</React.Fragment>}
+              {!isEdit && <React.Fragment>{city} ,</React.Fragment>}
               {!isEdit && <React.Fragment>{state}</React.Fragment>}
             </UserProfileLocationWrapper>
             <UserProfileLocationWrapper>
