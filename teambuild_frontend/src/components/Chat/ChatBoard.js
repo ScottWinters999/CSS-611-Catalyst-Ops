@@ -3,6 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
 import UserContext from "../../shared/context/user-context";
 import { TbRobot } from "react-icons/tb";
+
+import { IoIosSend } from "react-icons/io";
+
 function Chat() {
   const [currentMessage, setCurrentMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
@@ -29,7 +32,7 @@ function Chat() {
         console.log(t);
         if (t && action == "greet") {
           setMessageList(t);
-          sendMessageToRasa("/greet")
+          // sendMessageToRasa("/greet")
         }
       }
     } else {
@@ -353,7 +356,7 @@ function Chat() {
         />
         <div className="send-message-wrapper">
           <button className="send-message" onClick={sendMessage}>
-            &#9658;
+            <IoIosSend style={{"height": "24px","width":"24px","color": "white"}}/>
           </button>
           <button className="end-message" onClick={endChatHandler}>
             End Chat

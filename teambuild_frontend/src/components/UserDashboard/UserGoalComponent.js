@@ -460,7 +460,8 @@ const ExpandableSkillRow = ({ children, goalComponents, ...otherProps }) => {
                   {singleGoalComponent?.skill}
                 </TablebodyCellInner>
                 <TablebodyCellInner>
-                  {singleGoalComponent?.experience}
+                  {singleGoalComponent?.experience==1?singleGoalComponent?.experience + " year":singleGoalComponent?.experience + " years"}
+
                 </TablebodyCellInner>
 
               </TableDropDownBodyRow>
@@ -635,7 +636,7 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
     "paddingTop": "12px"}}>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
            style={{"border":"none","padding":"4px 22px","background": "rgb(249,0,0)" , color:"white"}}
-           onClick={deletecomponentHandler}>yeas</button></div>
+           onClick={deletecomponentHandler}>yes</button></div>
           <div style={{"width": "40%","display": "flex","justifyContent": "center"}}><button
           style={{"border":"none","padding":"4px 22px"}}
           onClick={closedeleteModalHandler}>No</button></div>
@@ -802,26 +803,27 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
+                  width: "28%"
                 }}
               >
-                Goal Component
+                Position
               </TablebodyCellInner>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"10%"
+                  paddingLeft:"6%"
                 }}
               >
-                Goal Location
+                Location
               </TablebodyCellInner>
               <TablebodyCellInner
                 style={{
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"10%"
+                  paddingLeft:"12%"
                 }}
               >
                 Matched with
@@ -831,7 +833,17 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
                   borderBottom: "1px solid black",
                   fonSize: "16px",
                   fontWeight: "600",
-                  paddingLeft:"16%"
+                  paddingLeft:"6%"
+                }}
+              >
+                Experience
+              </TablebodyCellInner>
+              <TablebodyCellInner
+                style={{
+                  borderBottom: "1px solid black",
+                  fonSize: "16px",
+                  fontWeight: "600",
+                  paddingLeft:"0%"
                 }}
               >
                 Delete
@@ -848,16 +860,18 @@ const ExpandableTableRow = ({ children, goalComponents,goalid, ...otherProps }) 
               goalComponents={singleGoalComponent?.skills}
             >
               <TableDropDownBodyRow key={idx} style={{background:"rgb(204 247 247)"}}>
-                <TablebodyCellInner>
+                <TablebodyCellInner style={{"width": "28%"}}>
                   {singleGoalComponent.goalcomponent}
                 </TablebodyCellInner>
                 <TablebodyCellInner style={{fontSize:"14px"}}>
-                  {singleGoalComponent.city?singleGoalComponent.city+ ",":'-' }{singleGoalComponent.state?singleGoalComponent.state + ",":"-"}{singleGoalComponent.country?singleGoalComponent.country:"-"}
+                  {singleGoalComponent.city?singleGoalComponent.city.toLowerCase()+ ",":'-' }{singleGoalComponent.state?singleGoalComponent.state.toLowerCase() + ",":"-"}{singleGoalComponent.country?singleGoalComponent.country.toLowerCase():"-"}
                 </TablebodyCellInner>
                 <TablebodyCellInner >
                   <div style={{ color: 'blue'}} onClick={()=>openModalHandler(singleGoalComponent)}>{singleGoalComponent?.matcheduserId?.firstName}</div>
                 </TablebodyCellInner>
-                    
+                <TablebodyCellInner >
+                  {singleGoalComponent.experience==1?singleGoalComponent.experience+" year":singleGoalComponent.experience+" years"}
+                </TablebodyCellInner>
                 {/* <TablebodyCellButtonDelete style={{background:"rgb(204 247 247)"}}
                           onClick={() => opendeleteModalHandler(true,singleGoalComponent?.goalcomponentId)}
                       >

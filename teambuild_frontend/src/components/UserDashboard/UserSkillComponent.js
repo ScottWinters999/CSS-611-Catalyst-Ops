@@ -209,7 +209,7 @@ const TableBodyInner = styled.div``;
 
 const TablebodyCellInner = styled.div`
   padding: 8px 6px;
-  width: 50%;
+  width: 38%;
   display: flex;
   justify-content: center;
 `;
@@ -254,6 +254,18 @@ const TablebodyCellButtonDelete = styled.div`
   }
 `;
 
+const TablebodyCellSkillButtonDelete = styled.div`
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  &:hover {
+    background: #ffa6a6;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+`;
+
 const useStyles = makeStyles({
   tc: {
     padding: "4px",
@@ -271,6 +283,72 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [goalComponentList, setGoalComponentList] = useState([]);
   const classes = useStyles();
+
+  const [popup, setPopup] = useState({
+    show: false, // initial values set to false and null
+    id: null,
+    idx: null,
+    item: null,
+  });
+  // const userId = JSON.stringify(localStorage.getItem('userId'))
+  const openModalHandler = (idx, id, item) => {
+    // setShowModal(true);
+    setPopup({ show: true, id, idx, item });
+  };
+
+  const closeModalHandler = () => {
+    setPopup({
+      show: false,
+      id: null,
+      idx: null,
+      item: null,
+    });
+  };
+
+  const deletePositionSkillHandler = (skillsetId, idx) => {
+    console.log(skillsetId, idx);
+    openModalHandler(skillsetId, idx, "skill");
+  };
+
+  const onDeletePositionSKill = async (skillsetId, idx) => {
+    console.log("deleted", skillsetId, idx);
+
+    
+    const token = JSON.parse(localStorage.getItem("userData"));
+    const authorization = "Bearer " + token.token;
+    let body = {
+      skillId: skillsetId,
+    };
+    try {
+      console.log(body);
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_SERVER}deleteuserpositionskill`,
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            authorization: authorization,
+          },
+        }
+      );
+      const data = await response.json();
+      if (data) {
+        let temp = [...goalComponentList];
+        temp.splice(idx, 1);
+        setGoalComponentList(temp);
+        setPopup({
+          show: false,
+          id: null,
+          idx: null,
+          item: null,
+        });
+      }
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     if (goalComponents) {
@@ -301,46 +379,76 @@ const ExpandableTableRow = ({ children, goalComponents, ...otherProps }) => {
       {/* <TableRow>adsd</TableRow> */}
       {isExpanded && (
         // <div>ssds</div>
-        <TablebodyCellDropRow>
-          {/* <TableCell /> */}
-          {/* <TablebodyCellDrop> */}
-          {/* <Table> */}
-          <Tableheader>
-            <TableDropDownBodyRow>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Goal Component
-              </TablebodyCellInner>
-              <TablebodyCellInner
-                style={{
-                  borderBottom: "1px solid black",
-                  fonSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Experience in Years
-              </TablebodyCellInner>
-              {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
+        <React.Fragment>
+          <TablebodyCellDropRow>
+            {/* <TableCell /> */}
+            {/* <TablebodyCellDrop> */}
+            {/* <Table> */}
+            <Tableheader>
+              <TableDropDownBodyRow>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Skill Name
+                </TablebodyCellInner>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Experience
+                </TablebodyCellInner>
+                <TablebodyCellInner
+                  style={{
+                    borderBottom: "1px solid black",
+                    fonSize: "16px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Delete
+                </TablebodyCellInner>
+
+                {/* <TablebodyCell align="right">Fat&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Carbs&nbsp;(g)</TablebodyCell>
                 <TablebodyCell align="right">Protein&nbsp;(g)</TablebodyCell> */}
-            </TableDropDownBodyRow>
-          </Tableheader>
-          <TableBodyInner>
-            {goalComponentList.map((skill, idx) => (
-              <TableDropDownBodyRow key={idx}>
-                <TablebodyCellInner>{skill.skillset}</TablebodyCellInner>
-                <TablebodyCellInner>{skill.experience}</TablebodyCellInner>
               </TableDropDownBodyRow>
-            ))}
-          </TableBodyInner>
-          {/* </Table> */}
-          {/* </TablebodyCellDrop> */}
-        </TablebodyCellDropRow>
+            </Tableheader>
+            <TableBodyInner>
+              {goalComponentList.map((skill, idx) => (
+                <TableDropDownBodyRow key={idx}>
+                  <TablebodyCellInner>{skill.skillset}</TablebodyCellInner>
+                  <TablebodyCellInner>
+                    {skill.experience == 1
+                      ? skill.experience + " year"
+                      : skill.experience + " years"}
+                  </TablebodyCellInner>
+                  <TablebodyCellSkillButtonDelete
+                    onClick={() =>
+                      deletePositionSkillHandler(skill.skillsetId, idx)
+                    }
+                  >
+                    <MdDeleteOutline
+                      style={{ width: "24px", height: "24px" }}
+                    />
+                  </TablebodyCellSkillButtonDelete>
+                </TableDropDownBodyRow>
+              ))}
+            </TableBodyInner>
+            {/* </Table> */}
+            {/* </TablebodyCellDrop> */}
+          </TablebodyCellDropRow>
+          <UserPositionDeleteComponent
+            popup={popup}
+            closeModalHandler={closeModalHandler}
+            onDeletePositionSkill={onDeletePositionSKill}
+          />
+        </React.Fragment>
       )}
     </div>
   );
@@ -361,18 +469,20 @@ const UserSkillComponent = ({ title, data }) => {
     show: false, // initial values set to false and null
     id: null,
     idx: null,
+    item: null,
   });
   // const userId = JSON.stringify(localStorage.getItem('userId'))
-  const openModalHandler = (idx, id) => {
+  const openModalHandler = (idx, id, item) => {
     // setShowModal(true);
-    setPopup({ show: true, id, idx });
+    setPopup({ show: true, id, idx, item });
   };
 
   const closeModalHandler = () => {
     setPopup({
       show: false,
       id: null,
-      idx:null
+      idx: null,
+      item: null,
     });
   };
 
@@ -388,17 +498,17 @@ const UserSkillComponent = ({ title, data }) => {
 
   const deletePositionHandler = (idx, flag, id) => {
     console.log(idx, flag, id);
-    openModalHandler(idx, id);
+    openModalHandler(idx, id, "position");
   };
 
-  const onDeletePosition = async(idx,id) => {
+  const onDeletePosition = async (idx, id) => {
     const token = JSON.parse(localStorage.getItem("userData"));
     const authorization = "Bearer " + token.token;
     let body = {
-      "positionId":id
-    }
+      positionId: id,
+    };
     try {
-      console.log(body)
+      console.log(body);
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_SERVER}deleteuserpositions`,
         {
@@ -410,24 +520,22 @@ const UserSkillComponent = ({ title, data }) => {
           },
         }
       );
-      const data = await response.json()
-      if(data){
+      const data = await response.json();
+      if (data) {
         let temp = [...skill];
         temp.splice(idx, 1);
         setSkill(temp);
         setPopup({
           show: false,
           id: null,
-          idx:null
+          idx: null,
+          item: null,
         });
-
       }
       // console.log(response);
     } catch (err) {
       console.log(err);
     }
-
-    
   };
 
   // console.log(userId);
@@ -499,7 +607,9 @@ const UserSkillComponent = ({ title, data }) => {
                           {val.position}
                         </SingleSkill>
                         <SingleSkill style={{ width: "40%" }}>
-                          {val.positionExperience}
+                          {val.positionExperience == 1
+                            ? val.positionExperience + " year"
+                            : val.positionExperience + " years"}
                         </SingleSkill>
                         <SingleSkillEdit
                           onClick={() =>

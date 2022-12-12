@@ -8,6 +8,8 @@ const UserPositionDeleteComponent = ({
   popup,
   closeModalHandler,
   onDeletePosition,
+  onDeletePositionSkill
+  
 }) => {
   // const [showModal, setShowModal] = useState(false);
 
@@ -38,6 +40,14 @@ const UserPositionDeleteComponent = ({
     console.log("working", popup.id, popup.idx);
     onDeletePosition(popup.idx,popup.id);
   };
+
+  const deletecomponentSkillHandler = () => {
+    console.log("working", popup.id, popup.idx);
+    onDeletePositionSkill(popup.idx,popup.id);
+  };
+
+
+  
   const header = (
     <React.Fragment>
       <div className={classes.ModalHeader}></div>
@@ -59,9 +69,18 @@ const UserPositionDeleteComponent = ({
         <div
           style={{ width: "40%", display: "flex", justifyContent: "center" }}
         >
-          <button className={`ButtonModal`} onClick={deletecomponentHandler}>
+          {popup.item =='position'&&(
+            <button className={`ButtonModal`} onClick={deletecomponentHandler}>
             yes
           </button>
+          )}
+          {popup.item =='skill'&&(
+            <button className={`ButtonModal`} onClick={deletecomponentSkillHandler}>
+            yes
+          </button>
+          )}
+          
+          
         </div>
         <div
           style={{ width: "40%", display: "flex", justifyContent: "center" }}
@@ -98,7 +117,7 @@ const UserPositionDeleteComponent = ({
               align="center"
               style={{
                 fontSize: "25px",
-                padding: "10px 20px 2px 20px;",
+                padding: "10px 20px 2px 20px",
                 fontFamily: "ui-monospace",
               }}
             >

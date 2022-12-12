@@ -130,7 +130,7 @@ const SectionTwoRightInnerWrapper = styled.div`
   height: 40rem;
   //   justify-content: flex-end;
   justify-content: center;
-  padding: 26px 24px;
+  // padding: 26px 24px;
   @media (max-width: 1100px) {
     width: 90%;
   }

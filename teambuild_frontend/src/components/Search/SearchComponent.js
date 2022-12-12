@@ -270,6 +270,7 @@ const UserSearchComponent = () => {
                 userid: i?.goalData[2]?.userUserId,
                 firstname: i?.goalData[2]?.firstName,
                 lastname: i?.goalData[2]?.lastName,
+                userPhoto: i?.goalData[2]?.profilePicture?i?.goalData[2]?.profilePicture:'',
                 email: i?.goalData[2]?.email,
                 industry: i?.goalData[2]?.industry,
                 city: i?.goalData[0]?.city,
