@@ -220,7 +220,7 @@ const ProfileViews = (props) => {
     <React.Fragment>
       <MainContainer>
         <header className={classes.Header}>
-          Hi {userCtx.userName},See who all are looking at your profile
+          Hi {userCtx.userName}, See who all are looking at your profile
         </header>
         <div className={classes.SearchBarWrapper}>
           <div className={classes.SearchBarWrapperInner}>
