@@ -180,7 +180,7 @@ module.exports = {
         transporter
           .sendMail({
             to: req.body.email,
-            from: "asheeque123456@gmail.com",
+            from: "stwintersphd@gmail.com",
             subject: "Reset password",
             html: `
                     <p>You requested a password reset</p>
