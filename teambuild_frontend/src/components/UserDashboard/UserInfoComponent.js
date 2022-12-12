@@ -259,7 +259,7 @@ const UserInfoComponent = ({ userData }) => {
 
     try {
       const response = await fetch(
-        "${process.env.REACT_APP_BACKEND_SERVER}userupdate",
+        `${process.env.REACT_APP_BACKEND_SERVER}userupdate`,
         {
           method: "PATCH",
           body: JSON.stringify(body),
@@ -359,7 +359,7 @@ const UserInfoComponent = ({ userData }) => {
                   onChange={onStateChangeHandler}
                 />
               )}
-              {!isEdit && <React.Fragment>{city}</React.Fragment>}
+              {!isEdit && <React.Fragment>{city} ,</React.Fragment>}
               {!isEdit && <React.Fragment>{state}</React.Fragment>}
             </UserProfileLocationWrapper>
             <UserProfileLocationWrapper>

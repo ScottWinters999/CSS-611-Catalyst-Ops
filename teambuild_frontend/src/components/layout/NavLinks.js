@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { AuthContext } from "../../shared/context/auth-context";
 import { BsSearch } from "react-icons/bs";
 import {
@@ -77,10 +77,17 @@ const NavLinkWrapper = styled.div`
 
 const NavLinks = () => {
   const auth = useContext(AuthContext);
-
+  let { action, id } = useParams();
   const userId = JSON.parse(localStorage.getItem("userId"));
   console.log(userId);
-  const pathToCaty = `/userchat/greet/${userId}`;
+  let pathToCaty = `/userchat/greet/${userId}`;
+  if (action){
+    // console.log(action,id,'81')
+    pathToCaty = `/userchat/${action}/${id}`
+  }
+  
+  
+  
   return (
     <NavBar>
       {!auth.isLoggedIn && (

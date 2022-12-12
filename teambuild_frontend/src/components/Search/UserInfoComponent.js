@@ -169,6 +169,7 @@ const UserInfoComponent = (props) => {
   const [skillset, setSkillset] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const token = JSON.parse(localStorage.getItem("userData"));
+  let imgUrl = process.env.REACT_APP_BACKEND_SERVER_PHOTO+"/uploads/images/"+basicInfo?.userPhoto;
 
   const authorization = "Bearer " + token.token;
 
@@ -338,7 +339,9 @@ const UserInfoComponent = (props) => {
       <div className="form-control">
         <div className={classes.ModalMainContent}>
           <div className={classes.ProfilePic}>
-            <div className={classes.ProfilePicInner}></div>
+          {!basicInfo.userPhoto && <div className={classes.ProfilePicInner}></div>}
+            {basicInfo.userPhoto && <img src={imgUrl} style={{"borderRadius":"50%","height":"8rem","width":"8rem"}} alt="Preview" />}
+
           </div>
           <div className={classes.ModalProfileName}>{basicInfo.firstname}</div>
           {/* <div className={classes.ModalCaption}>
@@ -396,9 +399,9 @@ const UserInfoComponent = (props) => {
             </div>
             <div className={classes.UserContent}>
               <p>
-                {basicInfo.city + ","}
-                {basicInfo.state + ","}
-                {basicInfo.country}
+                {basicInfo.city?basicInfo.city + ",":"-"}
+                {basicInfo.state?basicInfo.state + ",":"-"}
+                {basicInfo.country?basicInfo.country:"-"}
               </p>
             </div>
           </div>
@@ -410,86 +413,6 @@ const UserInfoComponent = (props) => {
 
   console.log(basicInfo, skillset, "a");
 
-  // return (
-  //   <Card>
-  //     <UserInfoOuterWrapper>
-  //       <UserNameContainer>
-  //       <UserProfilePhotoWrapper>
-  //         </UserProfilePhotoWrapper>
-  //         <UserProfileNameOutsideWrapper>
-  //           <UserProfileNameInsideWrapper>
-  //             {basicInfo.firstname+" "+basicInfo.lastname}
-
-  //           </UserProfileNameInsideWrapper>
-  //           {/* <TextField id="outlined-basic" label="Outlined" variant="outlined" size="small" /> */}
-  //           <UserProfileLocationWrapper>
-  //             {basicInfo.location}
-  //           </UserProfileLocationWrapper>
-  //           <UserProfileLocationWrapper>
-  //             Open to Work
-  //           </UserProfileLocationWrapper>
-  //         </UserProfileNameOutsideWrapper>
-  //       </UserNameContainer>
-  //       <Hr />
-  //       <UserProfileInfoWrapper>
-  //         {/* <div> */}
-  //         <Rowwrapper>
-  //           <UserProfileInfoBulletinInnerWrapper>
-  //             Industry :
-  //           </UserProfileInfoBulletinInnerWrapper>
-  //       <UserProfileInfoBulletinWrapper>
-  //           {basicInfo.industry}
-  //         </UserProfileInfoBulletinWrapper>
-  //         </Rowwrapper>
-  //         <Rowwrapper>
-  //           <UserProfileInfoBulletinInnerWrapper>
-  //             Goals Matched :
-  //           </UserProfileInfoBulletinInnerWrapper>
-  //           <UserProfileInfoBulletinWrapper>
-  //           {
-  //               skillset &&(
-  //                   skillset.map((skill,idx) =>(
-  //                       <div key={idx}>{skill[1]}</div>
-  //                   ))
-  //               )
-  //           }
-  //         </UserProfileInfoBulletinWrapper>
-  //             </Rowwrapper>
-  //             <Rowwrapper>
-  //           <UserProfileInfoBulletinInnerWrapper>
-  //             Skillset :
-  //           </UserProfileInfoBulletinInnerWrapper>
-  //                     <UserProfileInfoBulletinWrapper>
-  //           {
-  //               skillset &&(
-  //                   skillset.map((skill,idx) =>(
-  //                       <div key={idx}>{skill[0]}</div>
-  //                   ))
-  //               )
-  //           }
-  //         </UserProfileInfoBulletinWrapper>
-  //         </Rowwrapper>
-  //         {/* </div> */}
-  //       </UserProfileInfoWrapper>
-  //     </UserInfoOuterWrapper>
-
-  //     {isEdit && (
-  //       <Box
-  //         component="form"
-  //         sx={{
-  //           "& > :not(style)": { m: 1, width: "25ch" },
-  //         }}
-  //         noValidate
-  //         autoComplete="off"
-  //       >
-  //         <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-  //         <TextField id="filled-basic" label="Filled" variant="filled" />
-  //         <TextField id="standard-basic" label="Standard" variant="standard" />
-  //       </Box>
-  //     )}
-  //   </Card>
-  // );
-
   return (
     <React.Fragment>
       {modal}
@@ -498,7 +421,10 @@ const UserInfoComponent = (props) => {
           <div className={classes.Intro}>
             <div className={classes.PhotoSection}>
               <div className={classes.AvatarWrapper}>
-                <CgProfile className={classes.Avatar} />
+                {!basicInfo.userPhoto && (
+                  <CgProfile className={classes.Avatar} />
+                )}
+                {basicInfo.userPhoto && <img src={imgUrl} style={{"borderRadius":"50%","height":"5rem","width":"5rem"}} alt="Preview" />}
               </div>
             </div>
             <div className={classes.BasicInfoSection}>
