@@ -294,7 +294,7 @@ function Chat() {
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>Catylst Ops</p>
+        <p>Cataylst Ops</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
